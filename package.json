@@ -1,0 +1,32 @@
+{
+  "name": "project-anthro-optimus",
+  "version": "1.0.0",
+  "description": "optimus api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almazorajan/project-anthro-optimus.git"
+  },
+  "keywords": [
+    "optimus",
+    "api",
+    "infancy",
+    "stage"
+  ],
+  "author": "jan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/almazorajan/project-anthro-optimus/issues"
+  },
+  "homepage": "https://github.com/almazorajan/project-anthro-optimus#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "moment": "^2.15.2",
+    "mongoose": "^4.6.5",
+    "uuid": "^2.0.3"
+  }
+}
