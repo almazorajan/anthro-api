@@ -4,11 +4,11 @@
 const express = require("express");
 const router = express.Router();
 
-const ModuleModel = require("../../models/module-model.js");
+const ModuleModel = require("../models/module-model.js");
 
-const Result = require("../../classes/result.js");
+const Result = require("../classes/result.js");
 
-router.get("/getall", (req, res) => {
+router.post("/getall", (req, res) => {
 
     let result = new Result();
 
@@ -28,7 +28,7 @@ router.get("/getall", (req, res) => {
         .catch((err) => {
 
             result.success = false;
-            result.message = err;
+            result.message = err.toString();
 
             return res.send(result);
 
@@ -51,7 +51,7 @@ router.post("/add", (req, res) => {
 
     try {
         
-        let mod = req.body;
+        let mod = req.body.data;
 
         if (!mod) {
 
@@ -122,12 +122,13 @@ router.post("/update", (req, res) => {
 
     try {
 
-        var mod = req.body;
+        var mod = req.body.data;
 
         if(!mod) {
 
             result.success = false;
             result.message = "Unable to identify payload.";
+            result.data = mod;
 
             return res.send(result);
 
@@ -156,11 +157,21 @@ router.post("/update", (req, res) => {
             }).exec();
             
         })
-        .then((m) => {
+        .then((dbRes) => {
             
-            result.success = true;
-            result.message = "Successfully updated!";
-            result.data = m;
+            if(dbRes.n === 1) {
+
+                result.success = true;
+                result.message = "Successfully updated!";
+
+            } else {
+
+                result.success = false;
+                result.message = "Module was not updated.";
+
+            }
+
+            result.data = dbRes;
 
             return res.send(result);
 
@@ -168,7 +179,7 @@ router.post("/update", (req, res) => {
         .catch((error) => {
 
             result.success = false;
-            result.message = error;
+            result.message = error.toString();
 
             return res.send(result);
 
@@ -185,13 +196,13 @@ router.post("/update", (req, res) => {
 
 });
 
-router.post("/remove", (req, res) => {
+router.post("/delete", (req, res) => {
 
     let result = new Result();
 
     try {
 
-        let mod = req.body;
+        let mod = req.body.data;
 
         if(!mod) {
 
@@ -213,16 +224,31 @@ router.post("/remove", (req, res) => {
 
         let promise = ModuleModel.findById({ _id: mod._id }).remove().exec();
 
-        promise.then((m) => {
+        promise.then((dbRes) => {
 
-            result.success = true;
-            result.message = "Successfully removed module.";
-            result.data = m;
+            if(dbRes.n === 1) {
+
+                result.success = true;
+                result.message = "Successfully removed module.";
+                
+            } else {
+
+                result.success = false;
+                result.message = "Unable to delete module.";
+
+            } 
+
+            result.data = dbRes;
 
             return res.send(result);
 
         })
         .catch((error) => {
+
+            result.success = false;
+            result.message = error.toString();
+
+            return res.send(result);
 
         });
 

@@ -7,12 +7,21 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-// middlewares
+// npm middlewares
 app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json()); // parse application/json
 
+// defined middlwares
+app.use(function(req, res, next) {
+    
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+
+}); // cors.
+
 // routes
-app.use("/module", require("./controllers/module-controller/module.controller.js"));
+app.use("/module", require("./controllers/module.controller.js"));
 
 // api configurations
 const apiConfig = {
