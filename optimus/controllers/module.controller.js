@@ -213,7 +213,7 @@ router.post("/delete", (req, res) => {
 
         }
 
-        if(mod._id) {
+        if(!mod._id) {
 
             result.success = false;
             result.message = "Unable to identify property '_id' of payload.";
@@ -226,7 +226,7 @@ router.post("/delete", (req, res) => {
 
         promise.then((dbRes) => {
 
-            if(dbRes.n === 1) {
+            if(dbRes.result.n === 1) {
 
                 result.success = true;
                 result.message = "Successfully removed module.";
