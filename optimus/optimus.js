@@ -16,12 +16,14 @@ app.use(function(req, res, next) {
     
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
     next();
 
 }); // cors.
 
 // routes
 app.use("/module", require("./controllers/module.controller.js"));
+app.use("/position", require("./controllers/position.controller.js"));
 
 // api configurations
 const apiConfig = {
