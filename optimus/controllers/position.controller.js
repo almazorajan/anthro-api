@@ -73,9 +73,9 @@ router.post("/add", (req, res) => {
 
         let promise = PositionModel.findOne({ positionName: position.positionName }).exec();
 
-        promise.then((module) => {
+        promise.then((position) => {
 
-            if(module) {
+            if(position) {
 
                 result.success = false;
                 result.message = "Postion name '" + position.positionName + "' already exists.";
