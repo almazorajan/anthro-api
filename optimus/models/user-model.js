@@ -4,18 +4,18 @@
 const optimusCon = require("../optimus.con.js");
 
 const Schema = new optimusCon.Schema({
-    userName: "string",
-    firstName: "string",
-    middleName: "string",
-    lastName: "string",
-    password: "string",
+    userName: { type: String, trim: true },
+    firstName: { type: String, trim: true },
+    middleName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
+    password: { type: String, trim: true },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date, default: Date.now },
     position: {
             type: optimusCon.Schema.ObjectId,
             ref: "Position"
         },
-    dateDeactivated: "Date"
+    dateDeactivated: { type: Date }
 });
 
 const UserModel = optimusCon.model("User", Schema);

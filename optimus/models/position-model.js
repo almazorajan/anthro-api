@@ -4,7 +4,7 @@
 const optimusCon = require("../optimus.con.js");
 
 const Schema = new optimusCon.Schema({
-    positionName: "string",
+    positionName: { type: String, trim: true },
     modules: [
         {
             type: optimusCon.Schema.ObjectId,
