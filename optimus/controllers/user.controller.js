@@ -71,9 +71,7 @@ router.post("/add", (req, res) => {
 
         }
 
-        let promise = UserModel.findOne({
-            userName: user.userName
-        }).exec();
+        let promise = UserModel.findOneByUserName(user.userName);
 
         promise.then((_user) => {
 
@@ -86,7 +84,7 @@ router.post("/add", (req, res) => {
 
             }
 
-            return new UserModel(_user).save();
+            return UserModel.add(_user);
 
         })
         .then((_user) => {
@@ -126,23 +124,6 @@ router.post("/update", (req, res) => {
 
         let user = req.body.data;
 
-        let updateUser = function(user) {
-
-            UserModel.update({
-                _id: user.id
-            }, {
-                userName: user.userName,
-                firstName: user.firstName,
-                middleName: user.middleName,
-                lastName: user.lastName,
-                password: user.password,
-                dateCreated: user.dateCreated,
-                dateUpdated: new Date(),
-                position: user.position
-            }).exec();
-
-        }
-
         if(!user) {
 
             result.success = false;
@@ -170,13 +151,11 @@ router.post("/update", (req, res) => {
 
             if(_user) {
 
-                return updateUser(_user);
+                return UserModel.updateUser(_user);
 
             }
 
-            return UserModel.findOne({
-                userName: user.userName
-            }).exec();
+            return UserModel.findOneByUserName(_user.userName);
 
         })
         .then((response) => {
@@ -208,7 +187,7 @@ router.post("/update", (req, res) => {
 
             }
 
-            return updateUser(response);
+            return UserModel.updateUser(response);
 
         })
         .then((_user) => {
