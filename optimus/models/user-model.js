@@ -5,10 +5,10 @@ const optimusCon = require("../optimus.con.js");
 
 const Schema = new optimusCon.Schema({
     userName: { type: String, trim: true },
-    firstName: { type: String, trim: true },
-    middleName: { type: String, trim: true },
-    lastName: { type: String, trim: true },
-    password: { type: String, trim: true },
+    firstName: { type: String, trim: true, default: "" },
+    middleName: { type: String, trim: true, default: "" },
+    lastName: { type: String, trim: true, default: "" },
+    password: { type: String, trim: true, default: "" },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date, default: Date.now },
     position: {
