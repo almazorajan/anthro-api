@@ -46,6 +46,7 @@ const User = class {
                 else
                     result.message = "No records to be loaded.";
                 
+                result.data = users;
                 _callBack(result);
 
             })
