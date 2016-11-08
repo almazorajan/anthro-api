@@ -10,36 +10,20 @@ const Result = require("../classes/result.js");
 
 router.post("/getall", (req, res) => {
 
-    let result = new Result();
-
     try {
 
-        let promise = UserModel.find({}).exec();
+        UserModel.GetAll((result) => {
 
-        promise.then((positions) => {
-
-            result.success = true;
-            result.message = "Successfully loaded all users.";
-            result.data = positions;
-
-            return res.send(result);
-
-        })
-        .catch((error) => {
-
-            result.success = false;
-            result.message = error.toString();
-
-            return res.send(result);
+            res.send(result);
 
         });
 
     } catch(e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-        
-        return res.send(result);
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 
@@ -47,70 +31,37 @@ router.post("/getall", (req, res) => {
 
 router.post("/add", (req, res) => {
 
-    let result = new Result();
-
     try {
 
+        let result = new Result();
         let user = req.body.data;
 
-        if(!user) {
+        UserModel.FindOneByUserName(user.userName, (_result) => {
 
-            result.success = false;
-            result.message = "Cannot identify the payload.";
-
-            return res.send(result);
-
-        }
-
-        if(!user.userName.trim() && !user.password.trim()) {
-
-            result.success = false;
-            result.message = "Cannot identify Username and Password in payload.";
-
-            return res.send(result);
-
-        }
-
-        let promise = UserModel.findOneByUserName(user.userName);
-
-        promise.then((_user) => {
-
-            if(_user) {
+            if(_result.success) {
 
                 result.success = false;
-                result.message = "Username '" + _user.userName + "' already exists.";
+                result.message = "Username '" + user.userName + "' already exists.";
+                res.send(result);
 
-                return res.send(result);
+            } else {
+
+                UserModel.Add(user, (result) => {
+
+                    res.send(result);
+
+                });
 
             }
-
-            return UserModel.add(_user);
-
-        })
-        .then((_user) => {
-
-            result.success = true;
-            result.message = "Successfully added user: " + user.userName + ".";
-            result.data = _module;
-
-            return res.send(result);
-
-        })
-        .catch((error) => {
-
-            result.success = false;
-            result.message = error.toString();
-
-            return res.send(result);
 
         });
 
     } catch(e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-        
-        return res.send(result);
+        res.send(new Resuslt({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 
@@ -118,110 +69,76 @@ router.post("/add", (req, res) => {
 
 router.post("/update", (req, res) => {
 
-    let result = new Result();
-
     try {
 
+        let result = new Result();
         let user = req.body.data;
 
-        if(!user) {
+        UserModel.FindOneByIdAndUserName(user._id, user.userName, (_result) => {
 
-            result.success = false;
-            result.message = "Cannot identify the payload.";
+            if(_result.success) {
 
-            return res.send(result);
+                UserModel.Update(user, (_result) => {
 
-        }
+                    res.send(result);
 
-        if(!user._id.trim() && !user.userName.trim() && !user.password.trim()) {
+                });
 
-            result.success = false;
-            result.message = "Cannot identify Id, Username and Password in payload.";
+            } else {
 
-            return res.send(result);
+                UserModel.FindOneByUserName(user.userName, (_result) => {
 
-        }
+                    if(_result.success) {
 
-        let promise = UserModel.findOne({
-            _id: user._id,
-            userName: user.userName
-        }).exec();
+                        result.success = false;
+                        result.message = "Username '" + user.userName + "' is already taken.";
+                        res.send(result);
 
-        promise.then((_user) => {
+                    } else {
 
-            if(_user) {
+                        UserModel.Update(user, (_result) => {
 
-                return UserModel.updateUser(_user);
+                            res.send(result);
 
-            }
+                        });
 
-            return UserModel.findOneByUserName(_user.userName);
+                    }
 
-        })
-        .then((response) => {
-
-            if(response.n) {
-
-                if(response.n === 1) {
-
-                    result.success = true;
-                    result.message = "User was successfully updated.";
-
-                    return res.send(result);
-
-                }
-
-                result.success =false;
-                result.message = "Unable to update user.";
-
-                return res.send(result);
+                });
 
             }
-
-            if(response) {
-
-                result.success = false;
-                result.message = "Username '" + user.userName + "' is already existing.";
-
-                return res.send(result); 
-
-            }
-
-            return UserModel.updateUser(response);
-
-        })
-        .then((_user) => {
-
-            if(response.n === 1) {
-
-                result.success = true;
-                result.message = "User was successfully updated.";
-
-                return res.send(result);
-
-            }
-
-            result.success =false;
-            result.message = "Unable to update user.";
-
-            return res.send(result);
-
-        })
-        .catch((error) => {
-
-            result.success = false;
-            result.message = error.toString();
-
-            return res.send(result);
 
         });
 
     } catch(e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-        
-        return res.send(result);
+        res.send(new Result({
+            success: false,
+            messsage: (e || e.message).toString()
+        }));
+
+    }
+    
+});
+
+router.post("/delete", (req, res) => {
+
+    try {
+
+        let user = user.body.data;
+
+        UserModel.DeleteById(user._id, (result) => {
+
+            res.send(result);
+
+        });
+
+    } catch(e) {
+
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 
