@@ -1,19 +1,21 @@
 
 "use strict";
 
-const optimusCon = require("../optimus.con.js");
+const Promise = require("bluebird");
 
-const Schema = new optimusCon.Schema({
+const OptimusCon = require("../optimus.con.js");
+
+const Schema = new OptimusCon.Schema({
     positionName: { type: String, trim: true },
     modules: [
         {
-            type: optimusCon.Schema.ObjectId,
+            type: OptimusCon.Schema.ObjectId,
             ref: "Module"
         }
     ]
 });
 
-const PositionModel = optimusCon.model("Position", Schema);
+const PositionModel = OptimusCon.model("Position", Schema);
 
 const Result = require("../classes/result.js");
 
@@ -25,9 +27,9 @@ const Position = class {
 
     }
 
-    static GetAll(_callBack) {
+    static GetAll() {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = PositionModel.find({}).exec();
@@ -42,34 +44,60 @@ const Position = class {
                     result.message = "No records to be loaded.";
                 
                 result.data = positions;
-                _callBack(result);
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
 
-    static FindOneByPositionName(_positionName, _callBack) {
+    static FindOneByIdAndPositionName(_position) {
 
-        try {
-     
+        return new Promise((resolve, reject) => {
+
             let result = new Result();
-            let promise = PositionModel.findOne({ positionName: _positionName }).exec();
+            let promise = PositionModel.findOne({ _id: _position._id, positionName: _position.positionName }).exec();
+
+            promise.then((_position) => {
+
+                if(_position) {
+
+                    result.success = true;
+                    result.message = "Found a record match.";
+
+                } else {
+
+                    result.success = false;
+                    result.message = "Could not find a record match.";
+
+                }
+
+                result.data = _position;
+                resolve(result);
+
+            })
+            .catch((error) => {
+
+                reject(error);
+
+            })
+
+        });
+
+    }
+
+    static FindOneByPositionName(_position) {
+
+        return new Promise((resolve, reject) => {
+
+            let result = new Result();
+            let promise = PositionModel.findOne({ positionName: _position.positionName }).exec();
 
             promise.then((_position) => {
 
@@ -85,38 +113,30 @@ const Position = class {
 
                 }
 
-                _callBack(result);
+                result.data = _position;
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
 
-    static Add(_position, _callBack) {
+    static Add(_position) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = new PositionModel(_position).save();
 
-            promise.then((_position) => {
+            promise.then((position) => {
 
-                if(_position) {
+                if(position) {
 
                     result.success = true;
                     result.message = "Successfully added position.";
@@ -128,33 +148,24 @@ const Position = class {
 
                 }
 
-                result.dat = _position;
-                _callBack(result);
+                result.data = position;
+                resolve(result);
 
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
 
-    static UpdateById(_position, _callBack) {
+    static UpdateById(_position) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = PositionModel.update({
@@ -179,28 +190,53 @@ const Position = class {
                 }
 
                 result.data = dbRes;
-                _callBack(result);
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.error = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-            
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
+        });
 
-        }
+    }
+
+    static DeleteById(_position) {
+
+        return new Promise((resolve, reject) => {
+
+            let result = new Result();
+            let promise = PositionModel.findById({ _id: _position._id }).remove().exec();
+
+            promise.then((dbRes) => {
+
+                if(dbRes.result.n === 1) {
+
+                    result.success = true;
+                    result.message = "Record was successfully deleted.";
+                    
+                } else {
+
+                    result.success = false;
+                    result.message = "Unable to delete the record.";
+
+                }
+
+                result.data = dbRes;
+                resolve(result);
+
+            }).catch((error) => {
+
+                reject(error);
+
+            });
+
+        });
 
     }
 
 }
 
-module.exports = PositionModel;
+module.exports = Position;

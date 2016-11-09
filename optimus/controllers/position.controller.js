@@ -14,32 +14,26 @@ router.post("/getall", (req, res) => {
 
     try {
 
-        let promise = PositionModel.find({}).exec();
+        PositionModel.GetAll().then((result) => {
 
-        promise.then((positions) => {
-
-            result.success = true;
-            result.message = "Successfully loaded all positions";
-            result.data = positions;
-
-            return res.send(result);
+            res.send(result);
 
         })
         .catch((error) => {
 
-            result.success = false;
-            result.message = error.toString();
-
-            return res.send(result);
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
 
         });
 
     } catch(e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-        
-        return res.send(result);
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 
@@ -47,70 +41,46 @@ router.post("/getall", (req, res) => {
 
 router.post("/add", (req, res) => {
 
-    let result = new Result();
-
     try {
         
+        let result = new Result();
         let position = req.body.data;
 
-        if (!position) {
+        PositionModel.FindOneByPositionName(position).then((_result) => {
 
-            result.success = false;
-            result.message = "Unable to identify the payload.";
-
-            return res.send(result);
-
-        }
-
-        if (!position.positionName) {
-
-            result.success = false;
-            result.message = "Unable to identify the property 'positionName' of the payload.";
-            
-            return res.send(result);
-
-        }
-
-        let promise = PositionModel.findOne({ positionName: position.positionName }).exec();
-
-        promise.then((position) => {
-
-            if(position) {
+            if(_result.success) {
 
                 result.success = false;
-                result.message = "Postion name '" + position.positionName + "' already exists.";
+                result.message = "Position name is already existing.";
+                res.send(result);
 
-                return res.send(result);
+            } else {
+
+                return PositionModel.Add(position);
 
             }
 
-            return new ModuleModel(position).save();
-
         })
-        .then((_module) => {
+        .then((_result) => {
 
-            result.success = true;
-            result.message = "Successfully added position: " + position.positionName + ".";
-            result.data = _module;
-
-            return res.send(result);
+            res.send(_result);
 
         })
         .catch((error) => {
 
-            result.success = false;
-            result.message = error.toString();
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
 
-            return res.send(result);
-
-        })
+        });
 
     } catch (e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-
-        return res.send(result);
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 
@@ -118,77 +88,63 @@ router.post("/add", (req, res) => {
 
 router.post("/update", (req, res) => {
 
-    let result = new Result();
-
     try {
 
+        let result = new Result();
         let position = req.body.data;
 
-        if(!position) {
+        PositionModel.FindOneByIdAndPositionName(position).then((result) => {
 
-            result.success = false;
-            result.message = "Unable to identify payload.";
-            result.data = position;
+            if(result.success) {
 
-            return res.send(result);
+                PositionModel.UpdateById(position).then((result) => {
 
-        }
+                    res.send(result);
 
-        if(!position._id) {
+                })
+                .catch((error) => {
 
-            result.success = false;
-            result.message = "Unable to identify property '_id' of payload.";
+                    res.send(new Result({
+                        success: false,
+                        message: error.toString()
+                    }));
 
-            return res.send(result);
-
-        }
-
-        let promise = PositionModel.findById(position._id).exec();
-
-        promise.then((m) => {
-
-            return PositionModel.update({
-                _id: position._id
-            }, {
-                postionName: position.positionName,
-                modules: position.modules
-            }).exec();
-            
-        })
-        .then((dbRes) => {
-            
-            if(dbRes.n === 1) {
-
-                result.success = true;
-                result.message = "Successfully updated!";
+                });
 
             } else {
 
-                result.success = false;
-                result.message = "Position was not updated.";
+                PositionModel.FindOneByPositionName(position).then((result) => {
+
+                    res.send(result);
+
+                })
+                .catch((error) => {
+
+                    res.send(new Result({
+                        success: false,
+                        message: error.toString()
+                    }));
+
+                });
 
             }
-
-            result.data = dbRes;
-
-            return res.send(result);
 
         })
         .catch((error) => {
 
-            result.success = false;
-            result.message = error.toString();
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
 
-            return res.send(result);
-
-        })
+        });
 
     } catch(e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-
-        res.send(result);
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 
@@ -196,66 +152,30 @@ router.post("/update", (req, res) => {
 
 router.post("/delete", (req, res) => {
 
-    let result = new Result();
-
     try {
 
         let position = req.body.data;
 
-        if(!position) {
+        PositionModel.DeleteById(position).then((result) => {
 
-            result.success = false;
-            result.message = "Unable to identify payload";
-
-            return res.send(result);
-
-        }
-
-        if(!position._id) {
-
-            result.success = false;
-            result.message = "Unable to identify property '_id' of payload.";
-
-            return res.send(result);
-
-        }
-
-        let promise = PositionModel.findById({ _id: position._id }).remove().exec();
-
-        promise.then((dbRes) => {
-
-            if(dbRes.result.n === 1) {
-
-                result.success = true;
-                result.message = "Successfully removed position.";
-                
-            } else {
-
-                result.success = false;
-                result.message = "Unable to delete position.";
-
-            } 
-
-            result.data = dbRes;
-
-            return res.send(result);
+            res.send(result);
 
         })
         .catch((error) => {
 
-            result.success = false;
-            result.message = error.toString();
-
-            return res.send(result);
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
 
         });
 
     } catch(e) {
 
-        result.success = false;
-        result.message = (e || e.message).toString();
-        
-        return res.send(result);
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
 
     }
 

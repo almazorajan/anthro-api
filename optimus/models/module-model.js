@@ -1,6 +1,8 @@
 
 "use strict";
 
+const Promise = require("bluebird");
+
 const optimusCon = require("../optimus.con.js");
 
 const Schema = new optimusCon.Schema({
@@ -22,202 +24,217 @@ const Module = class {
 
     }
 
-    static GetAll(_callBack) {
+    static GetAll() {
 
-        let result = new Result();
-        let promise = ModuleModel.find({}).exec();
+        return new Promise((resolve, reject) => {
+     
+            let result = new Result();
+            let promise = ModuleModel.find({}).exec();
 
-        promise.then((modules) => {
+            promise.then((modules) => {
 
-            if(modules.length) {
+                if(modules.length) {
 
-                result.success = true;
-                result.message = "Succesfully loaded all records.";
+                    result.success = true;
+                    result.message = "Succesfully loaded all records.";
+
+                } else {
+
+                    result.success = false;
+                    result.message = "No modules to records.";
+
+                }
+
                 result.data = modules;
+                resolve(result);
 
-            } else {
+            })
+            .catch((error) => {
+                
+                reject(error);
 
-                result.success = false;
-                result.message = "No modules to records.";
-
-            }
-
-            _callBack(result);
-
-        })
-        .catch((error) => {
-            
-            result.success = false;
-            result.message = error.toString();
-            _callBack(result);
+            });
 
         });
 
     } 
 
-    static FindById(_id, _callBack) {
+    static FindById(_id) {
 
-        let result = new Result();
-        let promise = ModuleModel.findById(_id).exec();
+        return new Promise((resolve, reject) => {
+      
+            let result = new Result();
+            let promise = ModuleModel.findById(_id).exec();
 
-        promise.then((module) => {
+            promise.then((module) => {
 
-            if(module) {
+                if(module) {
 
-                result.success = true;
-                result.message = "Object with id '" + _id + "' is existing.";
+                    result.success = true;
+                    result.message = "Object with id '" + _id + "' is existing.";
+
+                } else {
+
+                    result.success = false;
+                    result.message = "No record found with an id of '" + _id + "'";
+
+                }
+
                 result.data = module;
+                resolve(result);
 
-            } else {
+            })
+            .catch((error) => {
 
-                result.success = false;
-                result.message = "No record found with an id of '" + _id + "'";
+                reject(error);
 
-            }
-
-            _callBack(result);
-
-        })
-        .catch((error) => {
-
-            result.success = false;
-            result.message = error.toString();
-            _callBack(result);
+            });
 
         });
 
     }
 
-    static FindOneByModuleName(_moduleName, _callBack) {
+    static FindOneByModuleName(_moduleName) {
 
-        let result = new Result();
-        let promise = ModuleModel.findOne({ moduleName: _moduleName }).exec();
-
-        promise.then((module) => {
-
-            if(module) {
-
-                result.success = true;
-                result.message = "Module name is already existing.";
-                _callBack(result);
- 
-            } else {
-
-                result.success = false;
-                result.message = "Module name does not exists.";
-
-            }
-
-            _callBack(result);
-
-        })
-        .catch((error) => {
-
-            result.success = false;
-            result.error = error.toString();
-            _callBack(result);
-
-        });
-
-    }
-
-    static Add(_module, _callBack) {
-
-        let result = new Result();
-        let promise =  new ModuleModel(_module).save();
-
-        promise.then((mod) => {
-
-            if(mod) {
-
-                result.success = true;
-                result.message = "User was successfully added.";
-
-            } else {
-
-                result.success = false;
-                result.message = "Unable to save user.";
-
-            }
-
-            result.data = mod;
-            _callBack(result);
-
-        })
-        .catch((error) => {
-
-        });
-
-    }
-
-    static UpdateById(_module, _callBack) {
-
-        let result = new Result();
-        let promise = ModuleModel.update({
-            _id: _module._id
-        }, {
-            moduleName: _module.moduleName,
-            moduleDescription: _module.moduleDescription,
-            group: _module.group,
-            link: _module.link
-        }).exec();
-
-        promise.then((dbRes) => {
+        return new Promise((resolve, reject) => {
             
-            if(dbRes.n === 1) {
+            let result = new Result();
+            let promise = ModuleModel.findOne({ moduleName: _moduleName }).exec();
 
-                result.success = true;
-                result.message = "Successfully updated!";
+            promise.then((module) => {
 
-            } else {
+                if(module) {
 
-                result.success = false;
-                result.message = "Module was not updated.";
+                    result.success = true;
+                    result.message = "Module name is already existing.";
+    
+                } else {
 
-            }
+                    result.success = false;
+                    result.message = "Module name does not exists.";
 
-            result.data = dbRes;
-            _callBack(result);
+                }
 
-        })
-        .catch((error) => {
+                result.data;
+                resolve(result);
+                
+            })
+            .catch((error) => {
 
-            result.success = false;
-            result.error = error.toString();
-            _callBack(result);
+                reject(error);
+
+            });
 
         });
 
     }
 
-    static DeleteById(_id, _callBack) {
+    static Add(_module) {
 
-        let result = new Result();
-        let promise = ModuleModel.findById({ _id: _id }).remove().exec();
+        return new Promise((resolve, reject) => {
 
-        promise.then((dbRes) => {
+            let result = new Result();
+            let promise =  new ModuleModel(_module).save();
 
-            if(dbRes.result.n === 1) {
+            promise.then((mod) => {
 
-                result.success = true;
-                result.message = "Successfully removed module.";
+                if(mod) {
+
+                    result.success = true;
+                    result.message = "User was successfully added.";
+
+                } else {
+
+                    result.success = false;
+                    result.message = "Unable to save user.";
+
+                }
+
+                result.data = mod;
+                resolve(result);
+            })
+            .catch((error) => {
+
+                reject(error);
+
+            });
+
+        });
+
+    }
+
+    static UpdateById(_module) {
+
+        return new Promise((resolve, reject) => {
+
+            let result = new Result();
+            let promise = ModuleModel.update({
+                _id: _module._id
+            }, {
+                moduleName: _module.moduleName,
+                moduleDescription: _module.moduleDescription,
+                group: _module.group,
+                link: _module.link
+            }).exec();
+
+            promise.then((dbRes) => {
                 
-            } else {
+                if(dbRes.n === 1) {
 
-                result.success = false;
-                result.message = "Unable to delete module.";
+                    result.success = true;
+                    result.message = "Successfully updated!";
 
-            } 
+                } else {
 
-            result.data = dbRes;
-            _callBack(result);
+                    result.success = false;
+                    result.message = "Module was not updated.";
 
-        })
-        .catch((error) => {
+                }
 
-            result.success = false;
-            result.message = error.toString();
-            _callBack(result);
+                result.data = dbRes;
+                resolve(result);
+
+            })
+            .catch((error) => {
+
+                reject(error);
+
+            });
+
+        });
+
+    }
+
+    static DeleteById(_id) {
+
+        return new Promise((resolve, reject) => {
+
+            let result = new Result();
+            let promise = ModuleModel.findById({ _id: _id }).remove().exec();
+
+            promise.then((dbRes) => {
+
+                if(dbRes.result.n === 1) {
+
+                    result.success = true;
+                    result.message = "Successfully removed module.";
+                    
+                } else {
+
+                    result.success = false;
+                    result.message = "Unable to delete module.";
+
+                } 
+
+                result.data = dbRes;
+                resolve(result);
+
+            })
+            .catch((error) => {
+
+                resolve(error);
+
+            });
 
         });
 

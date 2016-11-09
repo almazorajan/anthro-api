@@ -4,7 +4,7 @@
 const express = require("express");
 const router = express.Router();
 
-const UserModel = require("../models/user-model.js");
+const CompanyModel = require("../models/company-model.js");
 
 const Result = require("../classes/result.js");
 
@@ -12,7 +12,7 @@ router.post("/getall", (req, res) => {
 
     try {
 
-        UserModel.GetAll().then((result) => {
+        CompanyModel.GetAll().then((result) => {
 
             res.send(result);
 
@@ -42,22 +42,22 @@ router.post("/add", (req, res) => {
     try {
 
         let result = new Result();
-        let user = req.body.data;
+        let company = req.body.data;
 
-        UserModel.FindOneByUserName(user.userName).then((_result) => {
+        CompanyModel.FindOneByCompanyName(company).then((_result) => {
 
             if(_result.success) {
 
                 result.success = false;
-                result.message = "Username '" + user.userName + "' already exists.";
-                res.send(result);
+                result.message = "The company name already exists.";
+                res.send(result);                
 
             } else {
 
-                return UserModel.Add(user);
+                return CompanyModel.Add(company);
 
             }
-
+ 
         })
         .then((result) => {
 
@@ -89,15 +89,15 @@ router.post("/update", (req, res) => {
     try {
 
         let result = new Result();
-        let user = req.body.data;
+        let company = req.body.data;
 
-        UserModel.FindOneByIdAndUserName(user).then((_result) => {
+        CompanyModel.FindOneByIdAndCompanyName(company).then((_result) => {
 
             if(_result.success) {
 
-                UserModel.UpdateById(user).then((result) => {
+                CompanyModel.UpdateById(company).then((_result) => {
 
-                    res.send(result);
+                    res.send(_result);
 
                 })
                 .catch((error) => {
@@ -108,28 +108,34 @@ router.post("/update", (req, res) => {
                     }));
 
                 });
-
+                
             } else {
 
-                UserModel.FindOneByUserName(user).then((_result) => {
+                CompanyModel.FindOneByCompanyName(company).then((_result) => {
 
                     if(_result.success) {
 
-                        res.send(new Result({
-                            success: false,
-                            message: "Username already exists."
-                        }));
+                        result.success = false;
+                        result.message = "Company name already exists.";
+                        result.data = _result.data;
 
                     } else {
 
-                       return UserModel.UpdateById(user); 
+                        CompanyModel.UpdateById(company).then((_result) => {
+
+                            res.send(_result);
+
+                        })
+                        .catch((error) => {
+
+                            res.send(new Result({
+                                success: false,
+                                message: error.toString()
+                            }));
+
+                        });
 
                     }
-
-                })
-                .then((_result) => {
-
-                    res.send(_result);
 
                 })
                 .catch((error) => {
@@ -143,38 +149,30 @@ router.post("/update", (req, res) => {
 
             }
 
-        })
-        .catch((error) => {
-
-            res.send(new Result({
-                success: false,
-                message: error.toString()
-            }));
-
         });
 
     } catch(e) {
 
         res.send(new Result({
             success: false,
-            messsage: (e || e.message).toString()
-        }));
+            message: (e || e.message)
+        }));        
 
     }
-    
+
 });
 
 router.post("/delete", (req, res) => {
 
     try {
 
-        let user = user.body.data;
+        let company = req.body.data;
 
-        UserModel.DeleteById(user).then((result) => {
+        CompanyModel.DeleteById(company).then((result) => {
 
-            res.send(result);            
+            res.end(result);
 
-        })
+        })  
         .catch((error) => {
 
             res.send(new Result({
@@ -195,4 +193,4 @@ router.post("/delete", (req, res) => {
 
 });
 
-module.exports = router;
+module.export = router;

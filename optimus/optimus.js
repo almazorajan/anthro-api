@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/module", require("./controllers/module.controller.js"));
 app.use("/position", require("./controllers/position.controller.js"));
-app.user("/user", require("./controllers/user.controller.js"));
+app.use("/user", require("./controllers/user.controller.js"));
 
 // api configurations
 const apiConfig = {

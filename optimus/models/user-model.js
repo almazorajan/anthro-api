@@ -1,24 +1,59 @@
 
 "use strict";
 
-const optimusCon = require("../optimus.con.js");
+const Promise = require("bluebird");
 
-const Schema = new optimusCon.Schema({
-    userName: { type: String, trim: true },
-    firstName: { type: String, trim: true, default: "" },
-    middleName: { type: String, trim: true, default: "" },
-    lastName: { type: String, trim: true, default: "" },
-    password: { type: String, trim: true, default: "" },
-    dateCreated: { type: Date, default: Date.now },
-    dateUpdated: { type: Date, default: Date.now },
+const OptimusCon = require("../optimus.con.js");
+
+const Schema = new OptimusCon.Schema({
+
+    userName: { 
+        type: String, 
+        trim: true 
+    },
+
+    firstName: { 
+        type: String, 
+        trim: true,
+    },
+
+    middleName: { 
+        type: String, 
+        trim: true
+    },
+
+    lastName: { 
+        type: String, 
+        trim: true 
+    },
+
+    password: { 
+        type: String, 
+        trim: true 
+    },
+
+    dateCreated: { 
+        type: Date, 
+        default: Date.now 
+    },
+
+    dateUpdated: { 
+        type: Date, 
+        default: Date.now 
+    },
+
     position: {
-        type: optimusCon.Schema.ObjectId,
+        type: OptimusCon.Schema.ObjectId,
         ref: "Position"
     },
-    dateDeactivated: { type: Date }
+
+    dateDeactivated: { 
+        type: Date 
+    }
+
 });
 
-const UserModel = optimusCon.model("User", Schema);
+const UserModel = OptimusCon.model("User", Schema);
 
 const Result = require("../classes/result.js");
 
@@ -32,7 +67,7 @@ const User = class {
 
     static GetAll(_callBack) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = UserModel.find({}).exec();
@@ -47,31 +82,22 @@ const User = class {
                     result.message = "No records to be loaded.";
                 
                 result.data = users;
-                _callBack(result);
+                resolve(result);
 
             })
             .catch((error) => {
                 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
     
-    static FindOneByUserName(_username, _callBack) {
+    static FindOneByUserName(_username) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = UserModel.findOne({
@@ -84,7 +110,6 @@ const User = class {
 
                     result.success = true;
                     result.message = "Found user record.";
-                    result.data = user;
 
                 } else {
 
@@ -93,36 +118,28 @@ const User = class {
 
                 }
 
-                _callBack(result);
+                result.data = user;
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.messsage).toString()
-            }));
-
-        }
+        });
 
     }
 
-    static FindOneByIdAndUserName(_id, _username, _callBack) {
+    static FindOneByIdAndUserName(_user) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = UserModel.findOne({
-                _id: user._id,
-                userName: user.userName
+                _id: _user._id,
+                userName: _user.userName
             }).exec();
 
             promise.then((user) => {
@@ -131,7 +148,6 @@ const User = class {
 
                     result.success = true;
                     result.message = "Found a record.";
-                    result.data = user;
 
                 } else {
 
@@ -140,31 +156,23 @@ const User = class {
 
                 }
 
-                _callBack(result);
+                result.data = user;
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                resolve(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
 
-    static Add(_user, _callBack) {
+    static Add(_user) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = new UserModel(_user).save();
@@ -180,35 +188,26 @@ const User = class {
 
                     result.success = false;
                     result.message = "Unable to add user.";
-                    result.data = user;
-
+                    
                 }
 
-                _callBack(result);
+                result.data = user;
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
 
-    static Update(_user, _callBack) {
+    static UpdateById(_user) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = UserModel.update({
@@ -238,34 +237,26 @@ const User = class {
 
                 }
 
-                _callBack(result);
+                result.data = dbRes;
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-        } catch (e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }))
-
-        }
+        });
 
     }
 
-    static DeleteById(_id, _callBack) {
+    static DeleteById(_user) {
 
-        try {
+        return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = UserModel.findById({ _id: _id }).remove.exec();
+            let promise = UserModel.findById({ _id: _user._id }).remove.exec();
 
             promise.then((dbRes) => {
 
@@ -282,26 +273,16 @@ const User = class {
                 } 
 
                 result.data = dbRes;
-                _callBack(result);
+                resolve(result);
 
             })
             .catch((error) => {
 
-                result.success = false;
-                result.message = error.toString();
-                _callBack(result);
+                reject(error);
 
             });
 
-
-        } catch(e) {
-
-            _callBack(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-
-        }
+        });
 
     }
 

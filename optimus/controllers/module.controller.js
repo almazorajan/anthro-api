@@ -12,15 +12,25 @@ router.post("/getall", (req, res) => {
 
     try {
 
-        ModuleModel.GetAll((result) => {
-            
+        let promise = ModuleModel.GetAll();
+
+        promise.then((result) => {
+
             res.send(result);
+
+        }).
+        catch((error) => {
+
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
 
         });
 
     } catch (e) {
 
-        return res.send(new Result({
+        res.send(new Result({
             success: false,
             message: (e || e.message).toString()
         }));
@@ -33,9 +43,10 @@ router.post("/add", (req, res) => {
 
     try {
         
+        const result = new Result();
         const mod = req.body.data;
 
-        ModuleModel.FindOneByModuleName(mod.moduleName, (_result) => {
+        ModuleModel.FindOneByModuleName(mod.moduleName).then((_result) => {
 
             if(_result.success) {
 
@@ -45,19 +56,28 @@ router.post("/add", (req, res) => {
 
             } else {
 
-                ModuleModel.Add(mod, (_result) => {
-
-                    res.send(_result);
-
-                });
+                return ModuleModel.Add(mod);
 
             }
- 
-        });
 
+        })
+        .then((_result) => {
+
+            res.send(_result);
+
+        })
+        .catch((error) => {
+
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
+
+        });
+        
     } catch (e) {
 
-        return res.send(new Result({
+        res.send(new Result({
             success: false,
             message: (e || e.message).toString()
         }));
@@ -72,27 +92,39 @@ router.post("/update", (req, res) => {
 
         const mod = req.body.data;
 
-        ModuleModel.FindById(mod._id, (_result) => {
+        ModuleModel.FindById(mod._id).then((_result) => {
 
             if(_result.success) {
 
-                res.send(_result);
+                return ModuleModel.UpdateById(mod);
 
             } else {
 
-                ModuleModel.UpdateById(mod, (_result) => {
-
-                    return res.send(_result);
-
-                });
+                res.send(new Result({
+                    success: false,
+                    message: "Unable to find record to update."
+                }));
 
             }
-            
+
+        })
+        .then((_result) => {
+
+            res.send(_result);
+
+        })
+        .catch((error) => {
+
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));            
+
         });
 
     } catch(e) {
 
-        return res.send(new Result({
+        res.send(new Result({
             success: false,
             message: (e || e.message).toString()
         }));
@@ -103,21 +135,27 @@ router.post("/update", (req, res) => {
 
 router.post("/delete", (req, res) => {
 
-    let result = new Result();
-
     try {
 
         const mod = req.body.data;
 
-        ModuleModel.DeleteById(mod._id, (result) => {
+        ModuleModel.DeleteById(mod._id).then((_result) => {
 
-            res.send(result);
+            res.send(_result);
+
+        })
+        .catch((error) => {
+
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
 
         });
 
     } catch(e) {
 
-        return res.send(new Result({
+        res.send(new Result({
             success: false,
             message: (e || e.message).toString()
         }));
