@@ -9,7 +9,7 @@ const Schema = new OptimusCon.Schema({
     positionName: { type: String, trim: true },
     modules: [
         {
-            type: OptimusCon.Schema.ObjectId,
+            type: OptimusCon.Schema.Types.ObjectId,
             ref: "Module"
         }
     ]
@@ -32,7 +32,7 @@ const Position = class {
         return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = PositionModel.find({}).exec();
+            let promise = PositionModel.find({}).populate("modules").exec();
 
             promise.then((positions) => {
 
@@ -127,9 +127,29 @@ const Position = class {
 
     }
 
+    static GetModuleIds(_position) {
+
+        if(_position.modules.length) {
+            
+            let ids = [];
+
+            for(let i=0; i < _position.modules.length; i++) {
+
+                ids.push(_position.modules[i]._id);
+
+            }
+
+            return ids;
+
+        }
+
+    }
+
     static Add(_position) {
 
         return new Promise((resolve, reject) => {
+
+            _position.modules = this.GetModuleIds(_position);
 
             let result = new Result();
             let promise = new PositionModel(_position).save();
@@ -166,6 +186,8 @@ const Position = class {
     static UpdateById(_position) {
 
         return new Promise((resolve, reject) => {
+
+            _position.modules = this.GetModuleIds(_position);
 
             let result = new Result();
             let promise = PositionModel.update({

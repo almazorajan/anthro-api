@@ -4,19 +4,61 @@
 const express = require("express");
 const router = express.Router();
 
-const PositionModel = require("../models/position-model.js");
+const EmploymentStatusModel = require("../models/employment-status-model.js");
 
 const Result = require("../classes/result.js");
 
 router.post("/getall", (req, res) => {
 
-    let result = new Result();
+    try {
+
+        EmploymentStatusModel.GetAll().then((result) => {
+
+            res.send(result);
+
+        })
+        .catch((error) => {
+
+            res.send(error);
+
+        });
+
+    } catch(e) {
+
+        res.send(new Result({
+            success: false,
+            message: (e || e.message).toString()
+        }));
+
+    }
+
+});
+
+router.post("/add", (req, res) => {
 
     try {
 
-        PositionModel.GetAll().then((result) => {
+        let result = new Result();
+        let employmentStatus = req.body.data;
 
-            res.send(result);
+        EmploymentStatusModel.FindOneByEmploymentStatus(employmentStatus).then((_result) => {
+
+            if(_result.success) {
+
+                result.success = false;
+                result.message = "Record is already existing.";
+                res.send(result);
+
+            } else {
+
+                return EmploymentStatusModel.Add(employmentStatus);
+
+            }
+
+        })
+        .then((_result) => {
+
+            res.send(_result);
 
         })
         .catch((error) => {
@@ -39,71 +81,24 @@ router.post("/getall", (req, res) => {
 
 });
 
-router.post("/add", (req, res) => {
-
-    try {
-        
-        let result = new Result();
-        let position = req.body.data;
-
-        PositionModel.FindOneByPositionName(position).then((_result) => {
-
-            if(_result.success) {
-
-                result.success = false;
-                result.message = "Position name is already existing.";
-                res.send(result);
-
-            } else {
-
-                return PositionModel.Add(position);
-
-            }
-
-        })
-        .then((_result) => {
-
-            res.send(_result);
-
-        })
-        .catch((error) => {
-
-            res.send(new Result({
-                success: false,
-                message: error.toString()
-            }));
-
-        });
-
-    } catch (e) {
-
-        res.send(new Result({
-            success: false,
-            message: (e || e.message).toString()
-        }));
-
-    }
-
-});
-
 router.post("/update", (req, res) => {
 
     try {
 
         let result = new Result();
-        let position = req.body.data;
+        let employmentStatus = req.body.data;
 
-        PositionModel.FindOneByIdAndPositionName(position).then((_result) => {
+        EmploymentStatusModel.FindOneByIdAndEmploymentStatus(employmentStatus).then((_result) => {
 
             if(_result.success) {
 
-                PositionModel.UpdateById(position).then((_result) => {
+                EmploymentStatusModel.UpdateById(employmentStatus).then((_result) => {
 
                     res.send(_result);
 
                 })
                 .catch((error) => {
-
+                    
                     res.send(new Result({
                         success: false,
                         message: error.toString()
@@ -113,23 +108,23 @@ router.post("/update", (req, res) => {
 
             } else {
 
-                PositionModel.FindOneByPositionName(position).then((_result) => {
+                EmploymentStatusModel.FindOneByEmploymentStatus(employmentStatus).then((_result) => {
 
                     if(_result.success) {
 
                         result.success = false;
-                        result.message = "Position name already exists.";
+                        result.message = "Employment status already exists.";
                         res.send(result);
 
                     } else {
 
-                        PositionModel.UpdateById(position).then((_result) => {
+                        EmploymentStatusModel.UpdateById(employmentStatus).then((_result) => {
 
                             res.send(_result);
 
                         })
                         .catch((error) => {
-
+                            
                             res.send(new Result({
                                 success: false,
                                 message: error.toString()
@@ -142,7 +137,7 @@ router.post("/update", (req, res) => {
                 })
                 .catch((error) => {
 
-                    res.send(new Result({
+                     res.send(new Result({
                         success: false,
                         message: error.toString()
                     }));
@@ -176,9 +171,9 @@ router.post("/delete", (req, res) => {
 
     try {
 
-        let position = req.body.data;
+        let employmentStatus = req.body.data;
 
-        PositionModel.DeleteById(position).then((result) => {
+        EmploymentStatusModel.DeleteById(employmentStatus).then((result) => {
 
             res.send(result);
 
@@ -187,7 +182,7 @@ router.post("/delete", (req, res) => {
 
             res.send(new Result({
                 success: false,
-                message: error.toString()
+                message: (e || e.message).toString()
             }));
 
         });
@@ -203,4 +198,4 @@ router.post("/delete", (req, res) => {
 
 });
 
-module.exports = router;
+module.export = router;
