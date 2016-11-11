@@ -18,19 +18,15 @@ const Schema = new OptimusCon.Schema({
         trim: true
     },
 
-    contactNumbers: [
-        {
-            type: String,
-            trim: true
-        }
-    ],
+    contactNumber: {
+        type: String,
+        trim: true
+    },
 
-    EmailAddresses: [
-        {
-            type: String,
-            trim: true
-        }
-    ]
+    emailAddress: {
+        type: String,
+        trim: true
+    }
 
 });
 
@@ -186,8 +182,8 @@ const Company = class {
             }, {
                 companyName: _company.companyName,
                 companyAddress: _company.companyAddress,
-                contactNumbers: _company.contactNumbers,
-                emailAddresses: _company.emailAddresses
+                contactNumber: _company.contactNumber,
+                emailAddress: _company.emailAddress
             }).exec();
 
             promise.then((dbRes) => {

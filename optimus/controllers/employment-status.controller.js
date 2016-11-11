@@ -172,7 +172,7 @@ router.post("/delete", (req, res) => {
     try {
 
         let employmentStatus = req.body.data;
-
+        
         EmploymentStatusModel.DeleteById(employmentStatus).then((result) => {
 
             res.send(result);

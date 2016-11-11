@@ -170,7 +170,7 @@ router.post("/delete", (req, res) => {
 
         CompanyModel.DeleteById(company).then((result) => {
 
-            res.end(result);
+            res.send(result);
 
         })  
         .catch((error) => {
@@ -193,4 +193,4 @@ router.post("/delete", (req, res) => {
 
 });
 
-module.export = router;
+module.exports = router;
