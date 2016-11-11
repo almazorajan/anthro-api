@@ -20,7 +20,7 @@ const EmploymentStatus = class {
 
     static get EmploymentStatusModel() {
 
-        return EmploymentStatus;
+        return EmploymentStatusModel;
 
     }
 
@@ -94,7 +94,7 @@ const EmploymentStatus = class {
         return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = EmploymentStatus.findOne({ employmentStatus: _employmentStatus.employmentStatus }).exec();
+            let promise = EmploymentStatusModel.findOne({ employmentStatus: _employmentStatus.employmentStatus }).exec();
 
             promise.then((employmentStatus) => {
 
@@ -129,7 +129,7 @@ const EmploymentStatus = class {
         return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = EmploymentStatusModel.save(_employmentStatus);
+            let promise = new EmploymentStatusModel(_employmentStatus).save();
 
             promise.then((employmentStatus) => {
 
@@ -201,7 +201,7 @@ const EmploymentStatus = class {
     static DeleteById(_employmentStatus) {
 
         return new Promise((resolve, reject) => {
-
+            
             let result = new Result();
             let promise = EmploymentStatusModel.findById({ _id: _employmentStatus._id }).remove();
 
