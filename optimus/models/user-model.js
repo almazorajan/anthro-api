@@ -95,6 +95,41 @@ const User = class {
 
     }
     
+    static FindOneByUserNameAndPassword(_user) {
+
+       return new Promise((resolve, reject) => {
+
+            let result = new Result();
+            let promise = UserModel.findOne({ userName: _user.userName, password: _user.password }).populate("position").exec();
+
+            promise.then((user) => {
+
+                if(user) {
+
+                    result.success = true;
+                    result.message = "Valid login attempt";
+                        
+                } else {
+
+                    result.success = false;
+                    result.message = "Invalid login attempt.";
+
+                }
+                
+                result.data = user;
+                resolve(result);
+
+            })
+            .catch((error) => {
+                
+                reject(error);
+
+            });
+
+        });
+
+    }
+
     static FindOneByUserName(_user) {
 
         return new Promise((resolve, reject) => {
