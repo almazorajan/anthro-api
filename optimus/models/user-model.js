@@ -70,7 +70,7 @@ const User = class {
         return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = UserModel.find({}).exec();
+            let promise = UserModel.find({}).populate("position").exec();
 
             promise.then((users) => {
 
@@ -95,13 +95,13 @@ const User = class {
 
     }
     
-    static FindOneByUserName(_username) {
+    static FindOneByUserName(_user) {
 
         return new Promise((resolve, reject) => {
 
             let result = new Result();
             let promise = UserModel.findOne({
-                userName: _username.replace(/\s+/g, " ").trim()
+                userName: _user.userName.replace(/\s+/g, " ").trim()
             }).exec();
 
             promise.then((user) => {
@@ -174,6 +174,8 @@ const User = class {
 
         return new Promise((resolve, reject) => {
 
+            _user.position = _user.position._id;
+
             let result = new Result();
             let promise = new UserModel(_user).save();
 
@@ -209,15 +211,17 @@ const User = class {
 
         return new Promise((resolve, reject) => {
 
+            _user.position = _user.position._id;
+
             let result = new Result();
             let promise = UserModel.update({
                 _id: _user._id
             }, {
-                userName: _user.userName.replace(/\s+/g, " ").trim(),
-                firstName: _user.firstName.replace(/\s+/g, " ").trim(),
-                middleName: _user.middleName.replace(/\s+/g, " ").trim(),
-                lastName: _user.lastName.replace(/\s+/g, " ").trim(),
-                password: _user.password.replace(/\s+/g, " ").trim(),
+                userName: _user.userName.trim(),
+                firstName: _user.firstName.trim(),
+                middleName: _user.middleName.trim(),
+                lastName: _user.lastName.trim(),
+                password: _user.password.trim(),
                 dateCreated: _user.dateCreated,
                 dateUpdated: new Date(),
                 position: _user.position
@@ -256,7 +260,7 @@ const User = class {
         return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = UserModel.findById({ _id: _user._id }).remove.exec();
+            let promise = UserModel.findById({ _id: _user._id }).remove().exec();
 
             promise.then((dbRes) => {
 

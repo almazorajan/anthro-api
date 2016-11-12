@@ -44,7 +44,7 @@ router.post("/add", (req, res) => {
         let result = new Result();
         let user = req.body.data;
 
-        UserModel.FindOneByUserName(user.userName).then((_result) => {
+        UserModel.FindOneByUserName(user).then((_result) => {
 
             if(_result.success) {
 
@@ -168,7 +168,7 @@ router.post("/delete", (req, res) => {
 
     try {
 
-        let user = user.body.data;
+        let user = req.body.data;
 
         UserModel.DeleteById(user).then((result) => {
 
