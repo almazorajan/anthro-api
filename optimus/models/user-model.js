@@ -100,7 +100,12 @@ const User = class {
        return new Promise((resolve, reject) => {
 
             let result = new Result();
-            let promise = UserModel.findOne({ userName: _user.userName, password: _user.password }).populate("position").exec();
+            let promise = UserModel.findOne({ userName: _user.userName, password: _user.password }).populate({
+                path: "position",
+                populate: {
+                    path: "modules"
+                }
+            }).exec();
 
             promise.then((user) => {
 
@@ -108,17 +113,18 @@ const User = class {
 
                     result.success = true;
                     result.message = "Valid login attempt";
-                        
+                    result.data = user;
+                    
                 } else {
 
                     result.success = false;
                     result.message = "Invalid login attempt.";
-
+                    result.data = user;
+                    
                 }
-                
-                result.data = user;
-                resolve(result);
 
+                resolve(result);
+              
             })
             .catch((error) => {
                 
