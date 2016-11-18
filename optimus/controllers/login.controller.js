@@ -14,7 +14,7 @@ router.post("/attemptlogin", (req, res) => {
     try {
 
         let user = req.body.data;
-  
+
         UserModel.FindOneByUserNameAndPassword(user).then((result1) => {
 
             let _result = new Result();

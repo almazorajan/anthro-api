@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./optimus/optimus.js"
+    "start": "node ./optimus/optimus.js && node --debug-brk --inspect ./optimus/optimus.js"
   },
   "repository": {
     "type": "git",
