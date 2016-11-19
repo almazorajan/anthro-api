@@ -230,7 +230,7 @@ const User = class {
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to add user.";
+                    result.message = "Unable to add User";
                     
                 }
 
@@ -273,12 +273,12 @@ const User = class {
                 if (dbRes.n === 1) {
 
                     result.success = true;
-                    result.message = "User was successfully updated.";
+                    result.message = "User was successfully updated";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to update user.";
+                    result.message = "Unable to update User";
 
                 }
 
@@ -308,12 +308,12 @@ const User = class {
                 if(dbRes.result.n === 1) {
 
                     result.success = true;
-                    result.message = "Successfully removed user.";
+                    result.message = "Successfully removed User";
                     
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to delete user.";
+                    result.message = "Unable to delete User";
 
                 } 
 

@@ -54,9 +54,9 @@ const Company = class {
                 result.success = true;
 
                 if(companies.length)
-                    result.message = "Successfully loaded all records.";
+                    result.message = "Successfully loaded all companies.";
                 else
-                    result.message = "No records loaded.";
+                    result.message = "No company records loaded.";
 
                 result.data = companies;
                 resolve(result);
@@ -191,12 +191,12 @@ const Company = class {
                 if(dbRes.n === 1) {
 
                     result.success = true;
-                    result.message = "The record was successfully updated.";
+                    result.message = "The company was successfully updated.";
                     
                 } else {
 
                     result.success = false;
-                    result.message = "The record was not successfully updated.";
+                    result.message = "The company was not successfully updated.";
 
                 }
 
@@ -226,12 +226,12 @@ const Company = class {
                 if(dbRes.result.n === 1) {
 
                     result.success = true;
-                    result.message = "Record was successfully deleted.";
+                    result.message = "Company was successfully deleted.";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to delete the record.";
+                    result.message = "Unable to delete the Company.";
 
                 }
 

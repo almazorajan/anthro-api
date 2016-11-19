@@ -36,9 +36,9 @@ const EmploymentStatus = class {
                 result.success = true;
 
                 if(employmentStatuses.length)
-                    result.message = "All records were successfully loaded.";
+                    result.message = "Employment Statuses were successfully loaded";
                 else
-                    result.message = "No records were loaded.";
+                    result.message = "No Employment Status were loaded";
 
                 result.data = employmentStatuses;
                 resolve(result);
@@ -66,12 +66,12 @@ const EmploymentStatus = class {
                 if(employmentStatus) {
 
                     result.success = true;
-                    result.message = "Found a matching record.";
+                    result.message = "Found a matching record";
  
                 } else {
 
                     result.success = false;
-                    result.message = "No matching record found.";
+                    result.message = "No matching record found";
 
                 }
 
@@ -101,12 +101,12 @@ const EmploymentStatus = class {
                 if(employmentStatus) {
 
                     result.success = true;
-                    result.message = "Found a matching record.";
+                    result.message = "Found a matching record";
 
                 } else {
 
                     result.success = false;
-                    result.messsage = "No matching record.";
+                    result.messsage = "No matching record";
 
                 }
 
@@ -136,12 +136,12 @@ const EmploymentStatus = class {
                 if(employmentStatus) {
 
                     result.success = true;
-                    result.message = "Successfully added a new record.";
+                    result.message = "Successfully added a new Employment Status";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to add new record.";
+                    result.message = "Unable to add new Employment Status";
 
                 }
 
@@ -175,12 +175,12 @@ const EmploymentStatus = class {
                 if(dbRes.n === 1) {
 
                     result.success = true;
-                    result.message = "The record was successfully updated.";
+                    result.message = "The Employment Status was successfully updated";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to update the record.";
+                    result.message = "Unable to update the Employment Status";
 
                 }
 
@@ -210,12 +210,12 @@ const EmploymentStatus = class {
                 if(dbRes.result.n === 1) {
 
                     result.success = true;
-                    result.message = "The record was successfully deleted.";
+                    result.message = "Employment Status was successfully deleted";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to delete the record.";
+                    result.message = "Unable to delete the Employment Status";
 
                 }
 

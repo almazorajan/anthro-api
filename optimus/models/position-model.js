@@ -39,9 +39,9 @@ const Position = class {
                 result.success = true;
 
                 if(positions.length)
-                    result.message = "Successfully loaded all records.";
+                    result.message = "Successfully loaded all Positions";
                 else
-                    result.message = "No records to be loaded.";
+                    result.message = "No Position loaded";
                 
                 result.data = positions;
                 resolve(result);
@@ -69,12 +69,12 @@ const Position = class {
                 if(_position) {
 
                     result.success = true;
-                    result.message = "Found a record match.";
+                    result.message = "Found a record match";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Could not find a record match.";
+                    result.message = "Could not find a record match";
 
                 }
 
@@ -104,12 +104,12 @@ const Position = class {
                 if(_position) {
 
                     result.success = true;
-                    result.message = "Found matching record.";
+                    result.message = "Found matching record";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to find matching record.";
+                    result.message = "Unable to find matching record";
 
                 }
 
@@ -159,12 +159,12 @@ const Position = class {
                 if(position) {
 
                     result.success = true;
-                    result.message = "Successfully added position.";
+                    result.message = "Successfully added Position";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to save position.";
+                    result.message = "Unable to save Position";
 
                 }
 
@@ -202,12 +202,12 @@ const Position = class {
                 if(dbRes.n === 1) {
 
                     result.success = true;
-                    result.message = "Position was successfully updated!";
+                    result.message = "Position was successfully updated";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Position was not updated.";
+                    result.message = "Position was not updated";
 
                 }
 
@@ -237,12 +237,12 @@ const Position = class {
                 if(dbRes.result.n === 1) {
 
                     result.success = true;
-                    result.message = "Record was successfully deleted.";
+                    result.message = "Position was successfully deleted";
                     
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to delete the record.";
+                    result.message = "Unable to delete the Position";
 
                 }
 

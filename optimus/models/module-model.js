@@ -6,10 +6,27 @@ const Promise = require("bluebird");
 const optimusCon = require("../optimus.con.js");
 
 const Schema = new optimusCon.Schema({
-    moduleName: { type: String, trim: true, required: true },
-    moduleDescription: { type: String, trim: true },
-    link: { type: String, trim: true, required: true },
-    group: { type: String, trim: true }
+    moduleName: { 
+        type: String, 
+        trim: true, 
+        required: true 
+    },
+
+    moduleDescription: { 
+        type: String, 
+        trim: true 
+    },
+
+    link: { 
+        type: String, 
+        trim: true, 
+        required: true 
+    },
+
+    group: { 
+        type: String, 
+        trim: true 
+    }
 });
 
 const ModuleModel = optimusCon.model("Module", Schema);
@@ -36,12 +53,12 @@ const Module = class {
                 if(modules.length) {
 
                     result.success = true;
-                    result.message = "Succesfully loaded all records.";
+                    result.message = "Succesfully loaded all modules";
 
                 } else {
 
                     result.success = false;
-                    result.message = "No modules to records.";
+                    result.message = "No module loaded";
 
                 }
 
@@ -141,12 +158,12 @@ const Module = class {
                 if(mod) {
 
                     result.success = true;
-                    result.message = "User was successfully added.";
+                    result.message = "Module was successfully added";
 
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to save user.";
+                    result.message = "Unable to save Module";
 
                 }
 
@@ -217,12 +234,12 @@ const Module = class {
                 if(dbRes.result.n === 1) {
 
                     result.success = true;
-                    result.message = "Successfully removed module.";
+                    result.message = "Successfully removed Module.";
                     
                 } else {
 
                     result.success = false;
-                    result.message = "Unable to delete module.";
+                    result.message = "Unable to delete Module.";
 
                 } 
 
