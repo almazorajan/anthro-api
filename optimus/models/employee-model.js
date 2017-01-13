@@ -2,9 +2,7 @@
 "use strict";
 
 const Promise = require("bluebird");
-
 const OptimusCon = require("../optimus.con.js");
-
 const Schema = new OptimusCon.Schema({
     
     employeeNumber: { 
@@ -314,28 +312,21 @@ const Schema = new OptimusCon.Schema({
     ]
 
 });
-
 const EmployeeModel = OptimusCon.model("Employee", Schema);
-
 const Result = require("../classes/result.js");
 
 const Employee = class {
 
     static get EmployeeModel() {
-
         return EmployeeModel;
-
     }
 
     static GetAll() {
-
         return new Promise((resolve, reject) => {
-            
             let result = new Result();
             let promise = EmployeeModel.find({}).exec();
 
             promise.then((employees) => {
-
                 result.success = true;
 
                 if(employees.length)
@@ -345,92 +336,62 @@ const Employee = class {
                 
                 result.data = employees;
                 resolve(result);
-
             })
             .catch((error) => {
-
                 reject(error);
-
             });
-
         });
-
     }
 
     static Add(_employee) {
-
         return new Promise((resolve, reject) => {
-
             let result = new Result();
             let promise = new EmployeeModel(_employee).save();
 
             promise.then((employee) => {
-
-                if(employee) {
-                    
+                if(employee) {        
                     result.success = true;
                     result.message = "Successfully added new employee.";
-
                 } else {
-
                     result.success = false;    
                     result.message = "Could not add employee." 
-                
                 }
 
                 result.data = employee;
                 resolve(result);
-
             })
             .catch((error) => {
-
                 reject(error);
-
             });
-
         });
-
     }
 
     static FindOneByEmployeeNumber(_employee) {
 
         return new Promise((resolve, reject) => {
-
             let result = new Result();
             let promise = EmployeeModel.findOne({ employeeNumber: _employee.employeeNumber }).exec();
 
             promise.then((employee) => {
-
                 if(employee) {
-
                     result.success = true;
                     result.message = "Found matching record.";
-
                 } else {
-
                     result.success = false;
                     result.message = "Could not find any matching record.";
-
                 }
 
                 result.data = employee;
                 resolve(result);
-
             })
             .catch((error) => {
-
                 reject(error);
-
             });
-
         });
-
     }
 
     static UpdateById(_employee) {
-
         return new Promise((resolve, reject) => {
-
             let result = new Result();
             let promise = EmployeeModel.update({
                 _id: _employee.id
@@ -465,68 +426,45 @@ const Employee = class {
             }).exec();
 
             promise.then((dbRes) => {
-
                 if(dbRes.n === 1) {
-
                     result.success = true;
                     result.message = "The record was successfully updated.";
-
                 } else {
-
                     result.success = false;
                     result.message = "Unable to update the record.";
-
                 }
 
                 result.data = dbRes;
                 resolve(result);
-
             })
             .catch((error) => {
-
                 reject(error);
-
             });
-
         });
-
     }
 
     static DeleteById(_employee) {
-
         return new Promise((resolve, reject) => {
-
             let result = new Result();
             let promise = EmployeeModel.findById({ _id: _employee._id }).remove().exec();
 
             promise.then((dbRes) => {
-
                 if(dbRes.result.n === 1) {
-
                     result.success = true;
                     result.message = "The record was successfully deleted.";
-
                 } else {
-
                     result.success = false;
                     result.message = "Could not delete record.";
-
                 }
 
                 result.data = dbRes;
                 resolve(result);
-
             })
             .catch((error) => {
-
                 reject(error);
-
             });
-
         });
-
     }
-
 };
 
 module.exports = Employee;
