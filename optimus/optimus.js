@@ -1,10 +1,8 @@
-
 "use strict";
 
 // module declarations
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const app = express();
 
 // npm middlewares
