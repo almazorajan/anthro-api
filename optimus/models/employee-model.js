@@ -367,7 +367,6 @@ const Employee = class {
     }
 
     static FindOneByEmployeeNumber(_employee) {
-
         return new Promise((resolve, reject) => {
             let result = new Result();
             let promise = EmployeeModel.findOne({ employeeNumber: _employee.employeeNumber }).exec();
