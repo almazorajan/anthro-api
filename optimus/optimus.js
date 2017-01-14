@@ -10,12 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-
 app.use(bodyParser.json()); // parse application/json
 
 // defined middlwares
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    
-    next();
-}); // cors.
+app.use(require("./middlewares/cors.middleware.js").cors);
 
 // routes
 app.use("/module", require("./controllers/module.controller.js"));
@@ -31,6 +26,7 @@ const apiConfig = {
     name: "Optimus"
 };
 
+// bootstrap
 app.listen(apiConfig.port, () => {
     console.log(apiConfig.name + " is listening to port " + apiConfig.port);
 });
