@@ -3,311 +3,97 @@
 
 const Promise = require("bluebird");
 const OptimusCon = require("../optimus.con.js");
-const Schema = new OptimusCon.Schema({
-    
-    employeeNumber: { 
-        type: String, 
-        trim: true, 
-        required: true 
-    },
-
-    startingDate: { 
-        type: Date, 
-        default: Date.now 
-    },
-
-    salary: { 
-        type: Number, 
-        default: 0, 
-        required: true 
-    },
-
+const Schema = new OptimusCon.Schema({  
+    employeeNumber: { type: String, trim: true },
+    startingDate: { type: Date, default: Date.now },
+    salary: { type: Number, default: 0 },
     position: {
-        type: OptimusCon.Schema.ObjectId,
+        type: OptimusCon.Schema.Types.ObjectId,
         ref: "Position"
     },
-
     company: {
-        type: OptimusCon.Schema.ObjectId,
+        type: OptimusCon.Schema.Types.ObjectId,
         ref: "Company"
     },
-
     employmentStatus: {
-        type: OptimusCon.Schema.ObjectId,
+        type: OptimusCon.Schema.Types.ObjectId,
         ref: "EmploymentStatus"
     },
-
-    firstName: { 
-        type: String, 
-        trim: true, 
-        required: true 
-    },
-    
-    middleName: { 
-        type: String, 
-        trim: true 
-    },
-    
-    lastName: { 
-        type: String, 
-        trim: true, 
-        required: true 
-    },
-
-    birthDate: { 
-        type: Date 
-    },
-    
-    age: { 
-        type: Number, 
-        default: 0 
-    },
-    
-    birthPlace: { 
-        type: String, 
-        trim: true, 
-        required: true 
-    },
-
-    phoneNumbers: [
-        { 
-            type: String, 
-            trim: true 
-        }
-    ],
-
-    landlines: [
-        { 
-            type: String, 
-            trim: true 
-        }
-    ],
-
-    maritalStatus: { 
-        type: String, 
-        trim: true 
-    },
-    
-    gender: { 
-        type: String, 
-        trim: true 
-    },
-
-    citizenship: { 
-        type: String, 
-        trim: true 
-    },
-
+    firstName: { type: String, trim: true },
+    middleName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
+    birthDate: { type: Date },
+    age: { type: Number, default: 0 },
+    birthPlace: { type: String, trim: true },
+    phoneNumbers: [{ number: { type: String, trim: true } }],
+    landlines: [{ number: { type: String, trim: true } }],
+    maritalStatus: { type: String, trim: true },
+    gender: { type: String, trim: true },
+    citizenship: { type: String, trim: true },
     cityAddress: {
-        unitFloor: { 
-            type: String, 
-            trim: true 
-        },
-        
-        building: { 
-            type: String, 
-            trim: true 
-        },
-
-        streetName: { 
-            type: String, 
-            trim: true 
-        },
-
-        barangay: { 
-            type: String, 
-            trim: true 
-        },
-
-        city: { 
-            type: String, 
-            trim: true 
-        },
-
-        zipCode: { 
-            type: String, 
-            trim: true 
-        },
-        
-        isPermanent: { 
-            type: Boolean 
-        }
+        unitFloor: { type: String, trim: true },
+        building: { type: String, trim: true },
+        streetName: { type: String, trim: true },
+        barangay: { type: String, trim: true },
+        city: { type: String, trim: true },
+        zipCode: { type: String, trim: true },
+        isPermanent: { type: Boolean }
     },
-
     provincialAddress: {
-        unitFloor: { 
-            type: String, 
-            trim: true 
-        },
-        
-        building: { 
-            type: String, 
-            trim: true 
-        },
-
-        streetName: { 
-            type: String, 
-            trim: true 
-        },
-
-        barangay: { 
-            type: String, 
-            trim: true 
-        },
-
-        city: { 
-            type: String, 
-            trim: true 
-        },
-
-        zipCode: { 
-            type: String, 
-            trim: true 
-        },
-        
-        isPermanent: { 
-            type: Boolean 
-        }
+        unitFloor: { type: String, trim: true },
+        building: { type: String, trim: true },
+        streetName: { type: String, trim: true },
+        barangay: { type: String, trim: true },
+        city: { type: String, trim: true },
+        zipCode: { type: String, trim: true },
+        isPermanent: { type: Boolean }
     },
-
     permanentAddress: {
-        unitFloor: { 
-            type: String, 
-            trim: true 
-        },
-        
-        building: { 
-            type: String, 
-            trim: true 
-        },
-
-        streetName: { 
-            type: String, 
-            trim: true 
-        },
-
-        barangay: { 
-            type: String, 
-            trim: true 
-        },
-
-        city: { 
-            type: String, 
-            trim: true 
-        },
-
-        zipCode: { 
-            type: String, 
-            trim: true 
-        },
-        
-        isPermanent: { 
-            type: Boolean 
-        }
+        unitFloor: { type: String, trim: true },
+        building: { type: String, trim: true },
+        streetName: { type: String, trim: true },
+        barangay: { type: String, trim: true },
+        city: { type: String, trim: true },
+        zipCode: { type: String, trim: true },
+        isPermanent: { type: Boolean }
     },
-
-    ssNumber: { 
-        type: String, 
-        trim: true 
-    },
-
-    tinNumber: { 
-        type: String, 
-        trim: true 
-    },
-
-    philHealthNumber: { 
-        type: String, 
-        trim: true 
-    },
-
-    pagibigNumber: { 
-        type: String, 
-        trim: true 
-    },
-
+    ssNumber: { type: String, trim: true },
+    tinNumber: { type: String, trim: true },
+    philHealthNumber: { type: String, trim: true },
+    pagibigNumber: { type: String, trim: true },
     educationHistory: [
         {
-            educationLevel: { 
-                type: String, 
-                trim: true 
-            },
-            
-            degree: { 
-                type: String, 
-                trim: true 
-            },
-
-            dateGraduated: { 
-                type: Date 
-            }
+            educationLevel: { type: String, trim: true },     
+            degree: { type: String, trim: true },
+            dateGraduated: { type: Date }
         }
     ],
-
     certifications: [
         {
-            title: { 
-                type: String, 
-                trim: true 
-            },
-
-            dateAccredited: { 
-                type: Date 
-            }
+            title: { type: String, trim: true },
+            dateAccredited: { type: Date }
         }
     ],
-
     licensures:  [
         {
-            title: { 
-                type: String, 
-                trim: true 
-            },
-
-            dateAccredited: { 
-                type: Date 
-            }
+            title: { type: String, trim: true },
+            dateAccredited: { type: Date }
         }
     ],
 
     workHistory: [
         {
-            position: { 
-                type: String, 
-                trim: true 
-            },
-
-            company: {
-                type: String,
-                trim: true
-            },
-        
-            dateFrom: { 
-                type: Date 
-            },
-        
-            dateTo: { 
-                type: Date 
-            },
-        
-            isPresent: { 
-                type: Boolean 
-            },
-        
+            position: { type: String, trim: true },
+            company: { type: String,trim: true },
+            dateFrom: { type: Date },
+            dateTo: { type: Date },
+            isPresent: { type: Boolean },
             employmentStatus: {
                 type: OptimusCon.Schema.ObjectId,
                 ref: "EmploymentStatus"
             },
-        
-            salary: { 
-                type: Number, 
-                default: 0 
-            },
-            
-            reasonForLeaving: { 
-                type: String, 
-                trim: true 
-            }
+            salary: { type: Number, default: 0 },
+            reasonForLeaving: { type: String, trim: true }
         }
     ]
 
@@ -344,9 +130,43 @@ const Employee = class {
     }
 
     static Add(_employee) {
+        console.log(_employee);
+        console.log("employee ids", {
+            position: _employee.position._id,
+            company: _employee.company._id,
+            employmentStatus: _employee.employmentStatus._id
+        });
         return new Promise((resolve, reject) => {
             let result = new Result();
-            let promise = new EmployeeModel(_employee).save();
+            let promise = new EmployeeModel({
+                employeeNumber: _employee.employeeNumber,
+                startingDate: _employee.startingDate,
+                salary: _employee.salary,
+                position: _employee.position._id,
+                company: _employee.company._id,
+                employmentStatus: _employee.employmentStatus._id,
+                firstName: _employee.firstName,
+                middleName: _employee.middleName,
+                lastName: _employee.lastName,
+                birthDate: _employee.birthDate,
+                age: _employee.age,
+                birthPlace: _employee.birthPlace,
+                phoneNumbers: _employee.phoneNumbers,
+                landlines: _employee.landlines,
+                maritalStatus: _employee.maritalStatus,
+                gender: _employee.gender,
+                citizenship: _employee.citizenship,
+                cityAddress: _employee.cityAddress,
+                provincialAddress: _employee.provincialAddress,
+                permanentAddress: _employee.permanentAddress,
+                ssNumber: _employee.ssNumber,
+                tinNumber: _employee.tinNumber,
+                philHealthNumber: _employee.philHealthNumber,
+                educationHistory: _employee.educationHistory,
+                certifications: _employee.certifications,
+                licensures: _employee.licensures,
+                workHistory: _employee.workHistory   
+            }).save();
 
             promise.then((employee) => {
                 if(employee) {        
