@@ -19,6 +19,9 @@ router.post("/add", (req, res) => {
                 return EmployeeModel.Add(employee);
             }
         })
+        .then((_result) => {
+            res.send(_result);
+        })
         .catch((error) => {
             res.send(new Result({
                 success: false,

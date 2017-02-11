@@ -80,11 +80,10 @@ const Schema = new OptimusCon.Schema({
             dateAccredited: { type: Date }
         }
     ],
-
     workHistory: [
         {
             position: { type: String, trim: true },
-            company: { type: String,trim: true },
+            company: { type: String, trim: true },
             dateFrom: { type: Date },
             dateTo: { type: Date },
             isPresent: { type: Boolean },
@@ -95,8 +94,26 @@ const Schema = new OptimusCon.Schema({
             salary: { type: Number, default: 0 },
             reasonForLeaving: { type: String, trim: true }
         }
+    ],
+    family: [
+        {
+            firstName: { type: String, trim: true },
+            middleName: { type: String, trim: true },
+            lastName: { type: String, trim: true },
+            occupation: { type: String, trim: true },
+            contactNumbers: [
+                {
+                    number: { type: String, trim: true }
+                }
+            ],
+            emailAddresses: [
+                {
+                    emailAddress: { type: String, trim: true }
+                }
+            ],
+            relationship: { type: String, trim: true }
+        }
     ]
-
 });
 const EmployeeModel = OptimusCon.model("Employee", Schema);
 const Result = require("../classes/result.js");
@@ -110,7 +127,11 @@ const Employee = class {
     static GetAll() {
         return new Promise((resolve, reject) => {
             let result = new Result();
-            let promise = EmployeeModel.find({}).exec();
+            let promise = EmployeeModel.find({})
+                            .populate("company")
+                            .populate("position")
+                            .populate("employmentStatus")
+                            .exec();
 
             promise.then((employees) => {
                 result.success = true;
@@ -129,15 +150,31 @@ const Employee = class {
         });
     }
 
+    static sanitizeWorkHistory(_employee) {
+        var workHistory = [];
+
+        for(let i=0; i < _employee.workHistory.length; i++) {
+            var history = _employee.workHistory[i];
+
+            workHistory.push({
+                position: history.position,
+                company: history.company,
+                dateFrom: history.dateFrom,
+                dateTo: history.dateTo,
+                isPresent: history.isPresent,
+                employmentStatus: history.employmentStatus._id,
+                salary: history.salary,
+                reasonForLeaving: history.reasonForLeaving
+            });
+        }
+
+        return workHistory;
+    }
+
     static Add(_employee) {
-        console.log(_employee);
-        console.log("employee ids", {
-            position: _employee.position._id,
-            company: _employee.company._id,
-            employmentStatus: _employee.employmentStatus._id
-        });
         return new Promise((resolve, reject) => {
             let result = new Result();
+            
             let promise = new EmployeeModel({
                 employeeNumber: _employee.employeeNumber,
                 startingDate: _employee.startingDate,
@@ -162,10 +199,12 @@ const Employee = class {
                 ssNumber: _employee.ssNumber,
                 tinNumber: _employee.tinNumber,
                 philHealthNumber: _employee.philHealthNumber,
+                pagibigNumber: _employee.pagibigNumber,
                 educationHistory: _employee.educationHistory,
                 certifications: _employee.certifications,
                 licensures: _employee.licensures,
-                workHistory: _employee.workHistory   
+                family: _employee.family,
+                workHistory: this.sanitizeWorkHistory(_employee)
             }).save();
 
             promise.then((employee) => {
