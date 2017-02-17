@@ -7,6 +7,7 @@ const Result = require("../classes/result.js");
 
 module.exports = {
     EmployeeStatusModel: EmploymentStatusModel,
+    GetAll: GetAll,
     FindOneByIdAndEmploymentStatus: FindOneByIdAndEmploymentStatus,
     FindOneByEmploymentStatus: FindOneByEmploymentStatus,
     Add: Add,

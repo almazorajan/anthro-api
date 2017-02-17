@@ -7,6 +7,7 @@ const Result = require("../classes/result.js");
 
 module.exports = {
     PositionModel: PositionModel,
+    GetAll: GetAll,
     FindOneByIdAndPositionName: FindOneByIdAndPositionName,
     FindOneByPositionName: FindOneByPositionName,
     Add: Add,
