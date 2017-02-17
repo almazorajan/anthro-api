@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const EmploymentStatusModel = require("../models/employment-status-model.js");
+const EmploymentStatusModel = require("../models/employment-status.model.js");
 const Result = require("../classes/result.js");
 
 router.post("/getall", (req, res) => {

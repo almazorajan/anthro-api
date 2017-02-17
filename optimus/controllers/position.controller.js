@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const PositionModel = require("../models/position-model.js");
+const PositionModel = require("../models/position.model.js");
 const Result = require("../classes/result.js");
 
 router.post("/getall", (req, res) => {

@@ -3,9 +3,7 @@
 
 const express = require("express");
 const router = express.Router();
-
-const UserModel = require("../models/user-model.js");
-
+const UserModel = require("../models/user.model.js");
 const Result = require("../classes/result.js");
 
 router.post("/getall", (req, res) => {

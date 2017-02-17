@@ -2,7 +2,7 @@
 
 const Promise = require("bluebird");
 const OptimusCon = require("../optimus.con.js");
-const PositionModel = OptimusCon.model("Position", require("../schemas/position-schema.js"));
+const PositionModel = OptimusCon.model("Position", require("../schemas/position.schema.js"));
 const Result = require("../classes/result.js");
 
 module.exports = {
