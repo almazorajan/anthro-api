@@ -25,7 +25,6 @@ router.post("/getall", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-
     try {
         let result = new Result();
         let company = req.body.data;
