@@ -57,9 +57,9 @@ function FindOneByIdAndEmploymentStatus(_employmentStatus) {
             result.data = employmentStatus;
             resolve(result);
         })
-            .catch((error) => {
-                reject(error);
-            });
+        .catch((error) => {
+            reject(error);
+        });
     });
 }
 
