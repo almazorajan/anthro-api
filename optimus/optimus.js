@@ -1,13 +1,12 @@
 "use strict";
 
-// module declarations
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
 // npm middlewares
-app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
-app.use(bodyParser.json()); // parse application/json
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // defined middlwares
 app.use(require("./middlewares/cors.middleware.js").cors);

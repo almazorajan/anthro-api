@@ -1,24 +1,18 @@
-
 "use strict";
 
-const Result = class {
+function Result(init) {
+    this.success = false;
+    this.message = "";
+    this.data = null; 
 
-    constructor(init) {
-
-        this.success = false;
-        this.message = "";
-        this.data = null;
-
-        if(init) {
-
-            this.success = init.success ? init.success : false;
-            this.message = init.message ? init.message : "";
-            this.data = init.data ? init.data : null;
-
+    // iniitialize
+    if(init) {
+        for(let key in this) {
+            if(init.hasOwnProperty(key)) {
+                this[key] = init[key];
+            }
         }
-        
     }
-
 }
 
 module.exports = Result;
