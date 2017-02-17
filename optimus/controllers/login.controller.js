@@ -2,10 +2,10 @@
 
 const uuid = require("uuid");
 const express = require("express");
-const router = express.Router();
 const UserModel = require("../models/user.model.js");
 const AuthModel = require("../models/auth.model.js");
 const Result = require("../classes/result.js");
+const router = express.Router();
 
 router.post("/attemptlogin", (req, res) => {
     try {

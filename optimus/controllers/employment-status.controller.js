@@ -1,34 +1,24 @@
 "use strict";
 
 const express = require("express");
-const router = express.Router();
 const EmploymentStatusModel = require("../models/employment-status.model.js");
 const Result = require("../classes/result.js");
+const router = express.Router();
 
 router.post("/getall", (req, res) => {
-
     try {
-
         EmploymentStatusModel.GetAll().then((result) => {
-
             res.send(result);
-
         })
         .catch((error) => {
-
             res.send(error);
-
         });
-
     } catch(e) {
-
         res.send(new Result({
             success: false,
             message: (e || e.message).toString()
         }));
-
     }
-
 });
 
 router.post("/add", (req, res) => {
