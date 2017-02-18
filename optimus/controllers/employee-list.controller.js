@@ -62,7 +62,17 @@ router.post("/update", (req, res) => {
 
 router.post("/delete", (req, res) => {
     try {
+        let employee = req.body.data;
 
+        EmployeeModel.DeleteById(employee).then((result) => {
+            res.send(result);
+        })
+        .catch((error) => {
+            res.send(new Result({
+                success: false,
+                message: (e || e.message).toString()
+            }));
+        });
     } catch(e) {
         res.send(new Result({
             success: false,
