@@ -223,7 +223,7 @@ const EmployeeSchema = new OptimusCon.Schema({
                 type: String, 
                 trim: true 
             },
-            company: { 
+            companyName: { 
                 type: String, 
                 trim: true 
             },
@@ -233,12 +233,9 @@ const EmployeeSchema = new OptimusCon.Schema({
             dateTo: { 
                 type: Date 
             },
-            isPresent: { 
-                type: Boolean 
-            },
             employmentStatus: {
-                type: OptimusCon.Schema.ObjectId,
-                ref: "EmploymentStatus"
+                ref: "EmploymentStatus",
+                type: OptimusCon.Schema.ObjectId
             },
             salary: { 
                 type: Number, 

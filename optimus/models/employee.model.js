@@ -21,6 +21,12 @@ function GetAll() {
             .populate("company")
             .populate("position")
             .populate("employmentStatus")
+            .populate({
+                path: "workHistory",
+                populate: {
+                    path: "employmentStatus"
+                }
+            })
             .exec();
 
         promise.then((employees) => {
@@ -48,7 +54,7 @@ function SanitizeWorkHistory(_employee) {
 
         workHistory.push({
             position: history.position,
-            company: history.company,
+            companyName: history.companyName,
             dateFrom: history.dateFrom,
             dateTo: history.dateTo,
             isPresent: history.isPresent,
@@ -142,7 +148,7 @@ function UpdateById(_employee) {
     return new Promise((resolve, reject) => {
         let result = new Result();
         let promise = EmployeeModel.update({ 
-            _id: _employee.id
+            _id: _employee._id
         }, {
             employeeNumber: _employee.employeeNumber,
             startingDate: _employee.startingDate,
