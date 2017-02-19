@@ -146,14 +146,14 @@ function UpdateById(_employee) {
         }, {
             employeeNumber: _employee.employeeNumber,
             startingDate: _employee.startingDate,
-            salary: _employee.salay,
+            salary: _employee.salary,
             position: _employee.position._id,
             company: _employee.company._id,
             employmentStatus: _employee.employmentStatus._id,
             firstName: _employee.firstName,
             middleName: _employee.middleName,
             lastName: _employee.lastName,
-            birthDate: employee.birthDate,
+            birthDate: _employee.birthDate,
             age: _employee.age,
             birthPlace: _employee.birthPlace,
             phoneNumbers: _employee.phoneNumbers,
@@ -162,15 +162,17 @@ function UpdateById(_employee) {
             gender: _employee.gender,
             citizenship: _employee.citizenship,
             cityAddress: _employee.cityAddress,
-            provincialAddress: employee.provincialAddress,
+            provincialAddress: _employee.provincialAddress,
             permanentAddress: _employee.permanentAddress,
-            tinNUmber: _employee.tinNumber,
+            ssNumber: _employee.ssNumber,
+            tinNumber: _employee.tinNumber,
             philHealthNumber: _employee.philHealthNumber,
             pagibigNumber: _employee.pagibigNumber,
             educationHistory: _employee.educationHistory,
             certifications: _employee.certifications,
             licensures: _employee.licensures,
-            workHistory: _employee.workHistory
+            family: _employee.family,
+            workHistory: SanitizeWorkHistory(_employee)
         }).exec();
 
         promise.then((dbRes) => {
