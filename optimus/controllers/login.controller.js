@@ -11,10 +11,9 @@ const router = express.Router();
 router.post("/attemptlogin", (req, res) => {
     try {
         let user = req.body.data;
-
+        
         UserModel.FindOneByUserName(user).then((result1) => {
             let _result = new Result();
-
             if(result1.success) {
                 if(result1.data.password === Crypt.Sha512(result1.data.salt, user.password)) {
                     result1.data.salt = "*****************";

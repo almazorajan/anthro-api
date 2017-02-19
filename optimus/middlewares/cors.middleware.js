@@ -4,7 +4,7 @@ const cors = require("cors");
 
 module.exports = {
     cors: cors,
-    SetCorsHeaders: SetCorsHeaders
+    CorsHeaders: SetCorsHeaders
 }
 
 function SetCorsHeaders(req, res, next) {
