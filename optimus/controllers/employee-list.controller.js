@@ -34,7 +34,7 @@ router.post("/update", (req, res) => {
                 EmployeeModel.UpdateById(employee).then((_result) => {
                     res.send(_result);
                 })
-                .catch((error) => {
+                .catch((e) => {
                     res.send(new Result({
                         success: false,
                         message: (e || e.message).toString()
@@ -46,7 +46,7 @@ router.post("/update", (req, res) => {
                 res.send(result);
             }
         })
-        .catch((error) => {
+        .catch((e) => {
             res.send(new Result({
                 success: false,
                 message: (e || e.message).toString()
@@ -67,7 +67,7 @@ router.post("/delete", (req, res) => {
         EmployeeModel.DeleteById(employee).then((result) => {
             res.send(result);
         })
-        .catch((error) => {
+        .catch((e) => {
             res.send(new Result({
                 success: false,
                 message: (e || e.message).toString()

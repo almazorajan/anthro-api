@@ -169,7 +169,12 @@ function Add(_user) {
 
 function UpdateById(_user) {
     return new Promise((resolve, reject) => {
+        var hash = crypt.HashPassword(_user.password);
+        
+        _user.salt = hash.salt;
+        _user.password = hash.hashedPassword;
         _user.position = _user.position._id;
+
         let result = new Result();
         let promise = UserModel.update({
             _id: _user._id
@@ -178,7 +183,8 @@ function UpdateById(_user) {
             firstName: _user.firstName.trim(),
             middleName: _user.middleName.trim(),
             lastName: _user.lastName.trim(),
-            password: _user.password.trim(),
+            salt: hash.salt,
+            password: hash.hashedPassword,
             dateCreated: _user.dateCreated,
             dateUpdated: new Date(),
             position: _user.position

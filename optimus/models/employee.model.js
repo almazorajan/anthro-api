@@ -21,12 +21,7 @@ function GetAll() {
             .populate("company")
             .populate("position")
             .populate("employmentStatus")
-            .populate({
-                path: "workHistory",
-                populate: {
-                    path: "employmentStatus"
-                }
-            })
+            .populate("workHistory.employmentStatus")
             .exec();
 
         promise.then((employees) => {
