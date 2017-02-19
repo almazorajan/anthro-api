@@ -4,6 +4,7 @@ const Promise = require("bluebird");
 const OptimusCon = require("../optimus.con.js");
 const UserModel = OptimusCon.model("User", require("../schemas/user.schema.js"));
 const Result = require("../classes/result.js");
+const crypt = require("../classes/crypt.js");
 
 module.exports = {
     UserModel: UserModel,
@@ -16,10 +17,17 @@ module.exports = {
     DeleteById: DeleteById
 };
 
-function GetAll(_callBack) {
+function GetAll() {
     return new Promise((resolve, reject) => {
         let result = new Result();
-        let promise = UserModel.find({}).populate("position").exec();
+        let promise = UserModel
+            .find({})
+            .populate({
+                path: "position",
+                populate: {
+                    path: "modules"
+                }
+            }).exec();
 
         promise.then((users) => {
             result.success = true;
@@ -41,15 +49,17 @@ function GetAll(_callBack) {
 function FindOneByUserNameAndPassword(_user) {
     return new Promise((resolve, reject) => {
         let result = new Result();
-        let promise = UserModel.findOne({ 
-            userName: _user.userName, 
-            password: _user.password 
-        }).populate({
-            path: "position",
-            populate: {
-                path: "modules"
-            }
-        }).exec();
+        let promise = UserModel
+            .findOne({ 
+                userName: _user.userName, 
+                password: _user.password 
+            })
+            .populate({
+                path: "position",
+                populate: {
+                    path: "modules"
+                }
+            }).exec();
 
         promise.then((user) => {
             if (user) {
@@ -73,9 +83,16 @@ function FindOneByUserNameAndPassword(_user) {
 function FindOneByUserName(_user) {
     return new Promise((resolve, reject) => {
         let result = new Result();
-        let promise = UserModel.findOne({
-            userName: _user.userName.replace(/\s+/g, " ").trim()
-        }).exec();
+        let promise = UserModel
+            .findOne({
+                userName: _user.userName.replace(/\s+/g, " ").trim()
+            })
+            .populate({
+                path: "position",
+                populate: {
+                    path: "modules"
+                }
+            }).exec();
 
         promise.then((user) => {
             if (user) {
@@ -123,7 +140,12 @@ function FindOneByIdAndUserName(_user) {
 
 function Add(_user) {
     return new Promise((resolve, reject) => {
+        var hash = crypt.HashPassword(_user.password);
+
+        _user.salt = hash.salt;
+        _user.password = hash.hashedPassword;
         _user.position = _user.position._id;
+        
         let result = new Result();
         let promise = new UserModel(_user).save();
 

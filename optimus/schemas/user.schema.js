@@ -22,6 +22,9 @@ const UserSchema = new OptimusCon.Schema({
         type: String, 
         trim: true 
     },
+    salt: {
+        type: String
+    },
     dateCreated: { 
         type: Date, 
         default: Date.now 

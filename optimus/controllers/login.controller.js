@@ -5,45 +5,58 @@ const express = require("express");
 const UserModel = require("../models/user.model.js");
 const AuthModel = require("../models/auth.model.js");
 const Result = require("../classes/result.js");
+const Crypt = require("../classes/crypt.js");
 const router = express.Router();
 
 router.post("/attemptlogin", (req, res) => {
     try {
         let user = req.body.data;
 
-        UserModel.FindOneByUserNameAndPassword(user).then((result1) => {
+        UserModel.FindOneByUserName(user).then((result1) => {
             let _result = new Result();
 
             if(result1.success) {
-                let auth = {
-                    token: uuid.v1(),
-                    user: result1.data
-                };
+                if(result1.data.password === Crypt.Sha512(result1.data.salt, user.password)) {
+                    result1.data.salt = "*****************";
+                    result1.data.password = "*****************";
 
-                AuthModel.Add(auth).then((result2) => {
-                    if(result2.success) {
-                        _result.success = true;
-                        _result.message = "Valid login attempt.";
-                        _result.data = auth;
-                    } else {
+                    let auth = {
+                        token: uuid.v1(),
+                        fingerprint: req.fingerprint.hash,
+                        user: result1.data
+                    };
+
+                    AuthModel.Add(auth).then((result2) => {
+                        if(result2.success) {
+                            auth.fingerprint = "*****************";
+
+                            _result.success = true;
+                            _result.message = "Valid login attempt.";
+                            _result.data = auth;
+                        } else {
+                            _result.success = false;
+                            _result.message = "Unable to verify authentication.";
+                        }
+                        res.send(_result);
+                    })
+                    .catch((error) => {
                         _result.success = false;
-                        _result.message = "Unable to verify authentication.";
-                    }
-
-                    res.send(_result);
-                })
-                .catch((error) => {
-                    _result.success = false;
-                    _result.message = error.toString();
-                    _result.data = {};
-                    res.send(_result);
-                });
+                        _result.message = error.toString();
+                        _result.data = {};
+                        res.send(_result);
+                    });   
+                } else {
+                    res.send(new Result({
+                        success: false,
+                        message: "Invalid login attempt"
+                    }));
+                }
             } else {
-                _result.success = false;
-                _result.message = "Invalid login attempt.";
-                _result.data = {};
-                res.send(_result);
-            }        
+                res.send(new Result({
+                    success: false,
+                    message: "Invalid login attempt"
+                }));
+            }
         })
         .catch((error) => {
             res.send(new Result({

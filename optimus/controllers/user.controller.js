@@ -6,6 +6,9 @@ const UserModel = require("../models/user.model.js");
 const Result = require("../classes/result.js");
 const router = express.Router();
 
+// session validator middleware
+router.use(require("../middlewares/session-validator.middleware.js").ValidateSession);
+
 router.post("/getall", (req, res) => {
     try {
         UserModel.GetAll().then((result) => {

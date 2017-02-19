@@ -7,7 +7,9 @@ const app = express();
 // defined middlwares
 app.use(require("./middlewares/body-parser.middleware.js").UrlEncodedExtended());
 app.use(require("./middlewares/body-parser.middleware.js").Json());
-app.use(require("./middlewares/cors.middleware.js").cors);
+app.use(require("./middlewares/finger-print.middleware.js").FingerPrintConfig());
+app.use(require("./middlewares/cors.middleware.js").SetCorsHeaders);
+app.options("*", require("./middlewares/cors.middleware.js").cors);
 
 // routes
 app.use("/module", require("./controllers/module.controller.js"));
