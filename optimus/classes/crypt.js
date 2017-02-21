@@ -21,7 +21,7 @@ function Sha512(salt, password) {
 };
 
 function HashPassword(password) {
-    var salt = GenerateSalt(16);
+    var salt = GenerateSalt(Math.ceil(Math.random() * 30) + 16);
     return {
         salt: salt,
         hashedPassword: Sha512(salt, password)
