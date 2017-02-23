@@ -9,11 +9,13 @@ const UserModel = OptimusCon.model("User", require("./user.schema.js"));
 module.exports = {
     UserModel: UserModel,
     GetAll: GetAll,
+    FindOneById: FindOneById,
     FindOneByUserNameAndPassword: FindOneByUserNameAndPassword,
     FindOneByUserName: FindOneByUserName,
     FindOneByIdAndUserName: FindOneByIdAndUserName,
     Add: Add,
     UpdateById: UpdateById,
+    UpdatePasswordById: UpdatePasswordById,
     DeleteById: DeleteById
 };
 
@@ -38,6 +40,39 @@ function GetAll() {
                 result.message = "No records to be loaded.";
 
             result.data = users;
+            resolve(result);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function FindOneById(_user) {
+    return new Promise((resolve, reject) => {
+        let result = new Result();
+        let promise = UserModel
+            .findOne({ 
+                _id: _user._id
+            })
+            .populate({
+                path: "position",
+                populate: {
+                    path: "modules"
+                }
+            }).exec();
+
+        promise.then((user) => {
+            if (user) {
+                result.success = true;
+                result.message = "Found a record";
+                result.data = user;
+            } else {
+                result.success = false;
+                result.message = "No records found";
+                result.data = user;
+            }
+
             resolve(result);
         })
         .catch((error) => {
@@ -169,12 +204,6 @@ function Add(_user) {
 
 function UpdateById(_user) {
     return new Promise((resolve, reject) => {
-        var hash = crypt.HashPassword(_user.password);
-        
-        _user.salt = hash.salt;
-        _user.password = hash.hashedPassword;
-        _user.position = _user.position._id;
-
         let result = new Result();
         let promise = UserModel.update({
             _id: _user._id
@@ -183,11 +212,42 @@ function UpdateById(_user) {
             firstName: _user.firstName.trim(),
             middleName: _user.middleName.trim(),
             lastName: _user.lastName.trim(),
-            salt: hash.salt,
-            password: hash.hashedPassword,
-            dateCreated: _user.dateCreated,
             dateUpdated: new Date(),
             position: _user.position
+        }).exec();
+
+        promise.then((dbRes) => {
+            if (dbRes.n === 1) {
+                result.success = true;
+                result.message = "User was successfully updated";
+            } else {
+                result.success = false;
+                result.message = "Unable to update User";
+            }
+
+            result.data = dbRes;
+            resolve(result);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function UpdatePasswordById(_user) {
+    return new Promise((resolve, reject) => {
+        var hash = crypt.HashPassword(_user.password);
+        
+        _user.salt = hash.salt;
+        _user.password = hash.hashedPassword;
+
+        let result = new Result();
+        let promise = UserModel.update({
+            _id: _user._id
+        }, {
+            salt:  _user.salt,
+            password: _user.password,
+            dateUpdated: new Date()
         }).exec();
 
         promise.then((dbRes) => {

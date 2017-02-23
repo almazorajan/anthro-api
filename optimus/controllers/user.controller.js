@@ -110,6 +110,55 @@ router.post("/update", (req, res) => {
     }
 });
 
+router.post("/updatepassword", (req, res) => {
+    try {
+        let result = new Result();
+        let user = req.body.data;
+        
+        if(!user.password) {
+            result.success = false;
+            result.message = "No password was identified.";
+            res.send(result);
+        }
+
+        if(!user.password.trim()) {
+            result.success = false;
+            result.message = "No password was identified.";
+            res.send(result);
+        }
+
+        UserModel.FindOneById(user).then((_result) => {
+            if(_result.success) {
+                UserModel.UpdatePasswordById(user).then((result) => {
+                    res.send(result);
+                })
+                .catch((error) => {
+                    res.send(new Result({
+                        success: false,
+                        message: error.toString()
+                    }));
+                });
+            } else {
+                res.send(new Result({
+                    success: false,
+                    message: "Record cannot be updated"
+                }));
+            }
+        })
+        .catch((error) => {
+            res.send(new Result({
+                success: false,
+                message: error.toString()
+            }));
+        });
+    } catch(e) {
+        res.send(new Result({
+            success: false,
+            messsage: (e || e.message).toString()
+        }));
+    }
+});
+
 router.post("/delete", (req, res) => {
     try {
         let user = req.body.data;
