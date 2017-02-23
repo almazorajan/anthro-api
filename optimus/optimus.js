@@ -2,6 +2,7 @@
 
 // express
 const express = require("express");
+const process = require("process");
 const app = express();
 const cors = require("cors");
 
@@ -24,7 +25,7 @@ app.use("/employeelist", require("./controllers/employee-list.controller.js"));
 
 // api configurations
 const apiConfig = {
-    port: 8090,
+    port: process.env.PORT ? process.env.PORT : 8090,
     name: "Optimus"
 };
 
