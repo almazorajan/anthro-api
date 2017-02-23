@@ -1,9 +1,11 @@
 "use strict";
 
 const express = require("express");
-const PositionModel = require("../models/position/position.model.js");
-const Result = require("../classes/result.js");
+const PositionModel = require("../models/position/position.model");
+const Result = require("../classes/result");
 const router = express.Router();
+
+router.use(require("../middlewares/session-validator.middleware").ValidateSession);
 
 router.post("/getall", (req, res) => {
     let result = new Result();

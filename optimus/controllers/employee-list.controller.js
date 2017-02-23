@@ -5,6 +5,8 @@ const EmployeeModel = require("../models/employee/employee.model");
 const Result = require("../classes/result");
 const router = express.Router();
 
+router.use(require("../middlewares/session-validator.middleware").ValidateSession);
+
 router.post("/getall", (req, res) => {
     try {
         EmployeeModel.GetAll().then((result) => {

@@ -5,6 +5,8 @@ const ModuleModel = require("../models/module/module.model");
 const Result = require("../classes/result");
 const router = express.Router();
 
+router.use(require("../middlewares/session-validator.middleware").ValidateSession);
+
 router.post("/getall", (req, res) => {
     try {
         let promise = ModuleModel.GetAll();

@@ -2,11 +2,11 @@
 "use strict";
 
 const express = require("express");
-const UserModel = require("../models/user/user.model.js");
-const Result = require("../classes/result.js");
+const UserModel = require("../models/user/user.model");
+const Result = require("../classes/result");
 const router = express.Router();
 
-router.use(require("../middlewares/session-validator.middleware.js").ValidateSession);
+router.use(require("../middlewares/session-validator.middleware").ValidateSession);
 
 router.post("/getall", (req, res) => {
     try {

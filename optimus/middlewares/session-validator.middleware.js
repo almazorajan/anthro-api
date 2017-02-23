@@ -1,7 +1,7 @@
 "use strict";
 
-const AuthenticationModel = require("../models/authentication/authentication.model.js");
-const Result = require("../classes/result.js");
+const AuthenticationModel = require("../models/authentication/authentication.model");
+const Result = require("../classes/result");
 
 module.exports = {
     ValidateSession: ValidateSession
