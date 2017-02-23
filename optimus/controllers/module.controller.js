@@ -107,7 +107,10 @@ router.post("/delete", (req, res) => {
                     }));
                 });
             } else {
-                
+                res.send(new Result({
+                    success: false,
+                    message: error.toString()
+                }));
             }
         })
         .catch((error) => {
