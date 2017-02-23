@@ -1,6 +1,6 @@
 "use strict";
 
-const AuthenticationModel = require("../models/auth.model.js");
+const AuthenticationModel = require("../models/authentication/authentication.model.js");
 const Result = require("../classes/result.js");
 
 module.exports = {

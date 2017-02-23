@@ -1,5 +1,6 @@
 "use strict";
 
+const OptimusCon = require("../../optimus.con");
 const FamilyTemplate = require("./family.template");
 const AccreditationTemplate = require("./accreditation.template");
 const EducationHistoryTemplate = require("./education-history.template");

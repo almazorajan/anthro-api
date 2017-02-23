@@ -1,8 +1,8 @@
 "use strict";
 
 const Promise = require("bluebird");
-const OptimusCon = require("../optimus.con");
-const Result = require("../classes/result");
+const OptimusCon = require("../../optimus.con");
+const Result = require("../../classes/result");
 const AuthenticationModel = OptimusCon.model("Authentication", require("./authentication.schema"));
 
 module.exports = {

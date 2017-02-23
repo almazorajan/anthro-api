@@ -39,4 +39,4 @@ const FamilyTemplate = {
     }
 };
 
-modul.exports = FamilyTemplate;
+module.exports = FamilyTemplate;

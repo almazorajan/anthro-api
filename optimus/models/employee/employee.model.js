@@ -1,8 +1,8 @@
 "use strict";
 
 const Promise = require("bluebird");
-const OptimusCon = require("../optimus.con");
-const Result = require("../classes/result");
+const OptimusCon = require("../../optimus.con");
+const Result = require("../../classes/result");
 const EmployeeModel = OptimusCon.model("Employee", require("./employee.schema"));
 
 module.exports = {
