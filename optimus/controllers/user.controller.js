@@ -2,9 +2,9 @@
 "use strict";
 
 const express = require("express");
-const UserModel = require("../models/user/user.model");
-const Result = require("../classes/result");
 const router = express.Router();
+const Result = require("../classes/result");
+const UserModel = require("../models/user/user.model");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
 

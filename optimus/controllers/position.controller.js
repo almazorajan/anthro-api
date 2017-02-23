@@ -1,9 +1,9 @@
 "use strict";
 
 const express = require("express");
-const PositionModel = require("../models/position/position.model");
-const Result = require("../classes/result");
 const router = express.Router();
+const Result = require("../classes/result");
+const PositionModel = require("../models/position/position.model");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
 

@@ -1,12 +1,12 @@
 "use strict";
 
-const uuid = require("uuid");
 const express = require("express");
-const UserModel = require("../models/user/user.model");
-const AuthModel = require("../models/authentication/authentication.model");
+const uuid = require("uuid");
+const router = express.Router();
 const Result = require("../classes/result");
 const Crypt = require("../classes/crypt");
-const router = express.Router();
+const UserModel = require("../models/user/user.model");
+const AuthModel = require("../models/authentication/authentication.model");
 
 router.post("/attemptlogin", (req, res) => {
     try {
