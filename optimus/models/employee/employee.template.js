@@ -109,3 +109,5 @@ const EmployeeTemplate = {
         FamilyTemplate
     ]
 };
+
+module.exports = EmployeeTemplate;
