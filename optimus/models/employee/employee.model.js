@@ -8,6 +8,10 @@ const EmployeeModel = OptimusCon.model("Employee", require("./employee.schema"))
 module.exports = {
     EmployeeModel: EmployeeModel,
     GetAll: GetAll,
+    CountByCompanyId: CountByCompanyId,
+    CountByPositionId: CountByPositionId,
+    CountByEmploymentStatusId: CountByEmploymentStatusId,
+    CountByWorkHistoryEmploymentStatus: CountByWorkHistoryEmploymentStatus,
     Add: Add,
     FindOneByEmployeeNumber: FindOneByEmployeeNumber,
     UpdateById: UpdateById,
@@ -132,6 +136,58 @@ function FindOneByEmployeeNumber(_employee) {
 
             result.data = employee;
             resolve(result);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function CountByCompanyId(companyId) {
+    return new Promise((resolve, reject) => {
+        let promise = EmployeeModel.count({ company: companyId }).exec();
+
+        promise.then((count) => {  
+            resolve(count);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function CountByPositionId(positionId) {
+    return new Promise((resolve, reject) => {
+        let promise = EmployeeModel.count({ position: positionId }).exec();
+
+        promise.then((count) => {  
+            resolve(count);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function CountByEmploymentStatusId(employmentStatusId) {
+    return new Promise((resolve, reject) => {
+        let promise = EmployeeModel.count({ employmentStatus: employmentStatusId }).exec();
+
+        promise.then((count) => {  
+            resolve(count);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function CountByWorkHistoryEmploymentStatus(employmentStatusId) {
+    return new Promise((resolve, reject) => {
+        let promise = EmployeeModel.count({ workHistory: { employmentStatus: employmentStatusId } }).exec();
+
+        promise.then((count) => {  
+            resolve(count);
         })
         .catch((error) => {
             reject(error);

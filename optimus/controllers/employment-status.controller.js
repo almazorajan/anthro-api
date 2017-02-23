@@ -1,8 +1,10 @@
 "use strict";
 
+const Promise = require("bluebird");
 const express = require("express");
 const router = express.Router();
 const Result = require("../classes/result");
+const EmployeeModel = require("../models/employee/employee.model");
 const EmploymentStatusModel = require("../models/employment-status/employment-status.model");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
@@ -115,8 +117,29 @@ router.post("/delete", (req, res) => {
     try {
         let employmentStatus = req.body.data;
         
-        EmploymentStatusModel.DeleteById(employmentStatus).then((result) => {
-            res.send(result);
+        let check1 = EmployeeModel.CountByEmploymentStatusId(employmentStatus._id);
+        let check2 = EmployeeModel.CountByWorkHistoryEmploymentStatus(employmentStatus._id);
+
+        Promise.all([check1, check2]).then((res) => {
+            let countEmploymentStatus = res[0];
+            let countWorkHistoryEmploymentStatus = res[1];
+
+            if(countEmploymentStatus <= 0 && countWorkHistoryEmploymentStatus <= 0) {
+                EmploymentStatusModel.DeleteById(employmentStatus).then((result) => {
+                    res.send(result);
+                })
+                .catch((error) => {
+                    res.send(new Result({
+                        success: false,
+                        message: (e || e.message).toString()
+                    }));
+                });
+            } else {
+                res.send(new Result({
+                    success: false,
+                    message: "Could not delete employment status. It is still being used"
+                }));
+            }
         })
         .catch((error) => {
             res.send(new Result({

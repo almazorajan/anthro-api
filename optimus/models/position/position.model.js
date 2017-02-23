@@ -8,6 +8,7 @@ const PositionModel = OptimusCon.model("Position", require("./position.schema.js
 module.exports = {
     PositionModel: PositionModel,
     GetAll: GetAll,
+    CountByModuleId: CountByModuleId,
     FindOneByIdAndPositionName: FindOneByIdAndPositionName,
     FindOneByPositionName: FindOneByPositionName,
     Add: Add,
@@ -30,6 +31,19 @@ function GetAll() {
 
             result.data = positions;
             resolve(result);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+function CountByModuleId(moduleId) {
+    return new Promise((resolve, reject) => {
+        let promise = EmployeeModel.count({ modules: moduleId }).exec();
+
+        promise.then((count) => {  
+            resolve(count);
         })
         .catch((error) => {
             reject(error);

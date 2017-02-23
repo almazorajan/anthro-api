@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Result = require("../classes/result");
+const EmployeeModel = require("../models/employee/employee.model");
 const PositionModel = require("../models/position/position.model");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
@@ -119,8 +120,23 @@ router.post("/delete", (req, res) => {
     try {
         let position = req.body.data;
 
-        PositionModel.DeleteById(position).then((result) => {
-            res.send(result);
+        EmployeeModel.CountByPositionId(position._id).then((count) => {
+            if(count <= 0) {
+                PositionModel.DeleteById(position).then((result) => {
+                    res.send(result);
+                })
+                .catch((error) => {
+                    res.send(new Result({
+                        success: false,
+                        message: error.toString()
+                    }));
+                });
+            } else {
+                res.send(new Result({
+                    success: false,
+                    message: "Unable to delete position. It is still being used by an employee"
+                }));
+            }
         })
         .catch((error) => {
             res.send(new Result({

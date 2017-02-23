@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Result = require("../classes/result");
+const PositionModel = require("../models/position/position.model");
 const ModuleModel = require("../models/module/module.model");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
@@ -94,14 +95,23 @@ router.post("/delete", (req, res) => {
     try {
         const mod = req.body.data;
 
-        ModuleModel.DeleteById(mod._id).then((_result) => {
-            res.send(_result);
+        PositionModel.CountByModuleId(mod._id).then((count) => {
+            if(count <= 0) {
+                ModuleModel.DeleteById(mod._id).then((_result) => {
+                    res.send(_result);
+                })
+                .catch((error) => {
+                    res.send(new Result({
+                        success: false,
+                        message: error.toString()
+                    }));
+                });
+            } else {
+                
+            }
         })
         .catch((error) => {
-            res.send(new Result({
-                success: false,
-                message: error.toString()
-            }));
+
         });
     } catch(e) {
         res.send(new Result({

@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Result = require("../classes/result");
+const EmployeeModel = require("../models/employee/employee.model");
 const CompanyModel = require("../models/company/company.model");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
@@ -111,14 +112,26 @@ router.post("/delete", (req, res) => {
     try {
         let company = req.body.data;
 
-        CompanyModel.DeleteById(company).then((result) => {
-            res.send(result);
-        })  
+        EmployeeModel.CountByCompanyId(company._id).then((count) => {
+            if(count <= 0) {
+                CompanyModel.DeleteById(company).then((result) => {
+                    res.send(result);
+                })  
+                .catch((error) => {
+                    res.send(new Result({
+                        success: false,
+                        message: error.toString()
+                    }));
+                });
+            } else {
+                res.send(new Result({
+                    success: false,
+                    message: "Could not delete company because it is still in use"
+                }));
+            }
+        })
         .catch((error) => {
-            res.send(new Result({
-                success: false,
-                message: error.toString()
-            }));
+
         });
     } catch(e) {
         res.send(new Result({
