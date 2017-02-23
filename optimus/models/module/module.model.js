@@ -2,8 +2,8 @@
 
 const Promise = require("bluebird");
 const OptimusCon = require("../optimus.con.js");
-const ModuleModel = OptimusCon.model("Module", require("../schemas/module.schema.js"));
 const Result = require("../classes/result.js");
+const ModuleModel = OptimusCon.model("Module", require("./module.schema.js"));
 
 module.exports = {
     ModuleModel: ModuleModel,

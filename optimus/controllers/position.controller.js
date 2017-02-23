@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const PositionModel = require("../models/position.model.js");
+const PositionModel = require("../models/position/position.model.js");
 const Result = require("../classes/result.js");
 const router = express.Router();
 

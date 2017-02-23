@@ -1,7 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../optimus.con.js");
-const PositionSchema = new OptimusCon.Schema({
+const PositionTemplate = {
     positionName: { 
         type: String, 
         trim: true 
@@ -12,6 +11,6 @@ const PositionSchema = new OptimusCon.Schema({
             ref: "Module"
         }
     ]
-});
+};
 
-module.exports = PositionSchema;
+module.exports = PositionTemplate;

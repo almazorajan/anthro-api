@@ -1,8 +1,8 @@
 "use strict";
 
 const express = require("express");
-const CompanyModel = require("../models/company.model.js");
-const Result = require("../classes/result.js");
+const CompanyModel = require("../models/company/company.model");
+const Result = require("../classes/result");
 const router = express.Router();
 
 router.post("/getall", (req, res) => {

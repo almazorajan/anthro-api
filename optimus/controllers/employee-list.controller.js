@@ -1,8 +1,8 @@
 "use strict";
 
 const express = require("express");
-const EmployeeModel = require("../models/employee.model.js");
-const Result = require("../classes/result.js");
+const EmployeeModel = require("../models/employee/employee.model");
+const Result = require("../classes/result");
 const router = express.Router();
 
 router.post("/getall", (req, res) => {

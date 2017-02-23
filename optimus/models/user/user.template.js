@@ -1,7 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../optimus.con.js");
-const UserSchema = new OptimusCon.Schema({
+const OptimusCon = require("../../optimus.con");
+
+const UserTemplate = {
     userName: { 
         type: String, 
         trim: true 
@@ -40,6 +41,6 @@ const UserSchema = new OptimusCon.Schema({
     dateDeactivated: { 
         type: Date 
     }
-});
+};
 
-module.exports = UserSchema;
+module.exports = UserTemplate;

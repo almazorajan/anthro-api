@@ -2,10 +2,10 @@
 
 const uuid = require("uuid");
 const express = require("express");
-const UserModel = require("../models/user.model.js");
-const AuthModel = require("../models/auth.model.js");
-const Result = require("../classes/result.js");
-const Crypt = require("../classes/crypt.js");
+const UserModel = require("../models/user/user.model");
+const AuthModel = require("../models/authentication/authentication.model");
+const Result = require("../classes/result");
+const Crypt = require("../classes/crypt");
 const router = express.Router();
 
 router.post("/attemptlogin", (req, res) => {

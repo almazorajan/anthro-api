@@ -2,9 +2,9 @@
 
 const Promise = require("bluebird");
 const OptimusCon = require("../optimus.con.js");
-const UserModel = OptimusCon.model("User", require("../schemas/user.schema.js"));
 const Result = require("../classes/result.js");
 const crypt = require("../classes/crypt.js");
+const UserModel = OptimusCon.model("User", require("./user.schema.js"));
 
 module.exports = {
     UserModel: UserModel,

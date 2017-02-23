@@ -1,7 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../optimus.con.js");
-const AuthenticationSchema = new OptimusCon.Schema({
+const AuthenticationTemplate = {
     token: {
         type: String,
         required: true
@@ -11,6 +10,6 @@ const AuthenticationSchema = new OptimusCon.Schema({
         required: true
     },
     user: OptimusCon.Schema.Types.Mixed
-});
+};
 
-module.exports = AuthenticationSchema;
+module.exports = AuthenticationTemplate;

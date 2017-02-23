@@ -1,7 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../optimus.con.js");
-const CompanySchema = new OptimusCon.Schema({
+const CompanyTemplate = {
     companyName: {
         type: String,
         trim: true,
@@ -19,6 +18,6 @@ const CompanySchema = new OptimusCon.Schema({
         type: String,
         trim: true
     }
-});
+};
 
-module.exports = CompanySchema;
+module.exports = CompanyTemplate;
