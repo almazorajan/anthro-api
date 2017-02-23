@@ -40,7 +40,7 @@ function GetAll() {
 
 function CountByModuleId(moduleId) {
     return new Promise((resolve, reject) => {
-        let promise = EmployeeModel.count({ modules: moduleId }).exec();
+        let promise = PositionModel.count({ modules: moduleId }).exec();
 
         promise.then((count) => {  
             resolve(count);

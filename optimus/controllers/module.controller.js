@@ -109,7 +109,7 @@ router.post("/delete", (req, res) => {
             } else {
                 res.send(new Result({
                     success: false,
-                    message: error.toString()
+                    message: "Could not delete the record since it is still being used"
                 }));
             }
         })
