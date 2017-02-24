@@ -20,8 +20,7 @@ app.use("/user", require("./controllers/user.controller.js"));
 app.use("/employmentstatus", require("./controllers/employment-status.controller.js"));
 app.use("/company", require("./controllers/company.controller.js"));
 app.use("/login", require("./controllers/login.controller.js"));
-app.use("/employeesheet", require("./controllers/employee-sheet.controller.js"));
-app.use("/employeelist", require("./controllers/employee-list.controller.js"));
+app.use("/employee", require("./controllers/employee.controller.js"));
 
 // api configurations
 const apiConfig = {
