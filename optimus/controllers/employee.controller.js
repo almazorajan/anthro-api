@@ -63,7 +63,7 @@ router.post("/update", (req, res) => {
         let result = new Result();
         let employee = req.body.data;
         
-        EmployeeModel.FindOneByEmployeeNumber(employee).then((_result) => {
+        EmployeeModel.FindOneByIdAndEmployeeNumber(employee).then((_result) => {
             if(_result.success) {
                 EmployeeModel.UpdateById(employee).then((_result) => {
                     res.send(_result);
@@ -75,9 +75,25 @@ router.post("/update", (req, res) => {
                     }));
                 });
             } else {
-                result.success = false;
-                result.message = "Employee number does not exist.";
-                res.send(result);
+                EmployeeModel.FindOneByEmployeeNumber(employee).then((_result) => {
+                    if (_result.success) {
+                        res.send(new Result({
+                            success: false,
+                            message: "The employee number already exists"
+                        }));
+                    } else {
+                        EmployeeModel.UpdateById(employee).then((_result) => {
+                            res.send(_result);
+                        })
+                        .catch((e) => {
+                            res.send(new Result({
+                                success: false,
+                                message: (e || e.message).toString()
+                            }));
+                        });
+                    }
+                });
+
             }
         })
         .catch((e) => {
