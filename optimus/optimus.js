@@ -4,7 +4,6 @@
 const express = require("express");
 const process = require("process");
 const app = express();
-const cors = require("cors");
 
 // defined middlwares
 app.use(require("./middlewares/body-parser.middleware.js").UrlEncodedExtended());
