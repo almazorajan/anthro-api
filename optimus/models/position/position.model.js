@@ -115,6 +115,10 @@ function GetModuleIds(_position) {
 
 function Add(_position) {
     return new Promise((resolve, reject) => {
+        if (_position.hasOwnProperty("_id")) {
+            delete _position._id;    
+        }
+
         _position.modules = GetModuleIds(_position);
         let result = new Result();
         let promise = new PositionModel(_position).save();
