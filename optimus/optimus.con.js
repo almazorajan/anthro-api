@@ -1,11 +1,9 @@
 "use strict";
 
 const mongoose = require("mongoose");
-const development = false;
-const productionConnection = "mongodb://admin1:admin1@ds011379.mlab.com:11379/heroku_dnm1kfpp";
-const developmentConnection = "mongodb://admin1:admin1@ds121190.mlab.com:21190/heroku_sk7s21zx";
+const process = require("process");
 
 mongoose.Promise = require("bluebird");
-mongoose.connect(development ? developmentConnection : productionConnection);
+mongoose.connect(process.env.MONGODB_CON ? process.env.MONGODB_CON : "mongodb://localhost:27017/megatron");
 
 module.exports = mongoose;
