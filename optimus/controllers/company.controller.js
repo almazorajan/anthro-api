@@ -31,6 +31,7 @@ router.post("/add", (req, res) => {
     try {
         let result = new Result();
         let company = req.body.data;
+        delete company._id;
 
         CompanyModel.FindOneByCompanyName(company).then((_result) => {
             if(_result.success) {
