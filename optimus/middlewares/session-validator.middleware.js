@@ -1,6 +1,6 @@
 "use strict";
 
-const AuthenticationModel = require("../models/authentication/authentication.model");
+const Authentication = require("../models/authentication/authentication");
 const Result = require("../classes/result");
 
 module.exports = {
@@ -12,13 +12,13 @@ function ValidateSession(req, res, next) {
         var token = req.headers["x-access-token"];
         var fingerprint = req.fingerprint.hash;
         
-        AuthenticationModel.ValidateToken(token, fingerprint).then((result) => {
+        Authentication.ValidateToken(token, fingerprint).then((result) => {
             if(result.success) {
                 next();
             } else {
                 res.send(new Result({
                     success: false,
-                    message: "Invalid token"
+                    message: "invalid token"
                 }));    
             }
         })
