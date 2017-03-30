@@ -8,6 +8,8 @@ module.exports = (router) => {
         try {
             const result = new Result();
             const mod = req.body.data;
+            
+            delete mod._id;
 
             Module.FindOneByModuleName(mod.moduleName).then((_result) => {
                 if (_result.success) {
