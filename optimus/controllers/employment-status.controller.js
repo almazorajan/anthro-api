@@ -118,7 +118,7 @@ router.post("/delete", (req, res) => {
         let employmentStatus = req.body.data;
         
         let check1 = EmployeeModel.CountByEmploymentStatusId(employmentStatus._id);
-        let check2 = EmployeeModel.CountByWorkHistoryEmploymentStatus(employmentStatus._id);
+        let check2 = EmployeeModel.CountByWorkHistoryEmploymentStatusId(employmentStatus._id);
 
         Promise.all([check1, check2]).then((res) => {
             let countEmploymentStatus = res[0];
