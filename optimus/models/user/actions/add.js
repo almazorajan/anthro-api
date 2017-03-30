@@ -2,7 +2,7 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const Crypt = require("../../classes/crypt.js");
+const Crypt = require("../../../classes/crypt.js");
 
 module.exports = (UserModel) => {
 
