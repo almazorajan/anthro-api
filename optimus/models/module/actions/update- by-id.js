@@ -1,6 +1,7 @@
 "use strict";
 
 const Promise = require("bluebird");
+const Result = require("../../../classes/result");
 const ModuleModel = require("../module.model");
 
 module.exports = UpdateById;
