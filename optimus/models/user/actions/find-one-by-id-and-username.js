@@ -2,32 +2,31 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
+const UserModel = require("../user.model");
 
-module.exports = (UserModel) => {
-    
-    function FindOneByIdAndUserName(_user) {
-        return new Promise((resolve, reject) => {
-            let result = new Result();
-            let promise = UserModel.findOne({
-                _id: _user._id,
-                userName: _user.userName
-            }).exec();
+module.exports = FindOneByIdAndUserName;
 
-            promise.then((user) => {
-                if (user) {
-                    result.success = true;
-                    result.message = "found a record";
-                } else {
-                    result.success = false;
-                    result.message = "unable to find a matching record";
-                }
-                result.data = user;
+function FindOneByIdAndUserName(_user) {
+    return new Promise((resolve, reject) => {
+        let result = new Result();
+        let promise = UserModel.findOne({
+            _id: _user._id,
+            userName: _user.userName
+        }).exec();
 
-                resolve(result);
-            }).catch((error) => {
-                resolve(error);
-            });
+        promise.then((user) => {
+            if (user) {
+                result.success = true;
+                result.message = "found a record";
+            } else {
+                result.success = false;
+                result.message = "unable to find a matching record";
+            }
+            result.data = user;
+
+            resolve(result);
+        }).catch((error) => {
+            resolve(error);
         });
-    }
-    return FindOneByIdAndUserName;
-};
+    });
+}

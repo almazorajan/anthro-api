@@ -2,29 +2,28 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
+const CompanyModel = require("../company.model");
 
-module.exports = (CompanyModel) => {
+module.exports = Add;
 
-    function Add(_company) {
-        return new Promise((resolve, reject) => {
-            let result = new Result();
-            let promise = new CompanyModel(_company).save();
+function Add(_company) {
+    return new Promise((resolve, reject) => {
+        let result = new Result();
+        let promise = new CompanyModel(_company).save();
 
-            promise.then((company) => {
-                if (company) {
-                    result.success = true;
-                    result.message = "Company was succesfully saved.";
-                } else {
-                    result.success = false;
-                    result.message = "Unable to add company.";
-                }
-                result.data = company;
+        promise.then((company) => {
+            if (company) {
+                result.success = true;
+                result.message = "Company was succesfully saved.";
+            } else {
+                result.success = false;
+                result.message = "Unable to add company.";
+            }
+            result.data = company;
 
-                resolve(result);
-            }).catch((error) => {
-                reject(error);
-            });
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
         });
-    }
-    return Add;
+    });
 }

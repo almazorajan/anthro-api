@@ -2,30 +2,28 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
+const CompanyModel = require("../company.model");
 
-module.exports = (CompanyModel) => {
-    
-    function FindOneByCompanyName(_company) {
-        return new Promise((resolve, reject) => {
-            let result = new Result();
-            let promise = CompanyModel.findOne({ companyName: _company.companyName }).exec();
+module.exports = FindOneByCompanyName;
 
-            promise.then((company) => {
-                if (company) {
-                    result.success = true;
-                    result.message = "Found a record match.";
-                } else {
-                    result.success = false;
-                    result.message = "No matching record found.";
-                }
+function FindOneByCompanyName(_company) {
+    return new Promise((resolve, reject) => {
+        let result = new Result();
+        let promise = CompanyModel.findOne({ companyName: _company.companyName }).exec();
 
-                result.data = company;
-                resolve(result);
-            })
-                .catch((error) => {
-                    reject(error);
-                });
+        promise.then((company) => {
+            if (company) {
+                result.success = true;
+                result.message = "Found a record match.";
+            } else {
+                result.success = false;
+                result.message = "No matching record found.";
+            }
+            result.data = company;
+            
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
         });
-    };
-    return FindOneByCompanyName;
-}
+    });
+};

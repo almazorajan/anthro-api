@@ -1,0 +1,13 @@
+"use strict";
+
+const express = require("express");
+const router = express.Router();
+
+router.use(require("../middlewares/session-validator.middleware").ValidateSession);
+
+require("./endpoints/get-all.endpoint")(router);
+require("./endpoints/add.endpoint")(router);
+require("./endpoints/update.endpoint")(router);
+require("./endpoints/update-password.endpoint")(router);
+
+module.exports = router;

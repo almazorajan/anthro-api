@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Result = require("../classes/result");
-const EmployeeModel = require("../models/employee/employee.model");
+const EmployeeModel = require("../models/employee/employee");
 
 router.use(require("../middlewares/session-validator.middleware").ValidateSession);
 

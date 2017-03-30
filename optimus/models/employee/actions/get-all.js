@@ -2,34 +2,33 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
+const EmployeeModel = require("../employee.model");
 
-module.exports = (EmployeeModel) => {
-    
-    function GetAll() {
-        return new Promise((resolve, reject) => {
-            let result = new Result();
-            let promise = EmployeeModel.find({})
-                .populate("company")
-                .populate("position")
-                .populate("employmentStatus")
-                .populate("workHistory.employmentStatus")
-                .exec();
+module.exports = GetAll;
 
-            promise.then((employees) => {
-                result.success = true;
+function GetAll() {
+    return new Promise((resolve, reject) => {
+        let result = new Result();
+        let promise = EmployeeModel.find({})
+            .populate("company")
+            .populate("position")
+            .populate("employmentStatus")
+            .populate("workHistory.employmentStatus")
+            .exec();
 
-                if (employees.length)
-                    result.message = "Successfully loaded all employees.";
-                else
-                    result.message = "No records to load.";
+        promise.then((employees) => {
+            result.success = true;
 
-                result.data = employees;
+            if (employees.length)
+                result.message = "Successfully loaded all employees.";
+            else
+                result.message = "No records to load.";
 
-                resolve(result);
-            }).catch((error) => {
-                reject(error);
-            });
+            result.data = employees;
+
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
         });
-    }
-    return GetAll;
+    });
 }

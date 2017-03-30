@@ -1,20 +1,18 @@
 "use strict";
 
 const Promise = require("bluebird");
-const Result = require("../../../classes/result");
+const EmployeeModel = require("../employee.model");
 
-module.exports = (EmployeeModel) => {
+module.exports = CountByPositionId;
 
-    function CountByPositionId(positionId) {
-        return new Promise((resolve, reject) => {
-            let promise = EmployeeModel.count({ position: positionId }).exec();
+function CountByPositionId(positionId) {
+    return new Promise((resolve, reject) => {
+        let promise = EmployeeModel.count({ position: positionId }).exec();
 
-            promise.then((count) => {
-                resolve(count);
-            }).catch((error) => {
-                reject(error);
-            });
+        promise.then((count) => {
+            resolve(count);
+        }).catch((error) => {
+            reject(error);
         });
-    }
-    return CountByPositionId;
+    });
 }
