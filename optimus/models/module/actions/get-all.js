@@ -15,9 +15,9 @@ function GetAll() {
             result.success = true;
                 
             if (modules.length) {
-                result.message = "Succesfully loaded all modules";
+                result.message = "fetched all records";
             } else {
-                result.message = "No module loaded";
+                result.message = "no records to fetch yet";
             }
             result.data = modules;
 

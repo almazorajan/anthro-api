@@ -21,10 +21,10 @@ function UpdateById(_position) {
         promise.then((dbRes) => {
             if (dbRes.n === 1) {
                 result.success = true;
-                result.message = "Position was successfully updated";
+                result.message = "the record was successfully updated";
             } else {
                 result.success = false;
-                result.message = "Position was not updated";
+                result.message = "unable to update the record";
             }
             result.data = dbRes;
 

@@ -23,7 +23,7 @@ function FindOneByUserName(_user) {
         promise.then((user) => {
             if (user) {
                 result.success = true;
-                result.message = "found user record";
+                result.message = "found a matching record";
             } else {
                 result.success = false;
                 result.message = "unable to find matching record";

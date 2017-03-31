@@ -15,9 +15,9 @@ function GetAll() {
             result.success = true;
 
             if (positions.length)
-                result.message = "Successfully loaded all Positions";
+                result.message = "successfully fetched all records";
             else
-                result.message = "No Position loaded";
+                result.message = "no records to be loaded yet";
 
             result.data = positions;
             resolve(result);

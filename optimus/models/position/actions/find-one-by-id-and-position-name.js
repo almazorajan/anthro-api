@@ -17,10 +17,10 @@ function FindOneByIdAndPositionName(_position) {
         promise.then((position) => {
             if (position) {
                 result.success = true;
-                result.message = "Found a record match";
+                result.message = "found a matching record";
             } else {
                 result.success = false;
-                result.message = "Could not find a record match";
+                result.message = "could not find a record match";
             }
             result.data = position;
 

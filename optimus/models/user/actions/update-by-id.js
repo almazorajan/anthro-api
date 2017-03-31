@@ -12,21 +12,21 @@ function UpdateById(_user) {
         let promise = UserModel.update({
             _id: _user._id
         }, {
-                userName: _user.userName.trim(),
-                firstName: _user.firstName.trim(),
-                middleName: _user.middleName.trim(),
-                lastName: _user.lastName.trim(),
-                dateUpdated: new Date(),
-                position: _user.position
-            }).exec();
+            userName: _user.userName.trim(),
+            firstName: _user.firstName.trim(),
+            middleName: _user.middleName.trim(),
+            lastName: _user.lastName.trim(),
+            dateUpdated: new Date(),
+            position: _user.position
+        }).exec();
 
         promise.then((dbRes) => {
             if (dbRes.n === 1) {
                 result.success = true;
-                result.message = "user was successfully updated";
+                result.message = "the record was successfully updated";
             } else {
                 result.success = false;
-                result.message = "unable to update User";
+                result.message = "unable to update the record";
             }
             result.data = dbRes;
 

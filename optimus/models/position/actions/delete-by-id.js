@@ -14,10 +14,10 @@ function DeleteById(_position) {
         promise.then((dbRes) => {
             if (dbRes.result.n === 1) {
                 result.success = true;
-                result.message = "Position was successfully deleted";
+                result.message = "the record was successfully removed";
             } else {
                 result.success = false;
-                result.message = "Unable to delete the Position";
+                result.message = "unable to remove the record";
             }
             result.data = dbRes;
 

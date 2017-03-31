@@ -20,10 +20,10 @@ function Add(_position) {
         promise.then((position) => {
             if (position) {
                 result.success = true;
-                result.message = "Successfully added Position";
+                result.message = "the record was successfully added";
             } else {
                 result.success = false;
-                result.message = "Unable to save Position";
+                result.message = "unable to save the record";
             }
             result.data = position;
 

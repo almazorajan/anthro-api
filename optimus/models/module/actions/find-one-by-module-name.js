@@ -14,10 +14,10 @@ function FindOneByModuleName(_moduleName) {
         promise.then((module) => {
             if (module) {
                 result.success = true;
-                result.message = "Module name is already existing.";
+                result.message = "module name is already existing";
             } else {
                 result.success = false;
-                result.message = "Module name does not exists.";
+                result.message = "module name does not exist";
             }
             result.data;
 

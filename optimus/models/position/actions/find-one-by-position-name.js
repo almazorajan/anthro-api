@@ -14,10 +14,10 @@ function FindOneByPositionName(_position) {
         promise.then((position) => {
             if (position) {
                 result.success = true;
-                result.message = "Found matching record";
+                result.message = "found a matching record";
             } else {
                 result.success = false;
-                result.message = "Unable to find matching record";
+                result.message = "unable to find matching record";
             }
             result.data = position;
 

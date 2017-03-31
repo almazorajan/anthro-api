@@ -21,10 +21,10 @@ function Add(_user) {
         promise.then((user) => {
             if (user) {
                 result.success = true;
-                result.message = "user was successfully added";
+                result.message = "the record was successfully added";
             } else {
                 result.success = false;
-                result.message = "unable to add user";
+                result.message = "unable to add the record";
             }
             result.data = user;
 

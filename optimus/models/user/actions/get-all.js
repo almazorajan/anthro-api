@@ -22,9 +22,9 @@ function GetAll() {
             result.success = true;
 
             if (users.length)
-                result.message = "successfully loaded all records.";
+                result.message = "successfully loaded all records";
             else
-                result.message = "no records to be loaded.";
+                result.message = "no records to be loaded";
 
             result.data = users;
 

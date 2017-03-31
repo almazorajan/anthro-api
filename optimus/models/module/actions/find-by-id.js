@@ -14,10 +14,10 @@ function FindById(_id) {
         promise.then((mod) => {
             if (mod) {
                 result.success = true;
-                result.message = "Object with id '" + _id + "' is existing.";
+                result.message = "record is existing";
             } else {
                 result.success = false;
-                result.message = "No record found with an id of '" + _id + "'";
+                result.message = "record is not existing";
             }
             result.data = mod;
 

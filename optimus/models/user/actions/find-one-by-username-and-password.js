@@ -24,10 +24,10 @@ function FindOneByUserNameAndPassword(_user) {
         promise.then((user) => {
             if (user) {
                 result.success = true;
-                result.message = "valid login attempt";
+                result.message = "the record exists";
             } else {
                 result.success = false;
-                result.message = "invalid login attempt";
+                result.message = "no records found";
             }
             result.data = user;
 

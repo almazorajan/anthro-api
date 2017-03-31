@@ -26,7 +26,7 @@ function FindOneById(_user) {
                 result.message = "Found a record";
             } else {
                 result.success = false;
-                result.message = "No records found";
+                result.message = "no record found";
             }
             result.data = user;
 

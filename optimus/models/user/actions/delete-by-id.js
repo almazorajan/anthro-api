@@ -14,10 +14,10 @@ function DeleteById(_user) {
         promise.then((dbRes) => {
             if (dbRes.result.n === 1) {
                 result.success = true;
-                result.message = "successfully removed user";
+                result.message = "successfully removed the record";
             } else {
                 result.success = false;
-                result.message = "unable to delete user";
+                result.message = "unable to remove the record";
             }
             result.data = dbRes;
 

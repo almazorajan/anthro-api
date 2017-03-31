@@ -14,10 +14,10 @@ function Add(_module) {
         promise.then((mod) => {
             if (mod) {
                 result.success = true;
-                result.message = "Module was successfully added";
+                result.message = "record was successfully added";
             } else {
                 result.success = false;
-                result.message = "Unable to save Module";
+                result.message = "unable to save the record";
             }
             result.data = mod;
 
