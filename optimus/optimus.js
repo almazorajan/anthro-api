@@ -5,7 +5,7 @@ const express = require("express");
 const process = require("process");
 const app = express();
 
-// defined middlewares
+// middlewares
 app.use(require("./middlewares/body-parser.middleware.js").UrlEncodedExtended());
 app.use(require("./middlewares/body-parser.middleware.js").Json());
 app.use(require("./middlewares/finger-print.middleware.js").FingerPrintConfig());
@@ -21,7 +21,7 @@ app.use("/company", require("./controllers/company/controller.js"));
 app.use("/login", require("./controllers/login/controller.js"));
 app.use("/employee", require("./controllers/employee/controller.js"));
 
-// api configurations
+// configurations
 const apiConfig = {
     port: process.env.PORT ? process.env.PORT : 8090,
     name: "Optimus"
