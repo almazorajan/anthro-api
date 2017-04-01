@@ -8,6 +8,10 @@
     "start": "node ./optimus/optimus.js",
     "debug": "nodemon ./optimus/optimus.js"
   },
+  "engines": {
+    "node": "6.9.1",
+    "npm": "3.10.9"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/almazorajan/project-anthro-optimus.git"
