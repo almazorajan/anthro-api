@@ -1,6 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../../optimus.con");
+const OptimusCon = require("../../../optimus.con");
 const AddressSchema = new OptimusCon.Schema({
     unitFloor: {
         type: String,

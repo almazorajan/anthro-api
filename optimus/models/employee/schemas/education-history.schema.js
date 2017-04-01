@@ -1,6 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../../optimus.con");
+const OptimusCon = require("../../../optimus.con");
 
 const EducationHistorySchema = new OptimusCon.Schema({
     educationLevel: {

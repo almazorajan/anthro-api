@@ -1,6 +1,6 @@
 "use trict";
 
-const OptimusCon = require("../../optimus.con");
+const OptimusCon = require("../../../optimus.con");
 
 const ContactInfoSchema = new OptimusCon.Schema({
     number: {

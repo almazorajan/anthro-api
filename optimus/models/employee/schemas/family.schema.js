@@ -1,6 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../../optimus.con");
+const OptimusCon = require("../../../optimus.con");
 
 const FamilySchema = new OptimusCon.Schema({
     firstName: {

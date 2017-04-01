@@ -6,7 +6,7 @@ const ContactInfoSchema = require("./contact-info.schema");
 const EducationHistorySchema = require("./education-history.schema");
 const FamilySchema = require("./family.schema");
 const WorkHistorySchema = require("./work-history.schema");
-const OptimusCon = require("../../optimus.con");
+const OptimusCon = require("../../../optimus.con");
 
 const EmployeeSchema = new OptimusCon.Schema({  
     employeeNumber: { 
