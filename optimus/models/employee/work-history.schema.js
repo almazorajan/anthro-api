@@ -2,7 +2,7 @@
 
 const OptimusCon = require("../../optimus.con");
 
-const WorkHistoryTemplate = {
+const WorkHistorySchema = new OptimusCon.Schema({
     position: {
         type: String,
         trim: true
@@ -29,6 +29,6 @@ const WorkHistoryTemplate = {
         type: String,
         trim: true
     }
-};
+});
 
-module.exports = WorkHistoryTemplate;
+module.exports = WorkHistorySchema;

@@ -1,6 +1,8 @@
 "use strict";
 
-const FamilyTemplate = {
+const OptimusCon = require("../../optimus.con");
+
+const FamilySchema = new OptimusCon.Schema({
     firstName: {
         type: String,
         trim: true
@@ -37,6 +39,6 @@ const FamilyTemplate = {
         type: String,
         trim: true
     }
-};
+});
 
-module.exports = FamilyTemplate;
+module.exports = FamilySchema;

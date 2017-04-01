@@ -31,6 +31,7 @@
     "express-fingerprint": "^1.1.0",
     "moment": "^2.15.2",
     "mongoose": "^4.6.6",
+    "mongoose-field-encryption": "^1.0.0",
     "uuid": "^2.0.3"
   },
   "devDependencies": {

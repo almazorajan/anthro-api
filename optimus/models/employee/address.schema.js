@@ -1,6 +1,7 @@
 "use strict";
 
-const Address = {
+const OptimusCon = require("../../optimus.con");
+const AddressSchema = new OptimusCon.Schema({
     unitFloor: {
         type: String,
         trim: true
@@ -28,6 +29,6 @@ const Address = {
     isPermanent: {
         type: Boolean
     }
-};
+});
 
-module.exports = Address;
+module.exports = AddressSchema;

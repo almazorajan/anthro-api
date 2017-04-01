@@ -2,14 +2,14 @@
 
 module.exports = {
     EmployeeModel: require("./employee.model"),
-    GetAll: require("./actions/get-all"),
-    CountByCompanyId: require("./actions/count-by-company-id"),
-    CountByPositionId: require("./actions/count-by-position-id"),
-    CountByEmploymentStatusId: require("./actions/count-by-employment-status-id"),
-    CountByWorkHistoryEmploymentStatusId: require("./actions/count-by-workhistory-employment-status-id"),
-    Add: require("./actions/add"),
-    FindOneByEmployeeNumber: require("./actions/find-one-by-employee-number"),
-    FindOneByIdAndEmployeeNumber: require("./actions/find-one-by-id-and-employee-number"),
-    UpdateById: require("./actions/update-by-id"),
-    DeleteById: require("./actions/delete-by-id")
+    GetAll: require("./actions/GetAll"),
+    CountByCompanyId: require("./actions/CountByCompanyId"),
+    CountByPositionId: require("./actions/CountByPositionId"),
+    CountByEmploymentStatusId: require("./actions/CountByEmploymentStatusId"),
+    CountByWorkHistoryEmploymentStatusId: require("./actions/CountByWorkHistoryEmploymentStatusId"),
+    Add: require("./actions/Add"),
+    FindOneByEmployeeNumber: require("./actions/FindOneByEmployeeNumber"),
+    FindOneByIdAndEmployeeNumber: require("./actions/FindOneByIdAndEmployeeNumber"),
+    UpdateById: require("./actions/UpdateById"),
+    DeleteById: require("./actions/DeleteById")
 };

@@ -1,12 +1,11 @@
-
-const EmploymentStatusModel = require("./employment-status.model");
+"use strict";
 
 module.exports = {
-    EmployeeStatusModel: EmploymentStatusModel,
-    GetAll: require("./actions/get-all"),
-    FindOneByIdAndEmploymentStatus: require("./actions/find-one-by-id-and-employment-status"),
-    FindOneByEmploymentStatus: require("./actions/find-one-by-employment-status"),
-    Add: require("./actions/add"),
-    UpdateById: require("./actions/update-by-id"),
-    DeleteById: require("./actions/delete-by-id")
+    EmployeeStatusModel: require("./employment-status.model"),
+    GetAll: require("./actions/GetAll"),
+    FindOneByIdAndEmploymentStatus: require("./actions/FindOneByIdAndEmploymentStatus"),
+    FindOneByEmploymentStatus: require("./actions/FindOneByEmploymentStatus"),
+    Add: require("./actions/Add"),
+    UpdateById: require("./actions/UpdateById"),
+    DeleteById: require("./actions/DeleteById")
 };
