@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node .\\optimus\\optimus.js",
-    "debug": "nodemon .\\optimus\\optimus.js"
+    "start": "node ./optimus/optimus.js",
+    "debug": "nodemon ./optimus/optimus.js"
   },
   "engines": {
     "node": "6.9.1",
