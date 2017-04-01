@@ -5,7 +5,7 @@ const express = require("express");
 const process = require("process");
 const app = express();
 
-// defined middlwares
+// defined middlewares
 app.use(require("./middlewares/body-parser.middleware.js").UrlEncodedExtended());
 app.use(require("./middlewares/body-parser.middleware.js").Json());
 app.use(require("./middlewares/finger-print.middleware.js").FingerPrintConfig());
