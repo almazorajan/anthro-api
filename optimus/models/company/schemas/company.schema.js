@@ -22,11 +22,4 @@ const CompanySchema = new OptimusCon.Schema({
     }
 });
 
-// require("../../classes/data-encrpyt")(CompanySchema, [
-//     "companyName",
-//     "companyAddress",
-//     "contactNumber",
-//     "emailAddress"
-// ]);
-
 module.exports = CompanySchema;
