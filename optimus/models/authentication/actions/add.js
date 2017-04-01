@@ -8,6 +8,8 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const AuthenticationModel = require("../authentication.model");
 
+module.exports = Add;
+
 function Add(_auth) {
     return new Promise((resolve, reject) => {
         let result = new Result();
@@ -31,5 +33,3 @@ function Add(_auth) {
         });
     });
 }
-
-module.exports = Add;
