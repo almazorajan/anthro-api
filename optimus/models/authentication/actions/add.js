@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * version 1
+ */
+
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const AuthenticationModel = require("../authentication.model");
