@@ -5,66 +5,38 @@ const Result = require("../../../classes/result");
 const Crypt = require("../../../classes/crypt");
 const User = require("../../../models/user/user");
 const Authentication = require("../../../models/authentication/authentication");
+const ErrorResult = require("../../../helpers/error.result");
 
-module.exports = (router) => {
-    router.post("/attemptlogin", (req, res) => {
-        try {
-            let user = req.body.data;
+module.exports = (req, res) => {
+    try {
+        let user = req.body.data;
 
-            User.FindOneByUserName(user).then((result1) => {
-                let _result = new Result();
-                if (result1.success) {
-                    if (result1.data.password === Crypt.Sha512(result1.data.salt, user.password)) {
-                        result1.data.salt = "*****************";
-                        result1.data.password = "*****************";
+        User.FindOneByUserName(user).then((result) => {
+            if (result.success) {
+                if (result.data.password === Crypt.Sha512(result.data.salt, user.password)) {
+                    result.data.salt = "*****************";
+                    result.data.password = "*****************";
 
-                        let auth = {
-                            token: uuid.v1(),
-                            fingerprint: req.fingerprint.hash,
-                            user: result1.data
-                        };
-
-                        Authentication.Add(auth).then((result2) => {
-                            if (result2.success) {
-                                auth.fingerprint = "*****************";
-
-                                _result.success = true;
-                                _result.message = "Valid login attempt.";
-                                _result.data = auth;
-                            } else {
-                                _result.success = false;
-                                _result.message = "Unable to verify authentication.";
-                            }
-                            res.send(_result);
-                        }).catch((error) => {
-                            _result.success = false;
-                            _result.message = error.toString();
-                            _result.data = {};
-                            res.send(_result);
+                    new Authentication({ token: uuid.v1(), fingerprint: req.fingerprint.hash, user: result.data })
+                        .Add()
+                        .then((result) => res.send(new Result({
+                            success: result.success ? true : false,
+                            message: result.success ? "valid login attempt" : "unable to verify authentication",
+                            data: result.data
+                        })))
+                        .catch((error) => {
+                            res.send(ErrorResult(error));
                         });
-                    } else {
-                        res.send(new Result({
-                            success: false,
-                            message: "Invalid login attempt"
-                        }));
-                    }
                 } else {
-                    res.send(new Result({
-                        success: false,
-                        message: "Invalid login attempt"
-                    }));
+                    res.send(ErrorResult("invalid login attempt"));
                 }
-            }).catch((error) => {
-                res.send(new Result({
-                    success: false,
-                    message: error.toString()
-                }));
-            });
-        } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-        }
-    });
+            } else {
+                res.send(ErrorResult("invalid login attempt"));
+            }
+        }).catch((error) => {
+            res.send(ErrorResult(error));
+        });
+    } catch (e) {
+        res.send(ErrorResult(e));
+    }
 };

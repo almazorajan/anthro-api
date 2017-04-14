@@ -1,7 +1,7 @@
 "use strict";
 
-const UserSchema = require("../../../models/user/schemas/user.schema");
 const OptimusCon = require("../../../optimus.con");
+const UserSchema = require("../../../models/user/schemas/user.schema");
 
 const AuthenticationSchema = new OptimusCon.Schema({
     token: {
@@ -14,5 +14,8 @@ const AuthenticationSchema = new OptimusCon.Schema({
     },
     user: UserSchema
 });
+
+AuthenticationSchema.methods.Add = require("../methods/Add");
+AuthenticationSchema.methods.ValidateToken = require("../methods/ValidateToken");
 
 module.exports = AuthenticationSchema;

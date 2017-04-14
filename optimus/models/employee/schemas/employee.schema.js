@@ -96,4 +96,18 @@ const EmployeeSchema = new OptimusCon.Schema({
     family: [FamilySchema]
 });
 
+EmployeeSchema.statics.GetAll = require("../statics/GetAll");
+
+EmployeeSchema.statics.CountByCompanyId = require("../statics/CountByCompanyId");
+EmployeeSchema.statics.CountByEmploymentStatusId = require("../statics/CountByEmploymentStatusId");
+EmployeeSchema.statics.CountByPositionId = require("../statics/CountByPositionId");
+EmployeeSchema.statics.CountByWorkHistoryEmploymentStatusId = require("../statics/CountByWorkHistoryEmploymentStatusId");
+
+EmployeeSchema.statics.FindOneByEmployeeNumber = require("../statics/FindOneByEmployeeNumber");
+EmployeeSchema.statics.FindOneByIdAndEmployeeNumber = require("../statics/FindOneByIdAndEmployeeNumber");
+
+EmployeeSchema.methods.Add = require("../methods/Add");
+EmployeeSchema.methods.UpdateById = require("../methods/UpdateById");
+EmployeeSchema.methods.DeleteById = require("../methods/DeleteById");
+
 module.exports = EmployeeSchema;

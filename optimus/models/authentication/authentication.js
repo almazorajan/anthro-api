@@ -1,7 +1,6 @@
 "use strict";
 
-module.exports = {
-    AuthenticationModel: require("./authentication.model"),
-    Add: require("./actions/Add.js"),
-    ValidateToken: require("./actions/ValidateToken")
-};
+const OptimusCon = require("../../optimus.con");
+const AuthenticationModel = OptimusCon.model("Authentication", require("./schemas/authentication.schema"));
+
+module.exports = AuthenticationModel;
