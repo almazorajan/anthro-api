@@ -4,9 +4,8 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const UserModel = require("../user.model");
 
-module.exports = FindOneByUserName;
+module.exports = (user) => {
 
-function FindOneByUserName(user) {
     return new Promise((resolve, reject) => {
         UserModel
             .findOne({
@@ -14,20 +13,14 @@ function FindOneByUserName(user) {
             })
             .populate({
                 path: "position",
-                populate: {
-                    path: "modules"
-                }
+                populate: { path: "modules" }
             })
             .exec()
-            .then((user) => {
-                console.log(user);
-                resolve(new Result({
-                    success: user._doc ? true : false,
-                    message: user._doc ? "found a matching record" : "unable to find matching record",
-                    data: user._doc
-                }));
-            }).catch((error) => {
-                reject(error);
-            });
+            .then((user) => resolve(new Result({
+                success: user._doc ? true : false,
+                message: user._doc ? "found a matching record" : "unable to find matching record",
+                data: user._doc
+            })))
+            .catch((error) => reject(error));
     });
-}
+};

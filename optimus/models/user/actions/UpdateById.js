@@ -4,36 +4,26 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const UserModel = require("../user.model");
 
-module.exports = UpdateById;
+module.exports = (user) => {
 
-function UpdateById(_user) {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = UserModel.update({
-            _id: _user._id
-        }, {
-            userName: _user.userName.trim(),
-            firstName: _user.firstName.trim(),
-            middleName: _user.middleName.trim(),
-            lastName: _user.lastName.trim(),
-            dateUpdated: new Date(),
-            position: _user.position
-        }).exec();
-
-        promise.then((dbRes) => {
-            if (dbRes.n === 1) {
-                result.success = true;
-                result.message = "the record was successfully updated";
-            } else {
-                result.success = false;
-                result.message = "unable to update the record";
-            }
-            result.data = dbRes;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        let promise = UserModel
+            .update({
+                _id: user._id
+            }, {
+                userName: user.userName,
+                firstName: user.firstName,
+                middleName: user.middleName,
+                lastName: user.lastName,
+                dateUpdated: new Date(),
+                position: user.position
+            })
+            .exec()
+            .then((dbRes) => resolve(new Result({
+                success: dbRes.n === 1 ? true : false,
+                message: dbRes.n === 1 ? "the record was successfully updated" : "unable to update the record",
+                data: dbRes
+            })))
+            .catch((error) => reject(error));
     });
-}
-
+};

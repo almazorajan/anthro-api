@@ -4,39 +4,26 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const UserModel = require("../user.model");
 
-module.exports = FindOneByUserNameAndPassword;
+module.exports = (user) => {
 
-function FindOneByUserNameAndPassword(_user) {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = UserModel
+        UserModel
             .findOne({
-                userName: _user.userName,
-                password: _user.password
+                userName: user.userName,
+                password: user.password
             })
             .populate({
                 path: "position",
                 populate: {
                     path: "modules"
                 }
-            }).exec();
-
-        promise.then((user) => {
-            if (user) {
-                result.success = true;
-                result.message = "the record exists";
-            } else {
-                result.success = false;
-                result.message = "no records found";
-            }
-            result.data = user;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+            })
+            .exec()
+            .then((user) => resolve(new Result({
+                success: user ? true : false,
+                message: user ? "the record exists" : "no record found",
+                data: user
+            })))
+            .catch((error) => reject(error));
     });
-}
-
-
-
+};
