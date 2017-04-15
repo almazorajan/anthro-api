@@ -5,32 +5,23 @@ const Result = require("../../../classes/result");
 const PositionModel = require("../position.model");
 const GetModuleIds = require("../helpers/get-module-ids");
 
-module.exports = UpdateById;
+module.exports = (position) => {
 
-function UpdateById(_position) {
     return new Promise((resolve, reject) => {
-        _position.modules = GetModuleIds(_position);
-        let result = new Result();
-        let promise = PositionModel.update({
-            _id: _position._id
-        }, {
-            positionName: _position.positionName,
-            modules: _position.modules
-        }).exec();
+        position.modules = GetModuleIds(position);
 
-        promise.then((dbRes) => {
-            if (dbRes.n === 1) {
-                result.success = true;
-                result.message = "the record was successfully updated";
-            } else {
-                result.success = false;
-                result.message = "unable to update the record";
-            }
-            result.data = dbRes;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        PositionModel
+            .update({
+                _id: position._id
+            }, {
+                positionName: position.positionName,
+                modules: position.modules
+            })
+            .exec()
+            .then((dbRes) => resolve(new Result({
+                success: dbRes.n === 1 ? true : false,
+                message: dbRes.n === 1 ? "the record was successfully updated" : "unable to update the record"
+            })))
+            .catch((error) => reject(error));
     });
-}
+};

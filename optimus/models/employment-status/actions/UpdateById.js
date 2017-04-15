@@ -4,30 +4,19 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const EmploymentStatusModel = require("../employment-status.model");
 
-module.exports = UpdateById;
+module.exports = (employmentStatus) => {
 
-function UpdateById(_employmentStatus) {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = EmploymentStatusModel.update({
-            _id: _employmentStatus._id
-        }, {
-            employmentStatus: _employmentStatus.employmentStatus
-        }).exec();
-
-        promise.then((dbRes) => {
-            if (dbRes.n === 1) {
-                result.success = true;
-                result.message = "The Employment Status was successfully updated";
-            } else {
-                result.success = false;
-                result.message = "Unable to update the Employment Status";
-            }
-            result.data = dbRes;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        EmploymentStatusModel
+            .update(
+                { _id: employmentStatus._id },
+                { employmentStatus: employmentStatus.employmentStatus })
+            .exec()
+            .then((dbRes) => resolve(new Result({
+                success: dbRes.n === 1 ? true : false,
+                message: dbRes.n === 1 ? "the employment status was successfully updated" : "unable to update the employment status",
+                data: dbRes
+            })))
+            .catch((error) => reject(error));
     });
-}
+};

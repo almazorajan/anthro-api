@@ -5,31 +5,21 @@ const Result = require("../../../classes/result");
 const PositionModel = require("../position.model");
 const GetModuleIds = require("../helpers/get-module-ids");
 
-module.exports = Add;
-
-function Add(_position) {
+module.exports = (position) => {
     return new Promise((resolve, reject) => {
-        if (_position.hasOwnProperty("_id")) {
-            delete _position._id;
-        }
 
-        _position.modules = GetModuleIds(_position);
-        let result = new Result();
-        let promise = new PositionModel(_position).save();
+        if (position.hasOwnProperty("_id"))
+            delete position._id;
 
-        promise.then((position) => {
-            if (position) {
-                result.success = true;
-                result.message = "the record was successfully added";
-            } else {
-                result.success = false;
-                result.message = "unable to save the record";
-            }
-            result.data = position;
+        position.modules = GetModuleIds(position);
 
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        new PositionModel(position)
+            .save()
+            .then((position) => resolve(new Result({
+                success: position ? true : false,
+                message: position ? "the record was successfully added" : "unable to save the record",
+                data: position
+            })))
+            .catch((error) => reject(error));
     });
-}
+};

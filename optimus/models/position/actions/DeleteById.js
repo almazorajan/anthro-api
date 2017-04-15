@@ -4,26 +4,18 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const PositionModel = require("../position.model");
 
-module.exports = DeleteById;
+module.exports = (position) => {
 
-function DeleteById(_position) {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = PositionModel.findById({ _id: _position._id }).remove().exec();
-
-        promise.then((dbRes) => {
-            if (dbRes.result.n === 1) {
-                result.success = true;
-                result.message = "the record was successfully removed";
-            } else {
-                result.success = false;
-                result.message = "unable to remove the record";
-            }
-            result.data = dbRes;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        PositionModel
+            .findById({ _id: position._id })
+            .remove()
+            .exec()
+            .then((dbRes) => resolve(new Result({
+                success: dbRes.result.n === 1 ? true : false,
+                message: dbRes.result.n === 1 ? "the record was successfully removed" : "unable to remove the record",
+                data: dbRes
+            })))
+            .catch((error) => reject(error));
     });
 }

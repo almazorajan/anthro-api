@@ -4,26 +4,16 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const ModuleModel = require("../module.model");
 
-module.exports = Add;
-
-function Add(_module) {
+module.exports = (mod) => {
+    
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = new ModuleModel(_module).save();
-
-        promise.then((mod) => {
-            if (mod) {
-                result.success = true;
-                result.message = "record was successfully added";
-            } else {
-                result.success = false;
-                result.message = "unable to save the record";
-            }
-            result.data = mod;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        new ModuleModel(mod)
+            .save()
+            .then((mod) => resolve(new Result({
+                success: mod ? true : false,
+                message: mod ? "the record was successfully added",
+                data: mod
+            })))
+            .catch((error) => reject(error));
     });
-}
+};

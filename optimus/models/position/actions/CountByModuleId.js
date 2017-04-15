@@ -4,16 +4,12 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const PositionModel = require("../position.model");
 
-module.exports = CountByModuleId;
-
-function CountByModuleId(moduleId) {
+module.exports = (moduleId) => {
+    
     return new Promise((resolve, reject) => {
-        let promise = PositionModel.count({ modules: moduleId }).exec();
-
-        promise.then((count) => {
-            resolve(count);
-        }).catch((error) => {
-            reject(error);
-        });
+        PositionModel
+            .count({ modules: moduleId })
+            .exec()
+            .then((count) => resolve(count)).catch((error) => reject(error));
     });
 }

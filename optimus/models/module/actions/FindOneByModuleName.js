@@ -4,26 +4,17 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const ModuleModel = require("../module.model");
 
-module.exports = FindOneByModuleName;
+module.exports = (moduleName) => {
 
-function FindOneByModuleName(_moduleName) {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = ModuleModel.findOne({ moduleName: _moduleName }).exec();
-
-        promise.then((module) => {
-            if (module) {
-                result.success = true;
-                result.message = "module name is already existing";
-            } else {
-                result.success = false;
-                result.message = "module name does not exist";
-            }
-            result.data;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        ModuleModel
+            .findOne({ moduleName: moduleName })
+            .exec()
+            .then((mod) => resolve(new Result({
+                success: mod ? true : false,
+                message: mod ? "module name is already existing" : "module name does not exist",
+                data: mod
+            })))
+            .catch((error) => reject(error));
     });
 }

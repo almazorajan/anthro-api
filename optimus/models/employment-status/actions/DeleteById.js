@@ -4,26 +4,17 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const EmploymentStatusModel = require("../employment-status.model");
 
-module.exports = DeleteById;
+module.exports = (employmentStatus) => {
 
-function DeleteById(_employmentStatus) {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = EmploymentStatusModel.findById({ _id: _employmentStatus._id }).remove();
-
-        promise.then((dbRes) => {
-            if (dbRes.result.n === 1) {
-                result.success = true;
-                result.message = "Employment Status was successfully deleted";
-            } else {
-                result.success = false;
-                result.message = "Unable to delete the Employment Status";
-            }
-            result.data = dbRes;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        EmploymentStatusModel
+            .findById({ _id: employmentStatus._id })
+            .remove()
+            .then((dbRes) => resolve(new Result({
+                success: dbRes.result.n === 1 ? true : false,
+                message: dbRes.result.n === 1 ? "employment status was successfully deleted" : "unable to delete the employment status",
+                data: dbRes
+            })))
+            .catch((error) => reject(error));
     });
 }

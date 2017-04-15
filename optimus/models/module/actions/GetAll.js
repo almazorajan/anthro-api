@@ -4,26 +4,17 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const ModuleModel = require("../module.model");
 
-module.exports = GetAll;
+module.exports = () => {
 
-function GetAll() {
     return new Promise((resolve, reject) => {
-        let result = new Result();
-        let promise = ModuleModel.find({}).exec();
-
-        promise.then((modules) => {
-            result.success = true;
-                
-            if (modules.length) {
-                result.message = "fetched all records";
-            } else {
-                result.message = "no records to fetch yet";
-            }
-            result.data = modules;
-
-            resolve(result);
-        }).catch((error) => {
-            reject(error);
-        });
+        ModuleModel
+            .find({})
+            .exec()
+            .then((modules) => resolve(new Result({
+                success: true,
+                message: modules.length ? "fetched all records" : "no records to fetch yet",
+                data: modules
+            })))
+            .catch((error) => reject(error));
     });
 }
