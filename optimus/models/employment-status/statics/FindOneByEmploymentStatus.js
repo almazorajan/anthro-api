@@ -2,7 +2,6 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const EmploymentStatusModel = require("../employment-status.model");
 
 module.exports = Promise.method((employmentStatus) => {
     return new Promise((resolve, reject) => {

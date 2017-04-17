@@ -10,10 +10,10 @@ module.exports = (req, res) => {
         delete company._id;
 
         Company
-            .FindOneByCompanyName(company)
+            .FindOneByCompanyName(company.companyNamae)
             .then((result) => {
                 if (!result.success)
-                    return Company.Add(company);
+                    return new Company(company).Add();
 
                 res.send(new Result({
                     success: false,

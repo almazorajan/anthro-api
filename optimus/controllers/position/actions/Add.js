@@ -2,34 +2,26 @@
 
 const Result = require("../../../classes/result");
 const Position = require("../../../models/position/position");
+const ErrorResult = require("../../../helpers/error.result");
 
-module.exports = (router) => {
-    router.post("/add", (req, res) => {
-        try {
-            let result = new Result();
-            let position = req.body.data;
+module.exports = (req, res) => {
+    try {
+        let position = req.body.data;
 
-            Position.FindOneByPositionName(position).then((_result) => {
-                if (_result.success) {
-                    result.success = false;
-                    result.message = "Position name is already existing.";
-                    res.send(result);
-                } else {
-                    return Position.Add(position);
-                }
-            }).then((_result) => {
-                res.send(_result);
-            }).catch((error) => {
+        Position
+            .FindOneByPositionName(position.positionName)
+            .then((result) => {
+                if (!result.success)
+                    return new Position(position).Add();
+                
                 res.send(new Result({
                     success: false,
-                    message: error.toString()
-                }));
-            });
-        } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-        }
-    });
+                    message: "position name is already existing"
+                }))
+            })
+            .then((result) => res.send(result))
+            .catch((error) => res.send(ErrorResult(error)));
+    } catch (e) {
+        res.send(ErrorResult(e));
+    }
 };

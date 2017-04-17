@@ -13,6 +13,6 @@ EmployeeSchema.statics.CountByPositionId = require("./statics/CountByPositionId"
 EmployeeSchema.statics.CountByWorkHistoryEmploymentStatusId = require("./statics/CountByWorkHistoryEmploymentStatusId");
 EmployeeSchema.statics.FindOneByEmployeeNumber = require("./statics/FindOneByEmployeeNumber");
 EmployeeSchema.statics.FindOneByIdAndEmployeeNumber = require("./statics/FindOneByIdAndEmployeeNumber");
-EmployeeSchema.statics.GetAll = require("../statics/GetAll");
+EmployeeSchema.statics.GetAll = require("./statics/GetAll");
 
 module.exports = OptimusCon.model("Employee", EmployeeSchema);

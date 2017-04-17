@@ -2,23 +2,15 @@
 
 const Result = require("../../../classes/result");
 const Module = require("../../../models/module/module");
+const ErrorResult = require("../../../helpers/error.result");
 
-module.exports = (router) => {
-    router.post("/getall", (req, res) => {
-        try {
-            Module.GetAll().then((result) => {
-                res.send(result);
-            }).catch((error) => {
-                res.send(new Result({
-                    success: false,
-                    message: error.toString()
-                }));
-            });
-        } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-        }
-    });
+module.exports = (req, res) => {
+    try {
+        Module
+            .GetAll()
+            .then((result) => res.send(result))
+            .catch((error) => res.send(ErrorResult(error)));
+    } catch (e) {
+        res.send(ErrorResult(e));
+    }
 };

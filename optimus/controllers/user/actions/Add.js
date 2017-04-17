@@ -9,10 +9,10 @@ module.exports = (req, res) => {
         let user = req.body.data;
 
         User
-            .FindOneByUserName(user)
+            .FindOneByUserName(user.userName)
             .then((result) => {
                 if (!result.success)
-                    return User.Add(user);
+                    return new User(user).Add();
 
                 res.send(new Result({
                     success: false,

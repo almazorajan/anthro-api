@@ -13,7 +13,7 @@ module.exports = (req, res) => {
             .CountByCompanyId(company._id)
             .then((count) => {
                 if (count <= 0)
-                    Company.DeleteById(company);
+                    return new Company(company).DeleteById();
 
                 res.send(ErrorResult("could not delete company record because it is still being referenced"));
             })

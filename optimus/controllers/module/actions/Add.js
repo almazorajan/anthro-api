@@ -2,36 +2,26 @@
 
 const Result = require("../../../classes/result");
 const Module = require("../../../models/module/module");
+const ErrorResult = require("../../../helpers/error.result");
 
-module.exports = (router) => {
-    router.post("/add", (req, res) => {
-        try {
-            const result = new Result();
-            const mod = req.body.data;
-            
+module.exports = (req, res) => {
+    try {
+        const mod = req.body.data;
+
+        if (mod.hasOwnProperty("_id"))
             delete mod._id;
 
-            Module.FindOneByModuleName(mod.moduleName).then((_result) => {
-                if (_result.success) {
-                    result.success = false;
-                    result.message = "Module name already exists.";
-                    res.send(result);
-                } else {
-                    return Module.Add(mod);
-                }
-            }).then((_result) => {
-                res.send(_result);
-            }).catch((error) => {
-                res.send(new Result({
-                    success: false,
-                    message: error.toString()
-                }));
-            });
-        } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-        }
-    });
+        Module
+            .FindOneByModuleName(mod.moduleName)
+            .then((result) => {
+                if (!result.success)
+                    return new Module(mod).Add();
+
+                res.send(ErrorResult("module name already exists"));
+            })
+            .then((result) => res.send(result))
+            .catch((error) => res.send(ErrorResult(error)));
+    } catch (e) {
+        res.send(ErrorResult(e));
+    }
 };

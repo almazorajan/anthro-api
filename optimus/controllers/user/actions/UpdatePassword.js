@@ -15,10 +15,10 @@ module.exports = (req, res) => {
             res.send("no password was identified");
 
         User
-            .FindOneById(user)
+            .FindOneById(user._id)
             .then((result) => {
                 if (result.success)
-                    return User.UpdatePasswordById(user);
+                    return new User(user).UpdatePasswordById();
                 
                 res.send(ErrorResult("the record cannot be updated"));
             })

@@ -1,6 +1,5 @@
 "use strict";
 
-const Result = require("../../../classes/result");
 const EmploymentStatus = require("../../../models/employment-status/employment-status");
 const ErrorResult = require("../../../helpers/error.result");
 

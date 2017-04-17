@@ -2,34 +2,26 @@
 
 const Result = require("../../../classes/result");
 const Module = require("../../../models/module/module");
+const ErrorResult = require("../../../helpers/error.result");
 
-module.exports = (router) => {
-    router.post("/update", (req, res) => {
-        try {
-            const mod = req.body.data;
+module.exports = (req, res) => {
+    try {
+        const mod = req.body.data;
 
-            Module.FindById(mod._id).then((_result) => {
-                if (_result.success) {
-                    return Module.UpdateById(mod);
-                } else {
-                    res.send(new Result({
-                        success: false,
-                        message: "Unable to find record to update."
-                    }));
-                }
-            }).then((_result) => {
-                res.send(_result);
-            }).catch((error) => {
+        Module
+            .FindById(mod._id)
+            .then((result) => {
+                if (result.success)
+                    return new Module(mod).UpdateById();
+
                 res.send(new Result({
                     success: false,
-                    message: error.toString()
+                    message: "unable to find record to update"
                 }));
-            });
-        } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-        }
-    });
+            })
+            .then((result) => res.send(result))
+            .catch((error) => res.send(ErrorResult(error)));
+    } catch (e) {
+        res.send(ErrorResult(e));
+    }
 };

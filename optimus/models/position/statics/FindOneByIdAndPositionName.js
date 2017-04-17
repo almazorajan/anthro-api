@@ -5,7 +5,7 @@ const Result = require("../../../classes/result");
 
 module.exports = Promise.method((_id, positionName) => {
     return new Promise((resolve, reject) => {
-        PositionModel
+        this
             .findOne({
                 "_id": _id,
                 "positionName": positionName

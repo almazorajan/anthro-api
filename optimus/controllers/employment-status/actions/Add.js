@@ -10,10 +10,10 @@ module.exports = (req, res) => {
         let employmentStatus = req.body.data;
 
         EmploymentStatus
-            .FindOneByEmploymentStatus(employmentStatus)
+            .FindOneByEmploymentStatus(employmentStatus.employmentStatus)
             .then((result) => {
                 if (!result.success)
-                    return EmploymentStatus.Add(employmentStatus);
+                    return new EmploymentStatus(employmentStatus).Add();
                 
                 res.send(ErrorResult("the employment status already exists"));
             })

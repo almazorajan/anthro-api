@@ -3,9 +3,7 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method(FindOneByEmployeeNumber);
-
-function FindOneByEmployeeNumber(employeeNumber) {
+module.exports = Promise.method((employeeNumber) => {
     return new Promise((resolve, reject) => {
         this
             .findOne({
@@ -19,4 +17,4 @@ function FindOneByEmployeeNumber(employeeNumber) {
             })))
             .catch((error) => reject(error));
     });
-}
+});

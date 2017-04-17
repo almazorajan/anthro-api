@@ -1,6 +1,5 @@
 "use strict";
 
-const Result = require("../../../classes/result");
 const User = require("../../../models/user/user");
 const ErrorResult = require("../../../helpers/error.result");
 
@@ -9,21 +8,21 @@ module.exports = (req, res) => {
         let user = req.body.data;
 
         User
-            .FindOneByIdAndUserName(user)
+            .FindOneByIdAndUserName(user._id, user.userName)
             .then((result) => {
                 if (result.success) {
-                    User
-                        .UpdateById(user)
+                    new User(user)
+                        .UpdateById()
                         .then((result) => res.send(result))
                         .catch((error) => res.send(ErrorResult(error)));
                 } else {
                     User
-                        .FindOneByUserName(user)
+                        .FindOneByUserName(user.userName)
                         .then((result) => {
-                            if (result.success)
-                                res.send(ErrorResult("the username already exists"));
-                            
-                            return User.UpdateById(user);
+                            if (!result.success)
+                                return new User(user).UpdateById();
+
+                            res.send(ErrorResult("the username already exists"));
                         })
                         .then((result) => res.send(result))
                         .catch((error) => res.send(ErrorResult(error)));

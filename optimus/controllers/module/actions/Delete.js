@@ -3,40 +3,23 @@
 const Result = require("../../../classes/result");
 const Module = require("../../../models/module/module");
 const Position = require("../../../models/position/position");
+const ErrorResult = require("../../../helpers/error.result");
 
-module.exports = (router) => {
-    router.post("/delete", (req, res) => {
-        try {
-            const mod = req.body.data;
+module.exports = (req, res) => {
+    try {
+        const mod = req.body.data;
 
-            Position.CountByModuleId(mod._id).then((count) => {
-                if (count <= 0) {
-                    Module.DeleteById(mod._id).then((_result) => {
-                        res.send(_result);
-                    })
-                        .catch((error) => {
-                            res.send(new Result({
-                                success: false,
-                                message: error.toString()
-                            }));
-                        });
-                } else {
-                    res.send(new Result({
-                        success: false,
-                        message: "Could not delete the record since it is still being used"
-                    }));
-                }
-            }).catch((error) => {
-                res.send(new Result({
-                    success: false,
-                    message: error.toString()
-                }));
-            });
-        } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
-        }
-    });
+        Position
+            .CountByModuleId(mod._id)
+            .then((count) => {
+                if (count <= 0)
+                    return new Module(mod).DeleteById();
+
+                res.send(ErrorResult("could not delete record since it is still being used as reference"));
+            })
+            .then(result => res.send(result))
+            .catch((error) => res.send(ErrorResult(error)));
+    } catch (e) {
+        res.send(ErrorResult(e));
+    }
 };

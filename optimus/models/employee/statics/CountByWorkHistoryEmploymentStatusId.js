@@ -2,9 +2,7 @@
 
 const Promise = require("bluebird");
 
-module.exports = Promise.method(CountByWorkHistoryEmploymentStatusId);
-
-function CountByWorkHistoryEmploymentStatusId(employmentStatusId) {
+module.exports = Promise.method((employmentStatusId) => {
     return new Promise((resolve, reject) => {
         this
             .count({
@@ -16,4 +14,4 @@ function CountByWorkHistoryEmploymentStatusId(employmentStatusId) {
             .then((count) => resolve(count))
             .catch((error) => reject(error));
     });
-}
+});

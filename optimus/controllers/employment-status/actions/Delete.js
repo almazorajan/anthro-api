@@ -20,7 +20,7 @@ module.exports = (req, res) => {
                 let countWorkHistoryEmploymentStatus = res[1];
 
                 if (countEmploymentStatus <= 0 && countWorkHistoryEmploymentStatus <= 0)
-                    return EmploymentStatus.DeleteById(employmentStatus);
+                    return new EmploymentStatus(employmentStatus).DeleteById();
 
                 res.send(ErrorResult("could not delete the record because it is still being used as reference"));
             })
