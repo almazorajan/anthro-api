@@ -3,9 +3,7 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method(DeleteById);
-
-function DeleteById() {
+module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
             .model("Employee")
@@ -19,4 +17,4 @@ function DeleteById() {
             })))
             .catch((error) => reject(error));
     });
-}
+});

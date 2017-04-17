@@ -11,7 +11,7 @@ module.exports = (mod) => {
             .save()
             .then((mod) => resolve(new Result({
                 success: mod ? true : false,
-                message: mod ? "the record was successfully added",
+                message: mod ? "the record was successfully added" : "unable to add the record",
                 data: mod
             })))
             .catch((error) => reject(error));

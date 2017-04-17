@@ -2,11 +2,9 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const SanitizeWorkHistory = require("../helpers/sanitize-work-history");
+const SanitizeWorkHistory = require("../helpers/SanitizeWorkHistory");
 
-module.exports = Promise.method(UpdateById);
-
-function UpdateById() {
+module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
             .model("Employee")
@@ -51,4 +49,4 @@ function UpdateById() {
             })))
             .catch((error) => reject(error));
     });
-}
+});

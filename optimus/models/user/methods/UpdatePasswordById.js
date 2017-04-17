@@ -3,23 +3,22 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const Crypt = require("../../../classes/crypt.js");
-const UserModel = require("../user.model");
 
-module.exports = (user) => {
-
+module.exports = Promise.method((user) => {
     return new Promise((resolve, reject) => {
         let hash = Crypt.HashPassword(user.password);
 
         user.salt = hash.salt;
         user.password = hash.hashedPassword;
 
-        UserModel
+        this
+            .model("User")    
             .update({
-                _id: user._id
+                "_id": user._id
             }, {
-                salt: user.salt,
-                password: user.password,
-                dateUpdated: new Date()
+                "salt": user.salt,
+                "password": user.password,
+                "dateUpdated": new Date()
             })
             .exec()
             .then((dbRes) => resolve(new Result({
@@ -29,4 +28,4 @@ module.exports = (user) => {
             })))
             .catch((error) => reject(error));
     });
-};
+});

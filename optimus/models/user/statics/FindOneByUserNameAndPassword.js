@@ -2,22 +2,24 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const UserModel = require("../user.model");
 
-module.exports = (user) => {
-
+module.exports = Promise.method((user) => {
     return new Promise((resolve, reject) => {
-        let promise = UserModel
-            .findOne({ _id: user._id })
+        this
+            .findOne({
+                "userName": user.userName,
+                "password": user.password
+            })
             .populate({
-                path: "position",
-                populate: { path: "modules" }
+                "path": "position",
+                "populate": { "path": "modules" }
             })
             .exec()
             .then((user) => resolve(new Result({
                 success: user ? true : false,
-                message: user ? "found a record" : "no record found"
+                message: user ? "the record exists" : "no record found",
+                data: user
             })))
             .catch((error) => reject(error));
     });
-};
+});

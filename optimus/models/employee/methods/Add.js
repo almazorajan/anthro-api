@@ -3,9 +3,7 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method(Add);
-
-function Add() {
+module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
             .save()
@@ -16,4 +14,4 @@ function Add() {
             })))
             .catch((error) => reject(error));
     });
-}
+});

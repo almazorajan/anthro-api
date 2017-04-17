@@ -2,18 +2,16 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const UserModel = require("../user.model");
 
-module.exports = (user) => {
-
+module.exports = Promise.method((user) => {
     return new Promise((resolve, reject) => {
-        UserModel
+        this
             .findOne({
-                userName: user.userName.replace(/\s+/g, " ").trim()
+                "userName": user.userName.replace(/\s+/g, " ").trim()
             })
             .populate({
-                path: "position",
-                populate: { path: "modules" }
+                "path": "position",
+                "populate": { "path": "modules" }
             })
             .exec()
             .then((user) => resolve(new Result({
@@ -23,4 +21,4 @@ module.exports = (user) => {
             })))
             .catch((error) => reject(error));
     });
-};
+});

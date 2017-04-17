@@ -9,31 +9,31 @@ router.use(require("../../middlewares/session-validator.middleware").ValidateSes
 EndpointIntegrator(router, {
     request: "post",
     endpoint: "/getall",
-    action: require("./actions/get-all.action")
+    action: require("./actions/GetAll")
 });
 
 EndpointIntegrator(router, {
     request: "post",
     endpoint: "/add",
-    action: require("./actions/add.action")
+    action: require("./actions/Add")
 });
 
 EndpointIntegrator(router, {
     request: "post",
     endpoint: "/update",
-    action: require("./actions/update.action")
+    action: require("./actions/Update")
 });
 
 EndpointIntegrator(router, {
     request: "post",
     endpoint: "/updatepassword",
-    action: require("./actions/update-password.action")
+    action: require("./actions/UpdatePassword")
 });
 
 EndpointIntegrator(router, {
     request: "post",
     endpoint: "/delete",
-    action: require("./actions/delete.action")
+    action: require("./actions/Delete")
 });
 
 module.exports = router;

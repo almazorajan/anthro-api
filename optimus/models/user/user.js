@@ -1,14 +1,16 @@
 "use strict";
 
-module.exports = {
-    UserModel: require("./user.model"),
-    GetAll: require("./actions/GetAll"),
-    FindOneById: require("./actions/FindOneById"),
-    FindOneByUserNameAndPassword: require("./actions/FindOneByUsernameAndPassword"),
-    FindOneByUserName: require("./actions/FindOneByUsername"),
-    FindOneByIdAndUserName: require("./actions/FindOneByIdAndUserName"),
-    Add: require("./actions/Add"),
-    UpdateById: require("./actions/UpdateById"),
-    UpdatePasswordById: require("./actions/UpdatePasswordById"),
-    DeleteById: require("./actions/DeleteById")
-};
+const OptimusCon = require("../../optimus.con.js");
+const UserSchema = require("./schemas/user.schema.js");
+
+UserSchema.methods.Add = require("./methods/Add");
+UserSchema.methods.DeleteById = require("./methods/DeleteById");
+UserSchema.methods.UpdateById = require("./methods/UpdateById");
+UserSchema.methods.UpdatePasswordById = require("./methods/UpdatePasswordById");
+
+UserSchema.statics.FindOneById = require("./statics/FindOneById");
+UserSchema.statics.FindOneByIdAndUserName = require("./statics/FindOneByIdAndUserName");
+UserSchema.statics.FindOneByUserName = require("./statics/FindOneByUserName");
+UserSchema.statics.FindOneByUserNameAndPassword = require("./statics/FindOneByUserNameAndPassword");
+
+module.exports = OptimusCon.model("User", UserSchema);

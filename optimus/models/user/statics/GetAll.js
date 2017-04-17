@@ -2,18 +2,14 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const UserModel = require("../user.model");
 
-module.exports = () => {
-
+module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
-        UserModel
+        this
             .find({})
             .populate({
-                path: "position",
-                populate: {
-                    path: "modules"
-                }
+                "path": "position",
+                "populate": { "path": "modules" }
             })
             .exec()
             .then((users) => resolve(new Result({
@@ -23,4 +19,4 @@ module.exports = () => {
             })))
             .catch((error) => reject(error));
     });
-};
+});

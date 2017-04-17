@@ -2,15 +2,13 @@
 
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
-const UserModel = require("../user.model");
 
-module.exports = (user) => {
-
+module.exports = Promise.method((user) => {
     return new Promise((resolve, reject) => {
-        UserModel
+        this
             .findOne({
-                _id: user._id,
-                userName: user.userName
+                "_id": user._id,
+                "userName": user.userName
             })
             .exec()
             .then((user) => resolve(new Result({
@@ -19,4 +17,4 @@ module.exports = (user) => {
             })))
             .catch((error) => resolve(error));
     });
-}
+});

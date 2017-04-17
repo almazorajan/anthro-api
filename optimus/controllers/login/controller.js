@@ -7,7 +7,7 @@ const EndpointIntegrator = require("../../helpers/endpoint.integrator");
 EndpointIntegrator(router, {
     request: "post",
     endpoint: "/attemptlogin",
-    action: require("./endpoints/attempt-login.endpoint")
+    action: require("./actions/AttemptLogin")
 });
 
 module.exports = router;

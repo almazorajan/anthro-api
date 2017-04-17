@@ -3,10 +3,8 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const Crypt = require("../../../classes/crypt.js");
-const UserModel = require("../user.model");
 
-module.exports = (user) => {
-
+module.exports = Promise.method((user) => {
     return new Promise((resolve, reject) => {
         let hash = Crypt.HashPassword(user.password);
 
@@ -14,7 +12,7 @@ module.exports = (user) => {
         user.password = hash.hashedPassword;
         user.position = user.position._id;
 
-        new UserModel(user)
+        this
             .save()
             .then((user) => resolve(new Result({
                 success: user ? true : false,
@@ -23,4 +21,4 @@ module.exports = (user) => {
             })))
             .catch((error) => reject(error));
     });
-};
+});
