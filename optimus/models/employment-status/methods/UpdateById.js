@@ -6,13 +6,14 @@ const Result = require("../../../classes/result");
 module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
-            .model("User")    
-            .findById({ "_id": this._id })
-            .remove()
+            .model("EmploymentStatus")    
+            .update(
+                { "_id": this._id },
+                { "employmentStatus": this.employmentStatus })
             .exec()
             .then((dbRes) => resolve(new Result({
-                success: dbRes.result.n === 1 ? true : false,
-                message: dbRes.result.n === 1 ? "successfully removed the record" : "unable to remove the record",
+                success: dbRes.n === 1 ? true : false,
+                message: dbRes.n === 1 ? "the employment status was successfully updated" : "unable to update the employment status",
                 data: dbRes
             })))
             .catch((error) => reject(error));

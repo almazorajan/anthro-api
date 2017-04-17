@@ -15,7 +15,4 @@ const AuthenticationSchema = new OptimusCon.Schema({
     user: UserSchema
 });
 
-AuthenticationSchema.methods.Add = require("../methods/Add");
-AuthenticationSchema.methods.ValidateToken = require("../methods/ValidateToken");
-
 module.exports = AuthenticationSchema;

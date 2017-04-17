@@ -6,16 +6,14 @@ const Result = require("../../../classes/result");
 module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
-            .model("User")    
+            .model("Module")    
             .update({
                 "_id": this._id
             }, {
-                "userName": this.userName,
-                "firstName": this.firstName,
-                "middleName": this.middleName,
-                "lastName": this.lastName,
-                "dateUpdated": new Date(),
-                "position": this.position._id
+                "moduleName": this.moduleName,
+                "moduleDescription": this.moduleDescription,
+                "group": this.group,
+                "link": this.link
             })
             .exec()
             .then((dbRes) => resolve(new Result({

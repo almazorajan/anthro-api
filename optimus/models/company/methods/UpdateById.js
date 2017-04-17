@@ -6,22 +6,19 @@ const Result = require("../../../classes/result");
 module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
-            .model("User")    
+            .model("Company")
             .update({
                 "_id": this._id
             }, {
-                "userName": this.userName,
-                "firstName": this.firstName,
-                "middleName": this.middleName,
-                "lastName": this.lastName,
-                "dateUpdated": new Date(),
-                "position": this.position._id
+                "companyName": this.companyName,
+                "companyAddress": this.companyAddress,
+                "contactNumber": this.contactNumber,
+                "emailAddress": this.emailAddress
             })
             .exec()
             .then((dbRes) => resolve(new Result({
                 success: dbRes.n === 1 ? true : false,
-                message: dbRes.n === 1 ? "the record was successfully updated" : "unable to update the record",
-                data: dbRes
+                message: dbRes.n === 1 ? "the record was successfully updated" : "unable to update the record"
             })))
             .catch((error) => reject(error));
     });

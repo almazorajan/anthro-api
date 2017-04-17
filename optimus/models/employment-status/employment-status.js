@@ -1,11 +1,14 @@
 "use strict";
 
-module.exports = {
-    EmployeeStatusModel: require("./employment-status.model"),
-    GetAll: require("./actions/GetAll"),
-    FindOneByIdAndEmploymentStatus: require("./actions/FindOneByIdAndEmploymentStatus"),
-    FindOneByEmploymentStatus: require("./actions/FindOneByEmploymentStatus"),
-    Add: require("./actions/Add"),
-    UpdateById: require("./actions/UpdateById"),
-    DeleteById: require("./actions/DeleteById")
-};
+const OptimusCon = require("../../optimus.con");
+const EmploymentStatusSchema = require("./schemas/employment-status.schema");
+
+EmploymentStatusSchema.methods.Add = require("./methods/Add");
+EmploymentStatusSchema.methods.DeleteById = require("./methods/DeleteById");
+EmploymentStatusSchema.methods.UpdateById = require("./methods/UpdateById");
+
+EmploymentStatusSchema.statics.FindOneByEmploymentStatus = require("./statics/FindOneByEmploymentStatus");
+EmploymentStatusSchema.statics.FindOneByIdAndEmploymentStatus = require("./statics/FindOneByIdAndEmploymentStatus");
+EmploymentStatusSchema.statics.GetAll = require("./statics/GetAll");
+
+module.exports = OptimusCon.model("EmploymentStatus", EmploymentStatusSchema);

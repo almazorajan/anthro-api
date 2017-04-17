@@ -3,11 +3,11 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method((user) => {
+module.exports = Promise.method((userName) => {
     return new Promise((resolve, reject) => {
         this
             .findOne({
-                "userName": user.userName.replace(/\s+/g, " ").trim()
+                "userName": String(userName).replace(/\s+/g, " ").trim()
             })
             .populate({
                 "path": "position",

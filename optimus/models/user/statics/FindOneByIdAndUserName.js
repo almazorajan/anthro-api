@@ -3,12 +3,12 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method((user) => {
+module.exports = Promise.method((_id, userName) => {
     return new Promise((resolve, reject) => {
         this
             .findOne({
-                "_id": user._id,
-                "userName": user.userName
+                "_id": String(_id),
+                "userName": String(userName)
             })
             .exec()
             .then((user) => resolve(new Result({

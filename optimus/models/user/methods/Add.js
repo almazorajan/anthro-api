@@ -4,13 +4,13 @@ const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 const Crypt = require("../../../classes/crypt.js");
 
-module.exports = Promise.method((user) => {
+module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
-        let hash = Crypt.HashPassword(user.password);
+        let hash = Crypt.HashPassword(this.password);
 
-        user.salt = hash.salt;
-        user.password = hash.hashedPassword;
-        user.position = user.position._id;
+        this.salt = hash.salt;
+        this.password = hash.hashedPassword;
+        this.position = this.position._id;
 
         this
             .save()

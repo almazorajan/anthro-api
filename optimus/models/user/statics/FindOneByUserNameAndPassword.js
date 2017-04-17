@@ -3,12 +3,12 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method((user) => {
+module.exports = Promise.method((userName, password) => {
     return new Promise((resolve, reject) => {
         this
             .findOne({
-                "userName": user.userName,
-                "password": user.password
+                "userName": String(userName),
+                "password": String(password)
             })
             .populate({
                 "path": "position",

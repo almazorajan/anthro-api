@@ -1,11 +1,14 @@
 "use strict";
 
-module.exports = {
-    ModuleModel: require("./module.model"),
-    GetAll: require("./actions/GetAll"),
-    FindById: require("./actions/FindById"),
-    FindOneByModuleName: require("./actions/FindOneByModuleName"),
-    Add: require("./actions/Add"),
-    UpdateById: require("./actions/UpdateById"),
-    DeleteById: require("./actions/DeleteById")
-};
+const OptimusCon = require("../../optimus.con.js");
+const ModuleSchema = require("./schemas/module.schema.js");
+
+ModuleSchema.methods.Add = require("./methods/Add");
+ModuleSchema.methods.DeleteById = require("./methods/DeleteById");
+ModuleSchema.methods.UpdateById = require("./methods/UpdateById");
+
+ModuleSchema.statics.FindById = require("./statics/FindById");
+ModuleSchema.statics.FindOneByModuleName = require("./statics/FindOneByModuleName");
+ModuleSchema.statics.GetAll = require("./statics/GetAll");
+
+module.exports = OptimusCon.model("Module", ModuleSchema);
