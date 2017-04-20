@@ -12,41 +12,10 @@ module.exports = (req, res) => {
         Employee
             .FindOneByEmployeeNumber(employee.employeeNumber)
             .then((result) => {
-                if (result.success) {
-                    res.send(ErrorResult("The employee number already exists"));
-                } else {
-                    return new Employee({
-                        employeeNumber: employee.employeeNumber,
-                        startingDate: employee.startingDate,
-                        salary: employee.salary,
-                        position: employee.position._id,
-                        company: employee.company._id,
-                        employmentStatus: employee.employmentStatus._id,
-                        firstName: employee.firstName,
-                        middleName: employee.middleName,
-                        lastName: employee.lastName,
-                        birthDate: employee.birthDate,
-                        age: employee.age,
-                        birthPlace: employee.birthPlace,
-                        phoneNumbers: employee.phoneNumbers,
-                        landlines: employee.landlines,
-                        maritalStatus: employee.maritalStatus,
-                        gender: employee.gender,
-                        citizenship: employee.citizenship,
-                        cityAddress: employee.cityAddress,
-                        provincialAddress: employee.provincialAddress,
-                        permanentAddress: employee.permanentAddress,
-                        ssNumber: employee.ssNumber,
-                        tinNumber: employee.tinNumber,
-                        philHealthNumber: employee.philHealthNumber,
-                        pagibigNumber: employee.pagibigNumber,
-                        educationHistory: employee.educationHistory,
-                        certifications: employee.certifications,
-                        licensures: employee.licensures,
-                        family: employee.family,
-                        workHistory: SanitizeWorkHistory(employee)
-                    }).Add();
-                }
+                if (!result.success)
+                    return new Employee(SanitizeEmployee(employee)).Add();
+            
+                res.send(ErrorResult("The employee number already exists"));
             })
             .then((result) => res.send(result))
             .catch((e) => res.send(ErrorResult(e)));
@@ -54,3 +23,29 @@ module.exports = (req, res) => {
         res.send(ErrorResult(e));
     }
 };
+
+const propertiesWithIds = ["position", "company", "employmentStatus"];
+
+function isPropertyWithId(propertyName) {
+    for (let key in propertiesWithIds) {
+        if (propertiesWithIds[key] === propertyName)
+            return true;    
+    }
+    return false;
+}
+
+function SanitizeEmployee(employee) {
+    let emp = {};
+    for (let key in employee) {
+        if (isPropertyWithId(key)) {
+            emp[key] = employee[key]._id;
+            continue;
+        }
+        if (key === "workHistory") {
+            emp[key] = SanitizeWorkHistory(employee);
+            continue;
+        }
+        emp[key] = employee[key];
+    }
+    return emp;
+}

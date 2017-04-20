@@ -18,7 +18,7 @@ function Sha512(salt, password) {
     var hash = crypto.createHmac("sha512", salt);
     hash.update(password);
     return hash.digest("hex");
-};
+}
 
 function HashPassword(password) {
     var salt = GenerateSalt(Math.ceil(Math.random() * 30) + 16);

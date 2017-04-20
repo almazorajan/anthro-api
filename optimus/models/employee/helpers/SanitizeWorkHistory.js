@@ -1,5 +1,7 @@
 "use strict";
 
+module.exports = SanitizeWorkHistory;
+
 function SanitizeWorkHistory(_employee) {
     var workHistory = [];
 
@@ -20,5 +22,3 @@ function SanitizeWorkHistory(_employee) {
 
     return workHistory;
 }
-
-module.exports = SanitizeWorkHistory;

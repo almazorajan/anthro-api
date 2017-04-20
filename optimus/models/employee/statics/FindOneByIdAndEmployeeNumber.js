@@ -6,10 +6,7 @@ const Result = require("../../../classes/result");
 module.exports = Promise.method((_id, employeeNumber) => {
     return new Promise((resolve, reject) => {
         this
-            .findOne({
-                _id: _id,
-                employeeNumber: employeeNumber
-            })
+            .findOne({ "_id": _id, "employeeNumber": employeeNumber })
             .exec()
             .then((employee) => {
                 resolve(new Result({

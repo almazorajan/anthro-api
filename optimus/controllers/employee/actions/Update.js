@@ -17,11 +17,10 @@ module.exports = (req, res) => {
                 return Employee
                     .FindOneByEmployeeNumber(employee.employeeNumber)
                     .then((result) => {
-                        if (result.success) {
-                            res.send(ErrorResult("The employee number already exists"));
-                        } else {
+                        if (!result.success)
                             return new Employee(employee).UpdateById();
-                        }
+                        
+                        res.send(ErrorResult("the employee number already exists"));
                     });
             })
             .then((result) => res.send(result))

@@ -6,7 +6,7 @@ const Result = require("../../../classes/result");
 module.exports = Promise.method((_id) => {
     return new Promise((resolve, reject) => {
         this
-            .findOne({ "_id": _id })
+            .findById(_id)
             .populate({
                 "path": "position",
                 "populate": { "path": "modules" }
