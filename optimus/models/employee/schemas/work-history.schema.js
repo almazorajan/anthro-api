@@ -1,8 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const WorkHistorySchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     position: {
         type: String,
         trim: true
@@ -19,7 +19,7 @@ const WorkHistorySchema = new OptimusCon.Schema({
     },
     employmentStatus: {
         ref: "EmploymentStatus",
-        type: OptimusCon.Schema.ObjectId
+        type: Db.Schema.ObjectId
     },
     salary: {
         type: Number,
@@ -30,5 +30,3 @@ const WorkHistorySchema = new OptimusCon.Schema({
         trim: true
     }
 });
-
-module.exports = WorkHistorySchema;

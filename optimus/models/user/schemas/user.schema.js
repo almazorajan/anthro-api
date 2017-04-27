@@ -1,8 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const UserSchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     userName: { 
         type: String, 
         trim: true 
@@ -35,12 +35,10 @@ const UserSchema = new OptimusCon.Schema({
         default: Date.now 
     },
     position: {
-        type: OptimusCon.Schema.ObjectId,
+        type: Db.Schema.ObjectId,
         ref: "Position"
     },
     dateDeactivated: { 
         type: Date 
     }
 });
-
-module.exports = UserSchema;

@@ -1,8 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const FamilySchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     firstName: {
         type: String,
         trim: true
@@ -40,5 +40,3 @@ const FamilySchema = new OptimusCon.Schema({
         trim: true
     }
 });
-
-module.exports = FamilySchema;

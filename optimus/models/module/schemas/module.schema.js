@@ -1,8 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const ModuleSchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     moduleName: {
         type: String,
         trim: true,
@@ -22,5 +22,3 @@ const ModuleSchema = new OptimusCon.Schema({
         trim: true
     }
 });
-
-module.exports = ModuleSchema;

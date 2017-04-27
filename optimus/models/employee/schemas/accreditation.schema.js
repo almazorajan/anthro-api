@@ -1,7 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
-const AccreditationSchema = new OptimusCon.Schema({
+const Db = require("../../../optimus.con");
+
+module.exports = new Db.Schema({
     title: {
         type: String,
         trim: true
@@ -10,5 +11,3 @@ const AccreditationSchema = new OptimusCon.Schema({
         type: Date
     }
 });
-
-module.exports = AccreditationSchema;

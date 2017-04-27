@@ -1,6 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../../optimus.con.js");
+const Db = require("../../optimus.con.js");
 const PositionSchema = require("./schemas/position.schema.js");
 
 PositionSchema.methods.Add = require("./methods/Add");
@@ -12,4 +12,4 @@ PositionSchema.statics.FindOneByIdAndPositionName = require("./statics/FindOneBy
 PositionSchema.statics.FindOneByPositionName = require("./statics/FindOneByPositionName");
 PositionSchema.statics.GetAll = require("./statics/GetAll");
 
-module.exports = OptimusCon.model("Position", PositionSchema);
+module.exports = Db.model("Position", PositionSchema);

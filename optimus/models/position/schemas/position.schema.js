@@ -1,18 +1,16 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const PositionSchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     positionName: { 
         type: String, 
         trim: true 
     },
     modules: [
         {
-            type: OptimusCon.Schema.Types.ObjectId,
+            type: Db.Schema.Types.ObjectId,
             ref: "Module"
         }
     ]
 });
-
-module.exports = PositionSchema;

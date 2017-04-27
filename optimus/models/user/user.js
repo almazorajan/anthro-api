@@ -1,6 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../../optimus.con.js");
+const Db = require("../../optimus.con.js");
 const UserSchema = require("./schemas/user.schema.js");
 
 UserSchema.methods.Add = require("./methods/Add");
@@ -13,4 +13,4 @@ UserSchema.statics.FindOneByIdAndUserName = require("./statics/FindOneByIdAndUse
 UserSchema.statics.FindOneByUserName = require("./statics/FindOneByUserName");
 UserSchema.statics.FindOneByUserNameAndPassword = require("./statics/FindOneByUserNameAndPassword");
 
-module.exports = OptimusCon.model("User", UserSchema);
+module.exports = Db.model("User", UserSchema);

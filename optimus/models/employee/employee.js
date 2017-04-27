@@ -1,6 +1,6 @@
 "use strict";
 
-const OptimusCon = require("../../optimus.con");
+const Db = require("../../optimus.con");
 const EmployeeSchema = require("./schemas/employee.schema");
 
 EmployeeSchema.methods.Add = require("./methods/Add");
@@ -15,4 +15,4 @@ EmployeeSchema.statics.FindOneByEmployeeNumber = require("./statics/FindOneByEmp
 EmployeeSchema.statics.FindOneByIdAndEmployeeNumber = require("./statics/FindOneByIdAndEmployeeNumber");
 EmployeeSchema.statics.GetAll = require("./statics/GetAll");
 
-module.exports = OptimusCon.model("Employee", EmployeeSchema);
+module.exports = Db.model("Employee", EmployeeSchema);

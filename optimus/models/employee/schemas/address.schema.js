@@ -1,7 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
-const AddressSchema = new OptimusCon.Schema({
+const Db = require("../../../optimus.con");
+
+module.exports = new Db.Schema({
     unitFloor: {
         type: String,
         trim: true
@@ -30,5 +31,3 @@ const AddressSchema = new OptimusCon.Schema({
         type: Boolean
     }
 });
-
-module.exports = AddressSchema;

@@ -1,12 +1,10 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const EmployeeStatusSchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     employmentStatus: {
         type: String,
         trim: true
     }
 });
-
-module.exports = EmployeeStatusSchema;

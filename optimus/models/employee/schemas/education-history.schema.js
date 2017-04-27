@@ -1,8 +1,8 @@
 "use strict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const EducationHistorySchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     educationLevel: {
         type: String,
         trim: true
@@ -15,5 +15,3 @@ const EducationHistorySchema = new OptimusCon.Schema({
         type: Date
     }
 });
-
-module.exports = EducationHistorySchema;

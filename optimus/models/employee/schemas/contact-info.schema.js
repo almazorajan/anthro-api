@@ -1,12 +1,10 @@
 "use trict";
 
-const OptimusCon = require("../../../optimus.con");
+const Db = require("../../../optimus.con");
 
-const ContactInfoSchema = new OptimusCon.Schema({
+module.exports = new Db.Schema({
     number: {
         type: String,
         trim: true
     }
 });
-
-module.exports = ContactInfoSchema;
