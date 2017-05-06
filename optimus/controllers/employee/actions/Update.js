@@ -16,9 +16,9 @@ module.exports = (req, res) => {
                 return Employee
                     .FindOneByEmployeeNumber(employee.employeeNumber)
                     .then((result) => {
-                        if (!result.success)
+                        if (!result.success) {
                             return new Employee(employee).UpdateById();
-                        
+                        }
                         res.send(ErrorResult("the employee number already exists"));
                     });
             })
