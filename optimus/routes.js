@@ -1,7 +1,6 @@
 "use strict";
 
 module.exports = (app) => {
-    // routes
     app.use("/module", require("./controllers/module/controller.js"));
     app.use("/position", require("./controllers/position/controller.js"));
     app.use("/user", require("./controllers/user/controller.js"));

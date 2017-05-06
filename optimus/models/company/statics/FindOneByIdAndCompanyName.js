@@ -17,6 +17,8 @@ module.exports = Promise.method((_id, companyName) => {
                     message: company ? "found a matching record" : "no record found",
                     data: company
                 }));
-            }).catch((error) => reject(error));
+            }).catch((error) => {
+                reject(error);
+            });
     });
 });

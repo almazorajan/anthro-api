@@ -6,6 +6,6 @@ module.exports = (e) => {
     return new Result({
         success: false,
         message: String(e || e.message),
-        data: e
+        data: typeof e === "string" ? null : e
     });
 };

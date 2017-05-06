@@ -1,6 +1,6 @@
 "use strict";
 
-const Db = require("../../../optimus.con");
+const Db = require("../../../database");
 const AccreditationSchema = require("./accreditation.schema");
 const AddressSchema = require("./address.schema");
 const ContactInfoSchema = require("./contact-info.schema");

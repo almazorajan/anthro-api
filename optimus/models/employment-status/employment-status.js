@@ -1,6 +1,6 @@
 "use strict";
 
-const Db = require("../../optimus.con");
+const Db = require("../../database");
 const EmploymentStatusSchema = require("./schemas/employment-status.schema");
 
 EmploymentStatusSchema.methods.Add = require("./methods/Add");

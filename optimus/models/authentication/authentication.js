@@ -1,6 +1,6 @@
 "use strict";
 
-const Db = require("../../optimus.con");
+const Db = require("../../database");
 const AuthenticationSchema = require("./schemas/authentication.schema");
 
 AuthenticationSchema.methods.Add = require("./methods/Add");

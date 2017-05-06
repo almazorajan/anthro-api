@@ -1,6 +1,6 @@
 "use strict";
 
-const Db = require("../../optimus.con.js");
+const Db = require("../../database.js");
 const UserSchema = require("./schemas/user.schema.js");
 
 UserSchema.methods.Add = require("./methods/Add");

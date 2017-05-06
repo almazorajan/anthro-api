@@ -7,8 +7,12 @@ module.exports = (req, res) => {
     try {
         new User(req.body.data)
             .DeleteById()
-            .then((result) => res.send(result))
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }

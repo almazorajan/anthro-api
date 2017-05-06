@@ -2,58 +2,51 @@
 
 const Result = require("../../../classes/result");
 const Position = require("../../../models/position/position");
+const ErrorResult = require("../../../helpers/error.result");
 
 module.exports = (router) => {
     router.post("/update", (req, res) => {
         try {
-            let result = new Result();
             let position = req.body.data;
 
-            Position.FindOneByIdAndPositionName(position).then((_result) => {
-                if (_result.success) {
-                    Position.UpdateById(position).then((_result) => {
-                        res.send(_result);
-                    })
-                        .catch((error) => {
-                            res.send(new Result({
-                                success: false,
-                                message: error.toString()
-                            }));
-                        });
-                } else {
-                    Position.FindOneByPositionName(position).then((_result) => {
-                        if (_result.success) {
-                            result.success = false;
-                            result.message = "Position name already exists.";
-                            res.send(result);
-                        } else {
-                            Position.UpdateById(position).then((_result) => {
-                                res.send(_result);
-                            }).catch((error) => {
-                                res.send(new Result({
-                                    success: false,
-                                    message: error.toString()
-                                }));
+            Position
+                .FindOneByIdAndPositionName(position)
+                .then((result) => {
+                    if (result.success) {
+                        Position
+                            .UpdateById(position)
+                            .then((result) => {
+                                res.send(result);
+                            })
+                            .catch((error) => {
+                                res.send(ErrorResult(error));
                             });
-                        }
-                    }).catch((error) => {
-                        res.send(new Result({
-                            success: false,
-                            message: error.toString()
-                        }));
-                    });
-                }
-            }).catch((error) => {
-                res.send(new Result({
-                    success: false,
-                    message: error.toString()
-                }));
-            });
+                    } else {
+                        Position
+                            .FindOneByPositionName(position)
+                            .then((result) => {
+                                if (result.success) {
+                                    res.send(new Result({
+                                        success: false,
+                                        message: "position name already exists"
+                                    }));
+                                } else {
+                                    return Position.UpdateById(position);
+                                }
+                            })
+                            .then((result) => {
+                                res.send(result);
+                            })
+                            .catch((error) => {
+                                res.send(error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    res.send(error);
+                });
         } catch (e) {
-            res.send(new Result({
-                success: false,
-                message: (e || e.message).toString()
-            }));
+            res.send(ErrorResult(e));
         }
     });
 };

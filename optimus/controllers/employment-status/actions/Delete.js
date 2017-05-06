@@ -1,10 +1,9 @@
 "use strict";
 
-const Promise = require("bluebird");
-const Result = require("../../../classes/result");
-const Employee = require("../../../models/employee/employee");
 const EmploymentStatus = require("../../../models/employment-status/employment-status");
+const Employee = require("../../../models/employee/employee");
 const ErrorResult = require("../../../helpers/error.result");
+const Promise = require("bluebird");
 
 module.exports = (req, res) => {
     try {
@@ -16,16 +15,17 @@ module.exports = (req, res) => {
         Promise
             .all([check1, check2])
             .then((res) => {
-                let countEmploymentStatus = res[0];
-                let countWorkHistoryEmploymentStatus = res[1];
-
-                if (countEmploymentStatus <= 0 && countWorkHistoryEmploymentStatus <= 0)
+                if (res[0] <= 0 && res[1] <= 0)
                     return new EmploymentStatus(employmentStatus).DeleteById();
 
                 res.send(ErrorResult("could not delete the record because it is still being used as reference"));
             })
-            .then((result) => res.send(result))
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }

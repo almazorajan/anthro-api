@@ -8,11 +8,15 @@ module.exports = Promise.method((employeeNumber) => {
         this
             .findOne({ "employeeNumber": employeeNumber })
             .exec()
-            .then((employee) => resolve(new Result({
-                success: employee ? true : false,
-                message: employee ? "found matching record" : "coult not find any matching record",
-                data: employee
-            })))
-            .catch((error) => reject(error));
+            .then((employee) => {
+                resolve(new Result({
+                    success: employee ? true : false,
+                    message: employee ? "found matching record" : "coult not find any matching record",
+                    data: employee
+                }));
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

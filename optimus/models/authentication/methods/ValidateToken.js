@@ -3,9 +3,7 @@
 const Promise = require("bluebird");
 const Result = require("../../../classes/result");
 
-module.exports = Promise.method(ValidateToken);
-
-function ValidateToken() {
+module.exports = Promise.method(() => {
     return new Promise((resolve, reject) => {
         this
             .model("Authorization")
@@ -21,6 +19,8 @@ function ValidateToken() {
                     data: auth
                 }));
             })
-            .catch((error) => reject(error));
+            .catch((error) => {
+                reject(error);
+            });
     });
-}
+});

@@ -10,11 +10,15 @@ module.exports = Promise.method(() => {
             .findById({ _id: this._id })
             .remove()
             .exec()
-            .then((dbRes) => resolve(new Result({
-                success: dbRes.n === 1 ? true : false,
-                message: dbRes.n === 1 ? "the record was successfully deleted" : "could not delete record",
-                data: dbRes
-            })))
-            .catch((error) => reject(error));
+            .then((dbRes) => {
+                resolve(new Result({
+                    success: dbRes.n === 1 ? true : false,
+                    message: dbRes.n === 1 ? "the record was successfully deleted" : "could not delete record",
+                    data: dbRes
+                }));
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

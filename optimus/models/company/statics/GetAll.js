@@ -8,11 +8,15 @@ module.exports = Promise.method(() => {
         this
             .find({})
             .exec()
-            .then((companies) => resolve(new Result({
-                success: true,
-                message: companies.length ? "successfully loaded all records" : "no records to load",
-                data: companies
-            })))
-            .catch((error) => reject(error));
+            .then((companies) => {
+                resolve(new Result({
+                    success: true,
+                    message: companies.length ? "successfully loaded all records" : "no records to load",
+                    data: companies
+                }));
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

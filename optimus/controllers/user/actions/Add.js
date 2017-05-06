@@ -11,16 +11,17 @@ module.exports = (req, res) => {
         User
             .FindOneByUserName(user.userName)
             .then((result) => {
-                if (!result.success)
+                if (!result.success) {
                     return new User(user).Add();
-
-                res.send(new Result({
-                    success: false,
-                    message: `username ${user.userName} already exists`
-                }));
+                }
+                res.send(ErrorResult("username already exists"));
             })
-            .then((result) => res.send(result))
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }

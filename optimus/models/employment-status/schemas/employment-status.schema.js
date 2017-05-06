@@ -1,6 +1,6 @@
 "use strict";
 
-const Db = require("../../../optimus.con");
+const Db = require("../../../database");
 
 module.exports = new Db.Schema({
     employmentStatus: {

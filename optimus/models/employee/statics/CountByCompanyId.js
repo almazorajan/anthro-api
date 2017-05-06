@@ -7,7 +7,11 @@ module.exports = Promise.method((companyId) => {
         this
             .count({ company: companyId })
             .exec()
-            .then((count) => resolve(count))
-            .catch((error) => reject(error));
+            .then((count) => {
+                resolve(count);
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

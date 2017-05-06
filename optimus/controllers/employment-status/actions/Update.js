@@ -1,6 +1,5 @@
 "use strict";
 
-const Result = require("../../../classes/result");
 const EmploymentStatus = require("../../../models/employment-status/employment-status");
 const ErrorResult = require("../../../helpers/error.result");
 
@@ -12,25 +11,23 @@ module.exports = (req, res) => {
             .FindOneByIdAndEmploymentStatus(employmentStatus._id, employmentStatus.employmentStatus)
             .then((result) => {
                 if (result.success) {
-                    new EmploymentStatus(employmentStatus)
-                        .UpdateById(employmentStatus)
-                        .then((result) => res.send(result))
-                        .catch((error) => res.send(ErrorResult(error)));
-                } else {
-                    EmploymentStatus
-                        .FindOneByEmploymentStatus(employmentStatus)
-                        .then((result) => {
-                            if (!result.success) {
-                                return new EmploymentStatus(employmentStatus).UpdateById(employmentStatus); 
-                            }
-                            
-                            res.send(ErrorResult("the employment status already exists"));
-                        })
-                        .then((result) => res.send(result))
-                        .catch((error) => res.send(ErrorResult(error)));
+                    return new EmploymentStatus(employmentStatus).UpdateById(employmentStatus);
                 }
+                return EmploymentStatus
+                    .FindOneByEmploymentStatus(employmentStatus)
+                    .then((result) => {
+                        if (!result.success) {
+                            return new EmploymentStatus(employmentStatus).UpdateById(employmentStatus); 
+                        } 
+                        res.send(ErrorResult("the employment status already exists"));
+                    });
             })
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }

@@ -1,11 +1,11 @@
 "use strict";
 
-const uuid = require("uuid");
+const Authentication = require("../../../models/authentication/authentication");
+const User = require("../../../models/user/user");
+const ErrorResult = require("../../../helpers/error.result");
 const Result = require("../../../classes/result");
 const Crypt = require("../../../classes/crypt");
-const User = require("../../../models/user/user");
-const Authentication = require("../../../models/authentication/authentication");
-const ErrorResult = require("../../../helpers/error.result");
+const uuid = require("uuid");
 
 module.exports = (req, res) => {
     try {
@@ -18,27 +18,23 @@ module.exports = (req, res) => {
                     if (result.data.password === Crypt.Sha512(result.data.salt, user.password)) {
                         result.data.salt = "*****************";
                         result.data.password = "*****************";
-
-                        new Authentication({
-                            token: uuid.v1(),
-                            fingerprint: req.fingerprint.hash,
-                            user: result.data
-                        })
-                            .Add()
-                            .then((result) => res.send(new Result({
-                                success: result.success ? true : false,
-                                message: result.success ? "valid login attempt" : "unable to verify authentication",
-                                data: result.data
-                            })))
-                            .catch((error) => res.send(ErrorResult(error)));
+                        return new Authentication({ token: uuid.v1(), fingerprint: req.fingerprint.hash, user: result.data }).Add();
                     } else {
                         res.send(ErrorResult("invalid login attempt"));
                     }
-                } else {
-                    res.send(ErrorResult("invalid login attempt"));
                 }
+                res.send(ErrorResult("invalid login attempt"));
             })
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(new Result({
+                    success: result.success ? true : false,
+                    message: result.success ? "valid login attempt" : "unable to verify authentication",
+                    data: result.data
+                }))
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }

@@ -7,7 +7,11 @@ module.exports = Promise.method((positionId) => {
         this
             .count({ position: positionId })
             .exec()
-            .then((count) => resolve(count))
-            .catch((error) => reject(error));
+            .then((count) => {
+                resolve(count);
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

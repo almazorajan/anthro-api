@@ -16,10 +16,14 @@ module.exports = Promise.method(() => {
                 "emailAddress": this.emailAddress
             })
             .exec()
-            .then((dbRes) => resolve(new Result({
-                success: dbRes.n === 1 ? true : false,
-                message: dbRes.n === 1 ? "the record was successfully updated" : "unable to update the record"
-            })))
-            .catch((error) => reject(error));
+            .then((dbRes) => {
+                resolve(new Result({
+                    success: dbRes.n === 1 ? true : false,
+                    message: dbRes.n === 1 ? "the record was successfully updated" : "unable to update the record"
+                }));
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

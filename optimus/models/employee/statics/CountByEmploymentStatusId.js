@@ -7,7 +7,11 @@ module.exports = Promise.method((employmentStatusId) => {
         this
             .count({ employmentStatus: employmentStatusId })
             .exec()
-            .then((count) => resolve(count))
-            .catch((error) => reject(error));
+            .then((count) => {
+                resolve(count);
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 });

@@ -7,8 +7,12 @@ module.exports = (req, res) => {
     try {
         Employee
             .GetAll()
-            .then((result) => res.send(result))
-            .catch((e) => res.send(ErrorResult(e)));
+            .then((result) => { 
+                res.send(result);
+            })
+            .catch((e) => {
+                res.send(ErrorResult(e));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }
