@@ -3,7 +3,7 @@
 const router = require("express").Router();
 const EndpointIntegrator = require("../../helpers/endpoint.integrator");
 
-router.use(require("../../middlewares/session-validator.middleware").ValidateSession);
+require("./middleware")(router);
 
 EndpointIntegrator(router, {
     request: "post",

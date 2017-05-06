@@ -7,8 +7,12 @@ module.exports = (req, res) => {
     try {
         Company
             .GetAll()
-            .then((result) => res.send(result))
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }

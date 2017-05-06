@@ -3,6 +3,7 @@
 const Employee = require("../../../models/employee/employee");
 const ErrorResult = require("../../../helpers/error.result");
 const SanitizeWorkHistory = require("../../../models/employee/helpers/SanitizeWorkHistory");
+const SanitizeEmployee = require("../helpers/SanitizeEmployee");
 
 module.exports = (req, res) => {
     try {
@@ -26,29 +27,3 @@ module.exports = (req, res) => {
         res.send(ErrorResult(e));
     }
 };
-
-const propertiesWithIds = ["position", "company", "employmentStatus"];
-
-function isPropertyWithId(propertyName) {
-    for (let key in propertiesWithIds) {
-        if (propertiesWithIds[key] === propertyName)
-            return true;    
-    }
-    return false;
-}
-
-function SanitizeEmployee(employee) {
-    let emp = {};
-    for (let key in employee) {
-        if (isPropertyWithId(key)) {
-            emp[key] = employee[key]._id;
-            continue;
-        }
-        if (key === "workHistory") {
-            emp[key] = SanitizeWorkHistory(employee);
-            continue;
-        }
-        emp[key] = employee[key];
-    }
-    return emp;
-}

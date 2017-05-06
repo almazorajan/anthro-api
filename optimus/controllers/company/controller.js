@@ -1,10 +1,9 @@
 "use strict";
 
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const EndpointIntegrator = require("../../helpers/endpoint.integrator");
 
-router.use(require("../../middlewares/session-validator.middleware").ValidateSession);
+require("./middleware")(router);
 
 EndpointIntegrator(router, {
     request: "post",
@@ -29,6 +28,5 @@ EndpointIntegrator(router, {
     endpoint: "/delete",
     action: require("./actions/Delete")
 });
-
 
 module.exports = router;

@@ -12,20 +12,24 @@ module.exports = (req, res) => {
         Company
             .FindOneByIdAndCompanyName(company._id, company.companyName)
             .then((result) => {
-                if (result.success)
-                    return new Company(company).UpdateById();    
-
+                if (result.success) {
+                    return new Company(company).UpdateById();   
+                }
                 return Company
                     .FindOneByCompanyName(company.companyName)
                     .then((result) => {
-                        if (!result.success)
+                        if (!result.success) {
                             return new Company(Company).UpdateById(company);
-
+                        }
                         res.send(ErrorResult("the company already exists"));
                     });
             })
-            .then((result) => res.send(result))
-            .catch((error) => res.send(ErrorResult(error)));
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(ErrorResult(error));
+            });
     } catch (e) {
         res.send(ErrorResult(e));
     }
