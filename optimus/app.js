@@ -3,7 +3,7 @@
 const app = require("express")();
 const config = require("./config");
 
-require("./app-middleware")(app);
+require("./app-middlewares")(app);
 require("./routes")(app);
 
 app.listen(config.port, () => { 
